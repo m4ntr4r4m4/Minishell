@@ -1,39 +1,55 @@
+#include "../includes/minishell.h"
 
+static char *tokens(char *tokens);
 /* lee el comando, busca los tokens y se lo pasa al parser */
-char **lexer(char **str)
+char **lexer(char **str, int argc)
 {
-	/* 1. recorrer */
-	/* 2. llamar a tokens */
+	char	*token;
+	int		i;
 
-	token = tokens(str[x]);
-	if (token != CONTINUE)
+	i = 0;
+	while(str[i])
 	{
-		/* copiar el str  con el nuevo token */
+		token = tokens(str[i]);
+		if (token != "CONTINUE")
+			str[i] = token;
+		i++;
 	}
-
+	return (str);
 }
 
 /* crea la tabla de comandos */
-char **parser(char **str)
-{
+/* char **parser(char **str) */
+/* { */
 
-}
+/* } */
 
-enlaza los simbolos con comandos para que entienda el parser y los add a la tabla
-char *tokens(char *tokens)
+/* enlaza los simbolos con comandos para que entienda el parser y los add a la tabla */
+char *tokens(char *token)
 {
-	if (tokens == ">")
-		return GREAT;
-	else if (tokens == "<")
-		return LESS;
-	else if (tokens == ">>")
-		return GREATGREAT;
-	else if (tokens == ">&")
-		return GREATAMPERSAND;
-	else if (tokens == "|")
-		return PIPE;
-	else if (tokens == "&")
-		return AMPERSAND;
+	if (!strcmp(token, ">"))
+		return "GREAT";
+	else if (!strcmp(token, "<"))
+		return "LESS";
+	else if (!strcmp(token, ">>"))
+		return "GREATGREAT";
+	else if (!strcmp(token, ">&"))
+		return "GREATGREAT";
+	else if (!strcmp(token, "|"))
+		return "PIPE";
+	else if (!strcmp(token, "&"))
+		return "AMPERSAND";
 	else
-		return CONTINUE;
+		return "CONTINUE";
 }
+
+/* int	main(int argc, char **argv) */
+/* { */
+/* 	/1* char *rd; *1/ */
+
+/* 	/1* rd = readline("$:"); *1/ */
+/* 	lexer(argv, argc); */
+/* 	while(*argv) */
+/* 		printf("%s\n", *argv++); */
+/* 	return 0; */
+/* } */
