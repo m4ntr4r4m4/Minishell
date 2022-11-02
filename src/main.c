@@ -53,6 +53,30 @@ char *get_path(char **pathvar, char *cmd, int code)
 	return (path);
 }
 
+t_cmd	 cmd_init(int ac, char **av, char **envp)
+{
+	t_cmd	cmd;
+	int		i;
+
+	i = 0;
+	cmd.num_args = ac - 2;
+	cmd.name = av[i + 1];
+	cmd.args = malloc(sizeof(char*) * cmd.num_args + 2);
+	if(!cmd.args)
+		exit (0);
+//	printf("%d\n", cmd.num_args);
+	cmd.pathvar = path_var(envp);
+	cmd.path = get_path(cmd.pathvar, cmd.name, 3);
+	cmd.args[i++] = cmd.path;
+	while(i <= cmd.num_args )
+	{
+		cmd.args[i] = ft_strjoin("./", av[i + 1]);
+		i++;
+	}
+	cmd.args[cmd.num_args + 1] = NULL;
+	return (cmd);
+}
+
 
 
 int	main(int ac, char **av, char **envp)
@@ -63,22 +87,14 @@ int	main(int ac, char **av, char **envp)
 	i = 0;
 	if (ac || av)
 	{
-		cmd.num_args = ac - 2;
-		cmd.name = av[i + 1];
-		cmd.args = malloc(sizeof(char*) * cmd.num_args + 1);
-		cmd.args[cmd.num_args] = NULL;
-		printf("%d\n", cmd.num_args);
-		cmd.pathvar = path_var(envp);
-		cmd.path = get_path(cmd.pathvar, cmd.name, 3);
-		while(i < cmd.num_args)
-		{
-			cmd.args[i] = get_path(cmd.pathvar, av[i + 2], 1);
-			i++;
-		}
+
+		cmd = cmd_init(ac, av, envp);
+
 	//	printf("%s\n", cmd.name);
+	//	printf("%s\n", cmd.args[cmd.num_args + 1]);
 	//	ft_print_table(cmd.pathvar, 1);
 	//	ft_print_table(cmd.args, 1);
-		printf("%s\n", cmd.path);
+	//	printf("%s\n", cmd.path);
 		if (execve(cmd.path, cmd.args, envp) < 0)
 		{
 			perror("command");
