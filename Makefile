@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/10/31 12:19:24 by ahammoud         ###   ########.fr        #
+#    Updated: 2022/11/02 12:10:43 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,16 +26,20 @@ CC	=	clang
 
 
 ${NAME}	:	${OBJS} 
-			${CC} ${CFLAGS}  ${OBJS}  -o ${NAME}
+			cd ./src/libft/ && make bonus
+			${CC} ${CFLAGS} ${OBJS} ./src/libft/libft.a -o ${NAME}
 
 all	:	${NAME}
 
 RM	=	rm -f
 
 clean	:
+		${MAKE} clean -C ./src/libft
 		${RM} ${OBJS}
 
 fclean	:	clean
+
+			${MAKE} fclean -C ./src/libft
 			${RM} ${NAME}
 
 re		:	fclean all
