@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/02 12:21:57 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/02 13:40:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ void	leaks(void)
 {
 	system("leaks expander");
 }
-/*
-int	main(void)
-{
-	char	*env;
-	env = expander("$hello");
-	return(printf("env: %s\n", env));
 
-}*/
+void	freecmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->args[i])
+		free(cmd->args[i++]);
+	free(cmd->args);
+}

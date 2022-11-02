@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/02 13:55:23 by ahammoud         ###   ########.fr       */
+/*   Created: 2022/03/07 13:08:11 by ahammoud          #+#    #+#             */
+/*   Updated: 2022/03/11 18:28:04 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <sys/wait.h>
-# include <errno.h>
-# include <dirent.h>
-# include <string.h>
-# include <sys/ioctl.h> 
-# include <termios.h> 
 # include "libft.h"
-# include <stdbool.h>
+# include <errno.h>
+# include <stdio.h>
+# include <string.h>
 
-typedef struct	s_cmd
-{
-	int		num_args;
-	char	*name;
-	char	**args;
+typedef struct s_pip {
+	char	**program;
+	char	**program2;
 	char	**pathvar;
 	char	*path;
-}	t_cmd;
-
-char	*expander(char *str);
-void	leaks(void);
-void	freecmd(t_cmd *cmd);
+	char	*path2;
+	int		fd[2];
+	int		fdin;
+	int		fdout;
+}	t_pip;
+char	*check_bin(char *binary, char *bin, int ac);
+char	**path_var(char **envp);
+void	freevars(t_pip *vars);
 #endif
