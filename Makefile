@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/11/02 12:47:41 by ahammoud         ###   ########.fr        #
+#    Updated: 2022/11/02 16:39:12 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ OBJS	=	${SRCS:.c=.o}
 
 NAME	=	 expander
 
-CFLAGS	=	-Wall -Werror -Wextra
+#CFLAGS	=	-Wall -Werror -Wextra -lreadline
+CFLAGS	=	 -lreadline
 
 
 CC	=	clang

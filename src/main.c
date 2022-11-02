@@ -59,49 +59,63 @@ t_cmd	 cmd_init(int ac, char **av, char **envp)
 	int		i;
 
 	i = 0;
-	cmd.num_args = ac - 2;
-	cmd.name = av[i + 1];
+	cmd.num_args = ac - 1;
+	cmd.name = av[i];
 	cmd.args = malloc(sizeof(char*) * cmd.num_args + 2);
 	if(!cmd.args)
 		exit (0);
 //	printf("%d\n", cmd.num_args);
+
 	cmd.pathvar = path_var(envp);
 	cmd.path = get_path(cmd.pathvar, cmd.name, 3);
 	cmd.args[i++] = cmd.path;
 	while(i <= cmd.num_args )
 	{
-		cmd.args[i] = ft_strjoin("./", av[i + 1]);
+		cmd.args[i] = ft_strdup(av[i]);
 		i++;
 	}
 	cmd.args[cmd.num_args + 1] = NULL;
+	
+
+//		printf("%s\n", cmd.name);
+//		printf("%s\n", cmd.args[cmd.num_args + 1]);
+//good		ft_print_table(cmd.pathvar, 1);
+//		ft_print_table(cmd.args, 1);
+//		printf("%s\n", cmd.path);
+
 	return (cmd);
 }
 
+ #define PIPE 1;
 
 
-int	main(int ac, char **av, char **envp)
+
+
+int	main(int ac,char **av,  char **envp)
 {
 //	atexit(leaks);
 	t_cmd	cmd;
 	int	i;	
 	i = 0;
-	if (ac || av)
+	av = NULL;
+	if (ac)
 	{
 
-		cmd = cmd_init(ac, av, envp);
-
-	//	printf("%s\n", cmd.name);
-	//	printf("%s\n", cmd.args[cmd.num_args + 1]);
-	//	ft_print_table(cmd.pathvar, 1);
-	//	ft_print_table(cmd.args, 1);
-	//	printf("%s\n", cmd.path);
-		if (execve(cmd.path, cmd.args, envp) < 0)
+		char *rd;
+		while(1)
 		{
-			perror("command");
-			exit(0);
+			rd = readline("Enter a line: ");
+			if (rd)
+			{
+				cmd = cmd_init(word_c(rd, ' '), ft_split(rd, ' '),  envp);
+				if (execve(cmd.path, cmd.args, envp) < 0)
+				{
+					perror("command");
+				}
+	
+				freecmd(&cmd);
+			}
 		}
-
-		freecmd(&cmd);
 	}
 
 

@@ -6,12 +6,12 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2021/11/15 19:10:42 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:42:04 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
 
-static int	word_c(char *str, char c)
+int	word_c(char *str, char c)
 {
 	int	i;
 	int	wc;

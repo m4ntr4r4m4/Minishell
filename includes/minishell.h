@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/02 13:55:23 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:34:28 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <string.h>
 # include <sys/ioctl.h> 
 # include <termios.h> 
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "libft.h"
 # include <stdbool.h>
 
