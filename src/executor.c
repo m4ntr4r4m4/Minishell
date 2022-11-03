@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/03 17:11:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/03 18:32:02 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -70,25 +70,26 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 
 	i = 0;
 	cmd->num_args = ac - 1;
-	printf("number args %d\n",cmd->num_args);
-	ft_print_table(av, 1);
+//	printf("number args %d\n",cmd->num_args);
+//	ft_print_table(av, 1);
 	cmd->name = av[i];
-	cmd->args = malloc(sizeof(char *) * cmd->num_args + 2);
+	cmd->args = malloc(sizeof(char *) * (cmd->num_args + 2));
 	if (!cmd->args)
 		exit (0);
 	cmd->path = get_path(cmd->pathvar, cmd->name, 3);
 	cmd->args[i++] = cmd->path;
+	cmd->args[cmd->num_args + 1] = NULL;
 	while (i <= cmd->num_args)
 	{
-		printf("******************  %d av : %s\n------\n",i, av[i]);
+//		printf("******************  %d av : %s\n------\n",i, av[i]);
 		cmd->args[i] = ft_strdup(av[i]);
 		i++;
 	}
-	cmd->args[i] = NULL;
 }
 
 void	child1(t_cmd *cmd, char **envp)
 {
+//	printf("SUCCESSS \n");
 	if (execve(cmd->path, cmd->args, envp) < 0)
 	{
 		perror("command");
@@ -101,18 +102,19 @@ int	executor(t_all *all, char **envp)
 	int	i;
 
 	i = 0;
-	printf("all size %zu\n", all->size);
+//	printf("all size %zu\n", all->size);
+	pid = malloc(sizeof(int) * all->size);
 	while (i < all->size)
 	{
 		pid[i] = fork();
 		if (pid[i] == 0)
 			child1(&all->cmd[i], envp);
 		i++;
-	
 	}
 	i = 0;
 	while (i < all->size)
 		waitpid(pid[i++], NULL, 0);
-	printf("++ ERORO\n");
+//	printf("++ ERORO\n");
+	free(pid);
 	return (0);
 }

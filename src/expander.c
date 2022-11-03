@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:19:27 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/03 18:32:14 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	freecmd(t_all *all)
 	int	j;
 
 	i = -1;
-	printf("enter free\n");
+//	printf("enter free\n");
 //	while (cmd->args[++i])
 //		free(cmd->args[i]);
 //	free(cmd->args[i]);
