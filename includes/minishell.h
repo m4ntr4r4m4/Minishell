@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/02 16:34:28 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:28:40 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,23 @@ typedef struct	s_cmd
 	char	*path;
 }	t_cmd;
 
+typedef struct	s_all
+{
+	t_cmd	*cmd;
+	size_t	size;
+}	t_all;
+
 char	*expander(char *str);
 void	leaks(void);
-void	freecmd(t_cmd *cmd);
+//void	freecmd(t_cmd *cmd);
+void	freecmd(t_all *all);
+
+int		executor(t_all *all, char **envp);
+void	child1(t_cmd *cmd, char **envp);
+void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
+char	*get_path(char **pathvar, char *cmd, int code);
+char	*check_bin(char *binary, char *path, int ac);
+char	**path_var(char **envp);
+
+
 #endif

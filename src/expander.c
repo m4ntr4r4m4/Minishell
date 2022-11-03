@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/02 13:40:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:19:27 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,33 @@ void	leaks(void)
 	system("leaks expander");
 }
 
-void	freecmd(t_cmd *cmd)
+void	freecmd(t_all *all)
 {
 	int	i;
+	int	j;
 
-	i = 0;
-	while (cmd->args[i])
-		free(cmd->args[i++]);
-	free(cmd->args);
+	i = -1;
+	printf("enter free\n");
+//	while (cmd->args[++i])
+//		free(cmd->args[i]);
+//	free(cmd->args[i]);
+//	free(cmd->args);
+
+//	while (cmd->pathvar[i])
+//		free(cmd->pathvar[i++]);
+//	free(cmd->pathvar);
+//	free(cmd->name);
+//	free(cmd->path);
+
+   while(++i < all->size)
+   {
+	   j = -1;
+		while(all->cmd[i].args[++j])
+			free(all->cmd[i].args[j]);
+		free(all->cmd[i].args[j]);
+		free(all->cmd[i].args);
+   }
+   free(all->cmd);
+
+
 }

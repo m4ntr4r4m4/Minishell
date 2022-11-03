@@ -6,24 +6,25 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/11/02 16:39:12 by ahammoud         ###   ########.fr        #
+#    Updated: 2022/11/03 16:52:25 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	./src/main.c ./src/expander.c
+SRCS	=	./src/main.c ./src/expander.c ./src/executor.c
 
 OBJS	=	${SRCS:.c=.o}
 
 .c.o	:
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes/
 
-NAME	=	 expander
+NAME	=	 executor
 
-#CFLAGS	=	-Wall -Werror -Wextra -lreadline
-CFLAGS	=	 -lreadline
+#CFLAGS	=	 -Wall -Wextra -Werror -lreadline
+CFLAGS	=	 -lreadline -g -fsanitize=address
+#CFLAGS	=	 -lreadline 
 
 
-CC	=	clang
+CC	=	gcc
 
 
 ${NAME}	:	${OBJS} 

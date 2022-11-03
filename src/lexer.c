@@ -11,7 +11,7 @@ char **lexer(char **str, int argc)
 	while(str[i])
 	{
 		token = tokens(str[i]);
-		if (token != "CONTINUE")
+		if (strcmp(token,"CONTINUE") != 0)
 			str[i] = token;
 		i++;
 	}
@@ -43,13 +43,14 @@ char *tokens(char *token)
 		return "CONTINUE";
 }
 
-/* int	main(int argc, char **argv) */
-/* { */
-/* 	/1* char *rd; *1/ */
+int	main(int argc, char **argv)
+{ 
+	char *rd; 
+	char **lex;
 
-/* 	/1* rd = readline("$:"); *1/ */
-/* 	lexer(argv, argc); */
-/* 	while(*argv) */
-/* 		printf("%s\n", *argv++); */
-/* 	return 0; */
-/* } */
+	 rd = readline("$:");
+	lex = lexer(argv, argc); 
+	while(*lex) 
+		printf("%s\n", *lex++); 
+	return 0; 
+} 
