@@ -2,6 +2,9 @@
 #include "libft/ft_split.c"
 #include "libft/ft_substr.c"
 #include "libft/ft_strlen.c"
+#include "libft/ft_print_table.c"
+#include "libft/ft_putstr_fd.c"
+#include "libft/ft_putchar_fd.c"
 
 static char *tokens(char *tokens);
 /* lee el comando, busca los tokens y se lo pasa al parser */
@@ -14,7 +17,7 @@ char **lexer(char **str)
 	while(str[i])
 	{
 		token = tokens(str[i]);
-		if (token != "CONTINUE")
+		if (strcmp(token, "CONTINUE") != 0)
 			str[i] = token;
 		i++;
 	}
@@ -46,17 +49,40 @@ char *tokens(char *token)
 		return "CONTINUE";
 }
 
+void	freetable(char **new)
+{
+	int	i;
+
+	i = 0;
+	while (new[i])
+	{
+		printf("free: %s\n", new[i]);
+		free(new[i++]);
+	}
+	free(new[i]);
+	free(new);
+
+}
+
+void 	leaks(void)
+{
+	system("leaks a.out");
+
+}
 int	main(int argc, char **argv)
 {
 	char *rd;
 	char **new;
-
+	atexit(leaks);
 	while(1)
 	{
-		new = ft_split(readline("$:"), ' ');
+		new = ft_split(rd = readline("$:"), ' ');
 		lexer(new);
-		while (*new)
-			printf("%s", *new++);
+		ft_print_table(new, 1);
+		free(rd);
+		freetable(new);
+
+
 	}
 	return 0;
 }
