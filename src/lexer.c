@@ -1,8 +1,11 @@
 #include "../includes/minishell.h"
+#include "libft/ft_split.c"
+#include "libft/ft_substr.c"
+#include "libft/ft_strlen.c"
 
 static char *tokens(char *tokens);
 /* lee el comando, busca los tokens y se lo pasa al parser */
-char **lexer(char **str, int argc)
+char **lexer(char **str)
 {
 	char	*token;
 	int		i;
@@ -11,7 +14,7 @@ char **lexer(char **str, int argc)
 	while(str[i])
 	{
 		token = tokens(str[i]);
-		if (strcmp(token,"CONTINUE") != 0)
+		if (token != "CONTINUE")
 			str[i] = token;
 		i++;
 	}
@@ -44,13 +47,16 @@ char *tokens(char *token)
 }
 
 int	main(int argc, char **argv)
-{ 
-	char *rd; 
-	char **lex;
+{
+	char *rd;
+	char **new;
 
-	 rd = readline("$:");
-	lex = lexer(argv, argc); 
-	while(*lex) 
-		printf("%s\n", *lex++); 
-	return 0; 
-} 
+	while(1)
+	{
+		new = ft_split(readline("$:"), ' ');
+		lexer(new);
+		while (*new)
+			printf("%s", *new++);
+	}
+	return 0;
+}
