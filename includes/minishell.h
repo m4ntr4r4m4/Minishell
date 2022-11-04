@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:28:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ typedef struct	s_cmd
 	char	**args;
 	char	**pathvar;
 	char	*path;
+	char	*file;
+	static int 	token;
 }	t_cmd;
 
 typedef struct	s_all
 {
 	t_cmd	*cmd;
+	static int token;
 	size_t	size;
 }	t_all;
 

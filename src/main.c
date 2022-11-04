@@ -4,7 +4,7 @@ int	main(int ac,char **av,  char **envp)
 {
 //	atexit(leaks);
 	t_cmd	cmd1;
-//	t_cmd	cmd2;
+	t_cmd	cmd2;
 	char	**at;
 	t_all	all;
 	int	i;	
@@ -19,14 +19,16 @@ int	main(int ac,char **av,  char **envp)
 		{
 			////////    PArser        //////////
 
-			rd = readline("$_MINI-SHELL_$: ");
-//			rd = "cat a";
+//			rd = readline("$_MINI-SHELL_$: ");
+			rd = "cat a";
 //			printf("---%s\n", rd);
 			if(rd && word_c(rd, ' ') >= 1)
 			{
 //				printf("begin\n");
 				at = ft_split(rd, ' ');
 				cmd_init(&cmd1, word_c(rd, ' '), at,  envp);
+				rd = "grep my";
+				cmd_init(&cmd2, word_c(rd, ' '), at,  envp);
 			
 //			printf("---EROROR\n");
 			////////    EXECUTOR        //////////
@@ -49,7 +51,7 @@ int	main(int ac,char **av,  char **envp)
 
 			}
 			sleep(1);
-			free(rd);
+//			free(rd);
 		}
 	}
 

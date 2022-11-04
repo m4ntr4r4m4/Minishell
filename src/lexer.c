@@ -30,23 +30,25 @@ char **lexer(char **str)
 
 /* } */
 
+#define AMPERSAND '&'
+
 /* enlaza los simbolos con comandos para que entienda el parser y los add a la tabla */
-char *tokens(char *token)
+int tokens(char *token)
 {
 	if (!strcmp(token, ">"))
-		return "GREAT";
+		return GREAT;
 	else if (!strcmp(token, "<"))
-		return "LESS";
+		return LESS;
 	else if (!strcmp(token, ">>"))
-		return "GREATGREAT";
+		return GREATGREAT;
 	else if (!strcmp(token, ">&"))
-		return "GREATGREAT";
+		return GREATGREAT;
 	else if (!strcmp(token, "|"))
-		return "PIPE";
+		return PIPE;
 	else if (!strcmp(token, "&"))
-		return "AMPERSAND";
+		return AMPERSAND;
 	else
-		return "CONTINUE";
+		return CONTINUE;
 }
 
 void	freetable(char **new)
