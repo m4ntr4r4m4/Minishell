@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:19:33 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@
 # include "libft.h"
 # include <stdbool.h>
 
+
+typedef struct s_pip {
+	int		*fd;
+	int		fdin;
+	int		fdout;
+}	t_pip;
+
 typedef struct	s_cmd
 {
 	int		num_args;
@@ -38,14 +45,15 @@ typedef struct	s_cmd
 	char	**pathvar;
 	char	*path;
 	char	*file;
-	static int 	token;
+	int 	token;
 }	t_cmd;
 
 typedef struct	s_all
 {
 	t_cmd	*cmd;
-	static int token;
+	int token;
 	size_t	size;
+	t_pip	pipes;
 }	t_all;
 
 char	*expander(char *str);
@@ -54,11 +62,13 @@ void	leaks(void);
 void	freecmd(t_all *all);
 
 int		executor(t_all *all, char **envp);
+int		prexec(t_all *all, char **envp);
 void	child1(t_cmd *cmd, char **envp);
 void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
 
+void	freetable(char **str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/03 18:32:02 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:15:48 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -72,7 +72,7 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 	cmd->num_args = ac - 1;
 //	printf("number args %d\n",cmd->num_args);
 //	ft_print_table(av, 1);
-	cmd->name = av[i];
+	cmd->name = strdup(av[i]);
 	cmd->args = malloc(sizeof(char *) * (cmd->num_args + 2));
 	if (!cmd->args)
 		exit (0);
@@ -102,7 +102,7 @@ int	executor(t_all *all, char **envp)
 	int	i;
 
 	i = 0;
-//	printf("all size %zu\n", all->size);
+	printf("all size %zu\n", all->size);
 	pid = malloc(sizeof(int) * all->size);
 	while (i < all->size)
 	{
@@ -114,7 +114,15 @@ int	executor(t_all *all, char **envp)
 	i = 0;
 	while (i < all->size)
 		waitpid(pid[i++], NULL, 0);
-//	printf("++ ERORO\n");
 	free(pid);
 	return (0);
+}
+int	prexec(t_all *all, char **envp)
+{
+	int	x;
+
+	x = executor(all, envp);
+
+
+	return (x);
 }

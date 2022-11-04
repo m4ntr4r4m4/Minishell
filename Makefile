@@ -6,11 +6,11 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/11/03 18:18:00 by ahammoud         ###   ########.fr        #
+#    Updated: 2022/11/04 12:00:30 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	./src/main.c ./src/expander.c ./src/executor.c
+SRCS	=	./src/utils.c ./src/main.c ./src/expander.c ./src/executor.c
 
 OBJS	=	${SRCS:.c=.o}
 
