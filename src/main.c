@@ -43,6 +43,7 @@ int	main(int ac,char **av,  char **envp)
 			////////    EXECUTOR        //////////
 				all.size = 2;
 				all.cmd = malloc(sizeof(t_cmd) * all.size);
+				all.pipes = malloc(sizeof(t_pipe) * (all.size - 1));
 				if(!all.cmd)
 					return (0);
 				all.cmd[0] = cmd1;
@@ -57,7 +58,6 @@ int	main(int ac,char **av,  char **envp)
 				i = -1;
 
 			}
-			sleep(1);
 			free(rd);
 		}
 	}

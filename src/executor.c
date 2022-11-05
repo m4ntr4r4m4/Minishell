@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/05 16:03:30 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/05 17:10:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -99,17 +99,40 @@ void	dupfd(t_pipe vars, int i, size_t size)
 //	close(vars.fdin);
 }
 
+void	closefiledes(t_pipe *var, int x, size_t size)
+{
+	int i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (i != x)
+		{
+			close(var[i].fd[0]);
+			close(var[i].fd[1]);
+			i++;
+		}
+		else
+			i++;
+	}
+}
+
 void	child1(t_all *all,  char **envp, int i,size_t size)
 {
+	int	x;
 
-	
+	if (i == 0)
+		x = 0;
+	else
+		x = (i + 1) % size;
 
 	////// duplicat file desc 
 
 	
-	dupfd(all->pipes, i, size);
+	dupfd(all->pipes[x], i, size);
+	closefiledes(all->pipes, x, size - 1);
 
-//	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
+	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 	{
 		perror("command");
@@ -125,10 +148,20 @@ int	executor(t_all *all, char **envp)
 	pid = malloc(sizeof(int) * all->size);
 	i = 0;
 
-
-	if (pipe(all->pipes.fd) < 0)
-			return (0);
+	if (all->size > 1)
+	{
+		while (i < all->size - 1)
+		{
+			if (pipe(all->pipes[i++].fd) < 0)
+			{
+				fprintf(stderr, "serror pipes \n");
+				return (0);
+			}
+		}
+	}
 		
+	fprintf(stderr, "success pipes \n");
+	i = 0;
 	while (i < all->size)
 	{
 		pid[i] = fork();
@@ -138,8 +171,13 @@ int	executor(t_all *all, char **envp)
 	}
 	///////// clode file desc
 	i = 0;
-		close(all->pipes.fd[0]);
-		close(all->pipes.fd[1]);
+
+	while (i < all->size - 1)
+	{
+		close(all->pipes[i].fd[0]);
+		close(all->pipes[i].fd[1]);
+		i++;
+	}
 	i = 0;
 	while (i < all->size)
 		waitpid(pid[i++], NULL, 0);

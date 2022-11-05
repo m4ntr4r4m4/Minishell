@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/05 15:57:22 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/05 16:13:29 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -56,7 +56,7 @@ typedef struct	s_all
 //	char 	*token_l;
 	int 	token;
 	size_t	size;
-	t_pipe	pipes;
+	t_pipe	*pipes;
 }	t_all;
 
 typedef struct	s_iterators
