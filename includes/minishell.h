@@ -6,11 +6,8 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/04 15:22:25 by ahammoud         ###   ########.fr       */
-=======
+/*   Updated: 2022/11/05 14:28:52 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
->>>>>>> b5d19bb98a710821b77fb5b0fb2bbe964cfcea3a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +38,6 @@ typedef struct s_pipe {
 	int		fdout;
 }	t_pipe;
 
-=======
 typedef struct	s_cmd
 {
 	int		num_args;
@@ -52,7 +48,6 @@ typedef struct	s_cmd
 	char	*file;
 //	int 	token;
 	t_pipe	pipes;
-=======
 	char 	*token;
 }	t_cmd;
 
