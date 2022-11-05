@@ -83,42 +83,44 @@ void	init_structs(t_all *all, int count)
 	}
 }
 
-/* crea la tabla de comandos */
-char **parser(char **str, int count)
+void	print_all(t_all *all)
 {
-	t_all	all;
-	int		x = 0;
-
-	/* CHECK ERRORS AND FILL SIZES*/ 
-		/* cmd->path = get_path(cmd->pathvar, cmd->name, 3); */
-		/* check_error() */
-	/* CHECK ERRORS AND FILL SIZES*/ 
-	
-	/* INICIALICE */ 
-	init_structs(&all, count);
-	/* INICIALICE */ 
-
-	/* LEXER */ 
-	lexer(str, &all);
-	/* LEXER */ 
-
-	x = 0;
+	int x = 0;
 	int y = 0;
 
-	/* print all */
-	while (all.cmd[y].args[x])
+	while (all->cmd[y].args[x])
 	{
-		while (all.cmd[y].args[x])
-			printf("arg %d %s\n", y,all.cmd[y].args[x++]);
+		while (all->cmd[y].args[x])
+			printf("arg %d %s\n", y, all->cmd[y].args[x++]);
 		x = 0;
-		while (all.cmd[y].token[x])
-			printf("tokens %c\n", all.cmd[0].token[x++]);
+		while (all->cmd[y].token[x])
+			printf("tokens %c\n", all->cmd[y].token[x++]);
 		x = 0;
 		y++;
 	}
 	x = 0;
-	while (all.token_l[x])
-		printf("T %c\n", all.token_l[x++]);
+	while (all->token_l[x])
+		printf("T %c\n", all->token_l[x++]);
+}
+
+/* crea la tabla de comandos */
+char **parser(char **str, int count)
+{
+	t_all	all;
+
+	/* CHECK ERRORS AND FILL SIZES*/ 
+		/* cmd->path = get_path(cmd->pathvar, cmd->name, 3); */
+		/* check_error() */
+	
+	/* INICIALICE */ 
+	init_structs(&all, count);
+
+	/* LEXER */ 
+	lexer(str, &all);
+
+	/* PRINT */
+	print_all(&all);
+
 	return str;
 }
 /* enlaza los simbolos con comandos para que entienda el parser y los add a la tabla */
