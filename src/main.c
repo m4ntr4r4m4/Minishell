@@ -38,7 +38,7 @@ int	main(int ac,char **av,  char **envp)
 				cmd_init(&cmd2, word_c(rd, ' '), at2,  envp);
 				freetable(at2);
 			
-			printf("cmd1 : %s cmd2 : %s\n", cmd1.name, cmd2.name);
+//			printf("cmd1 : %s cmd2 : %s\n", cmd1.name, cmd2.name);
 //			printf("---EROROR\n");
 			////////    EXECUTOR        //////////
 				all.size = 2;

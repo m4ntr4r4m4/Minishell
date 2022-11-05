@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/04 15:23:00 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/05 16:03:30 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -87,27 +87,30 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 	}
 }
 
-void	dupfd(t_pipe vars, int i)
+void	dupfd(t_pipe vars, int i, size_t size)
 {
-	dup2(vars.fdin, (i + 1) % 2);
+//	fprintf(stderr,"id fd: %d \n (i + 1) %%2: %d \n", i, (i + 1) % 2);
 	dup2(vars.fd[(i + 1) % 2], (i + 1) % 2);
+//	dup2(vars.fd[i], i);
+//		close(vars.fd[(i + 1) % 2]);
+//		close(vars.fd[i]);
 	close(vars.fd[1]);
 	close(vars.fd[0]);
-	close(vars.fdin);
+//	close(vars.fdin);
 }
 
-void	child1(t_cmd *cmd,  char **envp)
+void	child1(t_all *all,  char **envp, int i,size_t size)
 {
 
-//	printf("SUCCESSS \n");
 	
 
 	////// duplicat file desc 
 
 	
-	dupfd(cmd->pipes, );
+	dupfd(all->pipes, i, size);
 
-	if (execve(cmd->path, cmd->args, envp) < 0)
+//	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
+	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 	{
 		perror("command");
 	}
@@ -122,25 +125,25 @@ int	executor(t_all *all, char **envp)
 	pid = malloc(sizeof(int) * all->size);
 	i = 0;
 
+
+	if (pipe(all->pipes.fd) < 0)
+			return (0);
+		
 	while (i < all->size)
 	{
-		if (pipe(all->cmd[i].pipes.fd) < 0)
-			return (0);
 		pid[i] = fork();
 		if (pid[i] == 0)
-			child1(&all->cmd[i], envp);
+			child1(all, envp, i, all->size);
 		i++;
 	}
+	///////// clode file desc
+	i = 0;
+		close(all->pipes.fd[0]);
+		close(all->pipes.fd[1]);
 	i = 0;
 	while (i < all->size)
 		waitpid(pid[i++], NULL, 0);
-	///////// clode file desc
-	i = 0;
-	while (i < all->size)
-	{
-		close(all->cmd[i].pipes.fd[0]);
-		close(all->cmd[i].pipes.fd[1]);
-	}
+
 	free(pid);
 	return (0);
 }
