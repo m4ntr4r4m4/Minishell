@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/04 12:15:48 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:23:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -87,9 +87,26 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 	}
 }
 
-void	child1(t_cmd *cmd, char **envp)
+void	dupfd(t_pipe vars, int i)
 {
+	dup2(vars.fdin, (i + 1) % 2);
+	dup2(vars.fd[(i + 1) % 2], (i + 1) % 2);
+	close(vars.fd[1]);
+	close(vars.fd[0]);
+	close(vars.fdin);
+}
+
+void	child1(t_cmd *cmd,  char **envp)
+{
+
 //	printf("SUCCESSS \n");
+	
+
+	////// duplicat file desc 
+
+	
+	dupfd(cmd->pipes, );
+
 	if (execve(cmd->path, cmd->args, envp) < 0)
 	{
 		perror("command");
@@ -101,11 +118,14 @@ int	executor(t_all *all, char **envp)
 	int	*pid;
 	int	i;
 
-	i = 0;
 	printf("all size %zu\n", all->size);
 	pid = malloc(sizeof(int) * all->size);
+	i = 0;
+
 	while (i < all->size)
 	{
+		if (pipe(all->cmd[i].pipes.fd) < 0)
+			return (0);
 		pid[i] = fork();
 		if (pid[i] == 0)
 			child1(&all->cmd[i], envp);
@@ -114,6 +134,13 @@ int	executor(t_all *all, char **envp)
 	i = 0;
 	while (i < all->size)
 		waitpid(pid[i++], NULL, 0);
+	///////// clode file desc
+	i = 0;
+	while (i < all->size)
+	{
+		close(all->cmd[i].pipes.fd[0]);
+		close(all->cmd[i].pipes.fd[1]);
+	}
 	free(pid);
 	return (0);
 }

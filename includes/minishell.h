@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/04 12:19:33 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:22:25 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@
 # include <stdbool.h>
 
 
-typedef struct s_pip {
-	int		*fd;
+typedef struct s_pipe {
+	int		fd[2];
 	int		fdin;
 	int		fdout;
-}	t_pip;
+}	t_pipe;
 
 typedef struct	s_cmd
 {
@@ -46,6 +46,7 @@ typedef struct	s_cmd
 	char	*path;
 	char	*file;
 	int 	token;
+	t_pipe	pipes;
 }	t_cmd;
 
 typedef struct	s_all
@@ -53,7 +54,6 @@ typedef struct	s_all
 	t_cmd	*cmd;
 	int token;
 	size_t	size;
-	t_pip	pipes;
 }	t_all;
 
 char	*expander(char *str);
