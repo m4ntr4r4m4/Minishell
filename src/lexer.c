@@ -23,11 +23,13 @@ static char tokens(char *tokens);
 
 /* ITERATORS
 	 *
-	 * String -> i_s;	
-	 * Command -> i_c;
-	 * Token of all -> i_T;
-	 * Token of command -> i_t;
-	 * arguments -> i_a;
+	 * STRING -> i_s;	
+	 * COMMAND -> i_c;
+	 * ARGUMENTS -> i_a;
+	 * INFILE  -> i_a;
+	 * OUTFILE -> i_a;
+	 * TOKEN ALL -> i_T;
+	 * TOKEN COMMAND -> i_t;
 */
 void	init_iterators(t_i *i)
 {
@@ -36,6 +38,8 @@ void	init_iterators(t_i *i)
 	i->t = 0;
 	i->T = 0;
 	i->a = 0;
+	i->i = 0;
+	i->o = 0;
 }
 
 /* READ DE COMMAND AND FILL THE STRUCT */
@@ -53,9 +57,16 @@ char lexer(char **str, t_all *all)
 		{
 			all->token_l[i.T++] = token;
 			all->cmd[i.c].args[i.a] = NULL;
+			all->cmd[++i.c].name = str[++i.s];
 			i.a = 0;
-			i.c++;
+			i.o = 0;
+			i.i = 0;
+			i.t = 0;
 		}
+		else if (token == LESS)
+			all->cmd[i.c].infile[i.i++] = str[++i.s];
+		else if (token == GREAT)
+			all->cmd[i.c].outfile[i.o++] = str[++i.s];
 		else if (token == CONTINUE)
 			all->cmd[i.c].args[i.a++] = str[i.s];
 		else
@@ -79,7 +90,9 @@ void	init_structs(t_all *all, int count)
 	{
 		all->cmd[x].token = (char *)malloc(count);
 		bzero(all->cmd[x].token, count);
-		all->cmd[x++].args = (char **)malloc(sizeof(char **) * count);
+		all->cmd[x].args = (char **)malloc(sizeof(char **) * count);
+		all->cmd[x].outfile = (char **)malloc(sizeof(char **) * count);
+		all->cmd[x++].infile = (char **)malloc(sizeof(char **) * count);
 	}
 }
 
@@ -90,11 +103,19 @@ void	print_all(t_all *all)
 
 	while (all->cmd[y].args[x])
 	{
+		if (all->cmd[y].name)
+			printf("name %d %s\n", y, all->cmd[y].name);
 		while (all->cmd[y].args[x])
 			printf("arg %d %s\n", y, all->cmd[y].args[x++]);
 		x = 0;
 		while (all->cmd[y].token[x])
 			printf("tokens %c\n", all->cmd[y].token[x++]);
+		x = 0;
+		while (all->cmd[y].infile[x])
+			printf("infile %d %d %s\n", y, x,all->cmd[y].infile[x++]);
+		x = 0;
+		while (all->cmd[y].outfile[x])
+			printf("outfile %d %d %s\n", y, x, all->cmd[y].outfile[x++]);
 		x = 0;
 		y++;
 	}
@@ -151,7 +172,7 @@ void	freetable(char **new)
 	i = 0;
 	while (new[i])
 	{
-		printf("free: %s\n", new[i]);
+		/* printf("free: %s\n", new[i]); */
 		free(new[i++]);
 	}
 	free(new[i]);
@@ -176,7 +197,7 @@ int	main(int argc, char **argv)
 		count = word_c(rd, ' ');
 		new = ft_split(rd,' ');
 		parser(new, count);
-		ft_print_table(new, 1);
+		/* ft_print_table(new, 1); */
 		free(rd);
 		freetable(new);
 	}

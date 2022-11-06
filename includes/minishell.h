@@ -45,7 +45,8 @@ typedef struct	s_cmd
 	char	**args;
 	char	**pathvar;
 	char	*path;
-	char	*file;
+	char	**infile;
+	char	**outfile;
 //	int 	token;
 	t_pipe	pipes;
 	char 	*token;
@@ -65,6 +66,8 @@ typedef struct	s_iterators
 	int	t;
 	int	T;
 	int	a;
+	int	i;
+	int	o;
 }	t_i;
 
 char	*expander(char *str);
