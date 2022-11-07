@@ -19,13 +19,13 @@ OBJS	=	${SRCS:.c=.o}
 OBJSBN	=	${SRCSB:.c=.o}
 
 .c.o	:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${CC} -c $< -o ${<:.c=.o}
 
 NAME	=	 libft.a
 
 CFLAGS	=	-Wall -Werror -Wextra
 
-CC	=	clang
+CC	=	gcc -c	
 
 AR	=	ar rc
 

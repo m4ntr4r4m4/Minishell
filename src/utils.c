@@ -10,7 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../includes/minishell.h"
+
+void	print_all(t_all *all)
+{
+	int x = 0;
+	int y = 0;
+
+	while (y < all->n_cmd)
+	{
+		if (all->cmd[y].name)
+			printf("name %d %s\n", y, all->cmd[y].name);
+		if (all->cmd[y].path)
+			printf("path %d %s\n", y, all->cmd[y].path);
+		while (all->cmd[y].args[x])
+			printf("arg %d %s\n", y, all->cmd[y].args[x++]);
+		x = 0;
+		while (all->cmd[y].token[x])
+			printf("tokens %c\n", all->cmd[y].token[x++]);
+		x = 0;
+		while (all->cmd[y].infile[x])
+			printf("infile %d %d %s\n", y, x,all->cmd[y].infile[x++]);
+		x = 0;
+		while (all->cmd[y].outfile[x])
+			printf("outfile %d %d %s\n", y, x, all->cmd[y].outfile[x++]);
+		x = 0;
+		y++;
+	}
+	x = 0;
+	while (all->token_l[x])
+		printf("T %c\n", all->token_l[x++]);
+}
+
+void 	leaks(void)
+{
+	system("leaks a.out");
+}
 
 void	freetable(char **str)
 {
@@ -19,7 +54,7 @@ void	freetable(char **str)
 	i = 0;
 	while (str[i])
 	{
-		printf("free: %s\n", str[i]);
+		/* printf("free: %s\n", str[i]); */
 		free(str[i++]);
 	}
 	free(str[i]);

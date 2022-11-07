@@ -1,10 +1,5 @@
 #include "../includes/minishell.h"
-#include "libft/ft_split.c"
-#include "libft/ft_substr.c"
-#include "libft/ft_strlen.c"
-#include "libft/ft_print_table.c"
-#include "libft/ft_putstr_fd.c"
-#include "libft/ft_putchar_fd.c"
+#include "utils.c"
 
 #define AMPERSAND '1'
 #define GREAT '2'
@@ -49,7 +44,9 @@ char lexer(char **str, t_all *all)
 	t_i		i;
 
 	init_iterators(&i);
-	all->cmd[i.c].name = str[i.s++];
+	all->cmd[i.c].name = str[i.s];
+	all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
+	all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
@@ -57,8 +54,12 @@ char lexer(char **str, t_all *all)
 		{
 			all->token_l[i.T++] = token;
 			all->cmd[i.c].args[i.a] = NULL;
+			all->cmd[i.c].infile[i.i] = NULL;
+			all->cmd[i.c].outfile[i.o] = NULL;
 			all->cmd[++i.c].name = str[++i.s];
+			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
 			i.a = 0;
+			all->cmd[i.c].args[i.a] = all->cmd[i.c].path;
 			i.o = 0;
 			i.i = 0;
 			i.t = 0;
@@ -74,6 +75,8 @@ char lexer(char **str, t_all *all)
 		i.s++;
 	}
 	all->cmd[i.c].args[i.a] = NULL;
+	all->cmd[i.c].infile[i.i] = NULL;
+	all->cmd[i.c].outfile[i.o] = NULL;
 	return (CONTINUE);
 }
 
@@ -86,7 +89,7 @@ void	init_structs(t_all *all, int count)
 	all->cmd = (t_cmd *)malloc(sizeof(*(all->cmd)) * count);
 	all->token_l = (char *)malloc(sizeof(char *) * count);
 	bzero(all->token_l, count);
-	while (x < count)
+	while (x < all->n_cmd)
 	{
 		all->cmd[x].token = (char *)malloc(count);
 		bzero(all->cmd[x].token, count);
@@ -96,52 +99,72 @@ void	init_structs(t_all *all, int count)
 	}
 }
 
-void	print_all(t_all *all)
-{
-	int x = 0;
-	int y = 0;
 
-	while (all->cmd[y].args[x])
-	{
-		if (all->cmd[y].name)
-			printf("name %d %s\n", y, all->cmd[y].name);
-		while (all->cmd[y].args[x])
-			printf("arg %d %s\n", y, all->cmd[y].args[x++]);
-		x = 0;
-		while (all->cmd[y].token[x])
-			printf("tokens %c\n", all->cmd[y].token[x++]);
-		x = 0;
-		while (all->cmd[y].infile[x])
-			printf("infile %d %d %s\n", y, x,all->cmd[y].infile[x++]);
-		x = 0;
-		while (all->cmd[y].outfile[x])
-			printf("outfile %d %d %s\n", y, x, all->cmd[y].outfile[x++]);
-		x = 0;
-		y++;
-	}
+/* recorrer array */
+/* ver numero de comandos */
+/* asignar la ruta de los comandos */
+/* return number of cmds */
+char	*search_cmd(t_all *all, char **str)
+{
+	int		x;
+	int		bol;
+	char	*path;
+	char	token;
+
 	x = 0;
-	while (all->token_l[x])
-		printf("T %c\n", all->token_l[x++]);
+	all->n_cmd = 0;
+	bol = 0;
+	path = NULL;
+	while (str[x])
+	{
+		token = tokens(str[x]);
+		if (bol)
+		{
+			path = get_path(all->path, str[x], 3);
+			if (path == NULL)
+				return path;
+			all->n_cmd++;
+			bol = 0;
+		}
+		else if (x == 0)
+		{
+			path = get_path(all->path, str[x], 3);
+			if (path == NULL)
+				return path;
+			all->n_cmd++;
+		}
+		else if (token == PIPE || token == AMPERSAND)
+			bol = 1;
+		x++;
+	}
+	return path;
 }
 
+
+
 /* crea la tabla de comandos */
-char **parser(char **str, int count)
+char **parser(char **str, int count, t_all *all)
 {
-	t_all	all;
 
 	/* CHECK ERRORS AND FILL SIZES*/ 
-		/* cmd->path = get_path(cmd->pathvar, cmd->name, 3); */
 		/* check_error() */
+		/* cmd->path = get_path(cmd->pathvar, cmd->name, 3); */
+	
+	/* look for cmds */
+	if (search_cmd(all, str) == NULL)
+	{
+		printf("\033[1;31mcommand not found\n\033[0m");
+		return str;
+	}
 	
 	/* INICIALICE */ 
-	init_structs(&all, count);
+	init_structs(all, count);
 
 	/* LEXER */ 
-	lexer(str, &all);
+	lexer(str, all);
 
 	/* PRINT */
-	print_all(&all);
-
+	print_all(all);
 	return str;
 }
 /* enlaza los simbolos con comandos para que entienda el parser y los add a la tabla */
@@ -165,38 +188,21 @@ char tokens(char *token)
 		return CONTINUE;
 }
 
-void	freetable(char **new)
+int	main(int argc, char **argv, char **envp)
 {
-	int	i;
-
-	i = 0;
-	while (new[i])
-	{
-		/* printf("free: %s\n", new[i]); */
-		free(new[i++]);
-	}
-	free(new[i]);
-	free(new);
-}
-
-void 	leaks(void)
-{
-	system("leaks a.out");
-}
-
-int	main(int argc, char **argv)
-{
+	t_all	all;
 	char *rd;
 	char **new;
 	int count;
 
+	all.path = path_var(envp);
 	atexit(leaks);
 	while(1)
 	{
 		rd = readline("$:");
 		count = word_c(rd, ' ');
 		new = ft_split(rd,' ');
-		parser(new, count);
+		parser(new, count, &all);
 		/* ft_print_table(new, 1); */
 		free(rd);
 		freetable(new);

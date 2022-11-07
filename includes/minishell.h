@@ -57,6 +57,8 @@ typedef struct	s_all
 	t_cmd	*cmd;
 	char 	*token_l;
 	size_t	size;
+	char	**path;
+	int		n_cmd;
 }	t_all;
 
 typedef struct	s_iterators
