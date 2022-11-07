@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/05 17:10:00 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/06 14:09:18 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -89,13 +89,17 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 
 void	dupfd(t_pipe vars, int i, size_t size)
 {
+	fprintf(stderr, "this is I: %d\n and this next I: %d\n", i,  (i + 1) % size);
 //	fprintf(stderr,"id fd: %d \n (i + 1) %%2: %d \n", i, (i + 1) % 2);
-	dup2(vars.fd[(i + 1) % 2], (i + 1) % 2);
+	dup2(vars.fd[(i + 1) % size], (i + 1) % size);
+
+	fprintf(stderr, "sucess dup cmd : %d\n", i);
 //	dup2(vars.fd[i], i);
 //		close(vars.fd[(i + 1) % 2]);
 //		close(vars.fd[i]);
 	close(vars.fd[1]);
 	close(vars.fd[0]);
+	fprintf(stderr, "sucess close cmd : %d\n", i);
 //	close(vars.fdin);
 }
 
@@ -110,6 +114,7 @@ void	closefiledes(t_pipe *var, int x, size_t size)
 		{
 			close(var[i].fd[0]);
 			close(var[i].fd[1]);
+			fprintf(stderr,"success closing\n");
 			i++;
 		}
 		else
@@ -121,16 +126,14 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 {
 	int	x;
 
-	if (i == 0)
-		x = 0;
-	else
-		x = (i + 1) % size;
+	x = (i) % (size - 1);
 
 	////// duplicat file desc 
 
+	fprintf(stderr, "Size : %zu\n x: %zu \n", size, x);
 	
-	dupfd(all->pipes[x], i, size);
-	closefiledes(all->pipes, x, size - 1);
+		dupfd(all->pipes[x], i, size);
+		closefiledes(all->pipes, x, size - 1);
 
 	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
@@ -150,19 +153,20 @@ int	executor(t_all *all, char **envp)
 
 	if (all->size > 1)
 	{
-		while (i < all->size - 1)
+		while (i < all->size)
 		{
-			if (pipe(all->pipes[i++].fd) < 0)
+			if (pipe(all->pipes[i].fd) < 0)
 			{
 				fprintf(stderr, "serror pipes \n");
 				return (0);
 			}
+			i++;
 		}
 	}
 		
 	fprintf(stderr, "success pipes \n");
 	i = 0;
-	while (i < all->size)
+	while (i < all->size -1)
 	{
 		pid[i] = fork();
 		if (pid[i] == 0)
@@ -174,6 +178,7 @@ int	executor(t_all *all, char **envp)
 
 	while (i < all->size - 1)
 	{
+		fprintf(stderr," in parrent success closing\n");
 		close(all->pipes[i].fd[0]);
 		close(all->pipes[i].fd[1]);
 		i++;
