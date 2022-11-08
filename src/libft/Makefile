@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 13:04:56 by ahammoud          #+#    #+#              #
-#    Updated: 2022/11/03 16:36:04 by ahammoud         ###   ########.fr        #
+#    Updated: 2022/11/08 16:49:46 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,13 @@ OBJS	=	${SRCS:.c=.o}
 OBJSBN	=	${SRCSB:.c=.o}
 
 .c.o	:
-			${CC} -c $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 NAME	=	 libft.a
 
 CFLAGS	=	-Wall -Werror -Wextra
 
-CC	=	gcc -c	
+CC	=	clang
 
 AR	=	ar rc
 
