@@ -15,6 +15,8 @@ static char tokens(char *tokens);
 /* TO DO */
 /* check_error */
 /* tratar de saber si es executable o no y que devuelva los size */
+/* implementar "" */
+/* buscar errores */
 
 /* ITERATORS
 	 *
@@ -65,9 +67,15 @@ char lexer(char **str, t_all *all)
 			i.t = 0;
 		}
 		else if (token == LESS)
+		{
+			all->cmd[i.c].token[i.t++] = token;
 			all->cmd[i.c].infile[i.i++] = str[++i.s];
+		}
 		else if (token == GREAT)
+		{
+			all->cmd[i.c].token[i.t++] = token;
 			all->cmd[i.c].outfile[i.o++] = str[++i.s];
+		}
 		else if (token == CONTINUE)
 			all->cmd[i.c].args[i.a++] = str[i.s];
 		else
