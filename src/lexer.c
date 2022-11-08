@@ -212,6 +212,9 @@ int	main(int argc, char **argv, char **envp)
 		new = ft_split(rd,' ');
 		parser(new, count, &all);
 		/* ft_print_table(new, 1); */
+		///////
+		// EXECUTER
+		///////
 		free(rd);
 		freetable(new);
 	}
