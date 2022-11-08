@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/06 14:09:18 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:03:28 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -87,53 +87,49 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 	}
 }
 
-void	dupfd(t_pipe vars, int i, size_t size)
+void	dupfd(t_pipe *pipes, int id, size_t size)
 {
-	fprintf(stderr, "this is I: %d\n and this next I: %d\n", i,  (i + 1) % size);
-//	fprintf(stderr,"id fd: %d \n (i + 1) %%2: %d \n", i, (i + 1) % 2);
-	dup2(vars.fd[(i + 1) % size], (i + 1) % size);
+	///////////// duplicate file descriptors
+	int	i;
 
-	fprintf(stderr, "sucess dup cmd : %d\n", i);
-//	dup2(vars.fd[i], i);
-//		close(vars.fd[(i + 1) % 2]);
-//		close(vars.fd[i]);
-	close(vars.fd[1]);
-	close(vars.fd[0]);
-	fprintf(stderr, "sucess close cmd : %d\n", i);
-//	close(vars.fdin);
+	i = 0;
+	if (id > 0)
+	{
+		dup2(pipes[id - 1].fd[0], 0);
+		close(pipes[id - 1].fd[0]);
+	}
+	if(id < size)
+	{
+		dup2(pipes[id].fd[1], 1);
+		close(pipes[id].fd[1]);
+	}
 }
 
 void	closefiledes(t_pipe *var, int x, size_t size)
 {
-	int i;
+	///////////// close file descriptors
+	int	i;
 
 	i = 0;
-	while (i < size)
+	while (i < size )
 	{
-		if (i != x)
-		{
 			close(var[i].fd[0]);
 			close(var[i].fd[1]);
-			fprintf(stderr,"success closing\n");
-			i++;
-		}
-		else
 			i++;
 	}
 }
 
 void	child1(t_all *all,  char **envp, int i,size_t size)
 {
-	int	x;
 
-	x = (i) % (size - 1);
 
 	////// duplicat file desc 
+	fprintf(stderr, "child PID : %d\n", getpid());
 
-	fprintf(stderr, "Size : %zu\n x: %zu \n", size, x);
+	fprintf(stderr, "Size : %zu \n", size);
 	
-		dupfd(all->pipes[x], i, size);
-		closefiledes(all->pipes, x, size - 1);
+		dupfd(all->pipes, i, size - 1);
+		closefiledes(all->pipes, i, size - 1);
 
 	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
@@ -147,26 +143,27 @@ int	executor(t_all *all, char **envp)
 	int	*pid;
 	int	i;
 
+	fprintf(stderr, "parent PID : %d\n", getpid());
 	printf("all size %zu\n", all->size);
 	pid = malloc(sizeof(int) * all->size);
 	i = 0;
 
 	if (all->size > 1)
 	{
-		while (i < all->size)
+		while (i < all->size - 1)
 		{
 			if (pipe(all->pipes[i].fd) < 0)
 			{
 				fprintf(stderr, "serror pipes \n");
 				return (0);
 			}
+			fprintf(stderr, "success pipes \n");
 			i++;
 		}
 	}
 		
-	fprintf(stderr, "success pipes \n");
 	i = 0;
-	while (i < all->size -1)
+	while (i < all->size)
 	{
 		pid[i] = fork();
 		if (pid[i] == 0)

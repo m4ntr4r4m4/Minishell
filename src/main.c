@@ -66,7 +66,6 @@ int	main(int ac,char **av,  char **envp)
 				i = -1;
 
 			}
-			free(rd);
 		}
 	}
 

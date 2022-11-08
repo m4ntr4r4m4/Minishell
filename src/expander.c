@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/04 12:14:32 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:35:06 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	freecmd(t_all *all)
 		free(all->cmd[i].name);
 	}
 	free(all->cmd);
+	free(all->pipes);
 }
