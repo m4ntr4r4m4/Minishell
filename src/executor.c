@@ -9,7 +9,7 @@
 /*   Updated: 2022/11/04 15:23:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 char	**path_var(char **envp)
 {
@@ -105,7 +105,7 @@ void	child1(t_cmd *cmd,  char **envp)
 	////// duplicat file desc 
 
 	
-	dupfd(cmd->pipes, );
+	/* dupfd(cmd->pipes, ); */
 
 	if (execve(cmd->path, cmd->args, envp) < 0)
 	{
