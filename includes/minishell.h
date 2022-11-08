@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/05 14:28:52 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/05 16:13:29 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -45,10 +45,9 @@ typedef struct	s_cmd
 	char	**args;
 	char	**pathvar;
 	char	*path;
+	char	*file;
 	char	**infile;
 	char	**outfile;
-//	int 	token;
-	t_pipe	pipes;
 	char 	*token;
 }	t_cmd;
 
@@ -56,7 +55,9 @@ typedef struct	s_all
 {
 	t_cmd	*cmd;
 	char 	*token_l;
+	int 	token;
 	size_t	size;
+	t_pipe	*pipes;
 	char	**path;
 	int		n_cmd;
 }	t_all;
@@ -76,9 +77,11 @@ char	*expander(char *str);
 void	leaks(void);
 //void	freecmd(t_cmd *cmd);
 void	freecmd(t_all *all);
+void	freetable(char **str);
 
 int		executor(t_all *all, char **envp);
-void	child1(t_cmd *cmd, char **envp);
+int		prexec(t_all *all, char **envp);
+void	child1(t_all *all, char **envp, int i, size_t size);
 void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
