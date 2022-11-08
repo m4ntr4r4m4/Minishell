@@ -1,5 +1,33 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
+#include "utils.c"
 
+#define AMPERSAND '1'
+#define GREAT '2'
+#define GREATAMPERSAND '3'
+#define GREATGREAT '4'
+#define LESS '5'
+#define LESSLESS '6'
+#define PIPE '7'
+#define CONTINUE '8'
+
+static char tokens(char *tokens);
+
+/* TO DO */
+/* check_error */
+/* tratar de saber si es executable o no y que devuelva los size */
+/* implementar "" */
+/* buscar errores */
+
+/* ITERATORS
+	 *
+	 * STRING -> i_s;	
+	 * COMMAND -> i_c;
+	 * ARGUMENTS -> i_a;
+	 * INFILE  -> i_a;
+	 * OUTFILE -> i_a;
+	 * TOKEN ALL -> i_T;
+	 * TOKEN COMMAND -> i_t;
+*/
 void	init_iterators(t_i *i)
 {
 	i->s = 0;
@@ -54,7 +82,7 @@ char lexer(char **str, t_all *all)
 			all->cmd[i.c].token[i.t++] = token;
 		i.s++;
 	}
-	//all->cmd[i.c].args[i.a] = NULL;
+	all->cmd[i.c].args[i.a] = NULL;
 	all->cmd[i.c].infile[i.i] = NULL;
 	all->cmd[i.c].outfile[i.o] = NULL;
 	return (CONTINUE);
@@ -65,17 +93,17 @@ void	init_structs(t_all *all, int count)
 {
 	int	x;
 
-	x = -1;
+	x = 0;
 	all->cmd = (t_cmd *)malloc(sizeof(*(all->cmd)) * count);
 	all->token_l = (char *)malloc(sizeof(char *) * count);
 	bzero(all->token_l, count);
-	while (++x < all->size)
+	while (x < all->size)
 	{
 		all->cmd[x].token = (char *)malloc(count);
 		bzero(all->cmd[x].token, count);
 		all->cmd[x].args = (char **)malloc(sizeof(char **) * count);
 		all->cmd[x].outfile = (char **)malloc(sizeof(char **) * count);
-		all->cmd[x].infile = (char **)malloc(sizeof(char **) * count);
+		all->cmd[x++].infile = (char **)malloc(sizeof(char **) * count);
 	}
 }
 
@@ -139,7 +167,6 @@ char **parser(char **str, int count, t_all *all)
 	
 	/* INICIALICE */ 
 	init_structs(all, count);
-	fprintf(stderr,"problem resolved\n");
 
 	/* LEXER */ 
 	lexer(str, all);
@@ -167,4 +194,29 @@ char tokens(char *token)
 		return AMPERSAND;
 	else
 		return CONTINUE;
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_all	all;
+	char *rd;
+	char **new;
+	int count;
+
+	all.path = path_var(envp);
+	atexit(leaks);
+	while(1)
+	{
+		rd = readline("$:");
+		count = word_c(rd, ' ');
+		new = ft_split(rd,' ');
+		parser(new, count, &all);
+		/* ft_print_table(new, 1); */
+		///////
+		// EXECUTER
+		///////
+		free(rd);
+		freetable(new);
+	}
+	return 0;
 }

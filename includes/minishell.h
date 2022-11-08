@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/05 16:13:29 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:48:39 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -31,6 +31,14 @@
 # include "libft.h"
 # include <stdbool.h>
 
+# define AMPERSAND '1'
+# define GREAT '2'
+# define GREATAMPERSAND '3'
+# define GREATGREAT '4'
+# define LESS '5'
+# define LESSLESS '6'
+# define PIPE '7'
+# define CONTINUE '8'
 
 typedef struct s_pipe {
 	int		fd[2];
@@ -79,6 +87,7 @@ void	leaks(void);
 void	freecmd(t_all *all);
 void	freetable(char **str);
 
+void	print_all(t_all *all);
 int		executor(t_all *all, char **envp);
 int		prexec(t_all *all, char **envp);
 void	child1(t_all *all, char **envp, int i, size_t size);
@@ -86,6 +95,13 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
+char	tokens(char *token);
+char	**parser(char **str, int count, t_all *all);
+char	*search_cmd(t_all *all, char **str);
+void	init_structs(t_all *all, int count);
+char lexer(char **str, t_all *all);
+void	init_iterators(t_i *i);
+
 
 
 #endif

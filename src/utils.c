@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/04 12:00:16 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:46:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	print_all(t_all *all)
 		x = 0;
 		while (all->cmd[y].token[x])
 			printf("tokens %c\n", all->cmd[y].token[x++]);
-		x = 0;
-		while (all->cmd[y].infile[x])
-			printf("infile %d %d %s\n", y, x,all->cmd[y].infile[x++]);
-		x = 0;
-		while (all->cmd[y].outfile[x])
-			printf("outfile %d %d %s\n", y, x, all->cmd[y].outfile[x++]);
+		x = -1;
+		while (all->cmd[y].infile[++x])
+			printf("infile %d %d %s\n", y, x,all->cmd[y].infile[x]);
+		x = -1;
+		while (all->cmd[y].outfile[++x])
+			printf("outfile %d %d %s\n", y, x, all->cmd[y].outfile[x]);
 		x = 0;
 		y++;
 	}
@@ -42,10 +42,6 @@ void	print_all(t_all *all)
 		printf("T %c\n", all->token_l[x++]);
 }
 
-void 	leaks(void)
-{
-	system("leaks a.out");
-}
 
 void	freetable(char **str)
 {
