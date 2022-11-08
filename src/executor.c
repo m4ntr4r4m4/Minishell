@@ -9,7 +9,7 @@
 /*   Updated: 2022/11/08 15:03:28 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 char	**path_var(char **envp)
 {
@@ -130,7 +130,6 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 	
 		dupfd(all->pipes, i, size - 1);
 		closefiledes(all->pipes, i, size - 1);
-
 	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 	{
