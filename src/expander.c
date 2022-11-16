@@ -56,10 +56,19 @@ void	freecmd(t_all *all)
 		j = -1;
 		while(all->cmd[i].args[++j])
 			free(all->cmd[i].args[j]);
-		free(all->cmd[i].args[j]);
-		free(all->cmd[i].args);
-		free(all->cmd[i].name);
+		j = -1;
+		while(all->cmd[i].infile[++j])
+			free(all->cmd[i].infile[j]);
+		j = -1;
+		while(all->cmd[i].outfile[++j])
+			free(all->cmd[i].outfile[j]);
+		if (all->cmd[i].token)
+			free(all->cmd[i].token);
 	}
-	free(all->cmd);
-	free(all->pipes);
+	if (i)
+	{
+		free(all->token_l);
+		free(all->cmd);
+	/* free(all->pipes); */
+	}
 }

@@ -7,27 +7,23 @@ int	main(int ac,char **av,  char **envp)
 	t_all	all;
 	char *rd;
 	char **new;
-	int count;
 
 	all.path = path_var(envp);
 	atexit(leaks);
 	while(1)
 	{
 		rd = readline("$:");
-		count = word_c(rd, ' ');
 		new = ft_split(rd,' ');
-		ft_print_table(new, 1);
-		parser(new, count, &all);
-		ft_print_table(new, 1);
-		///////
-		// EXECUTER
+		/* ft_print_table(new, 1); */
+		parser(new, &all);
+		/* executer */
 	
 		//prexec(&all, envp);
 				
-		///////
+		/* free */
 		free(rd);
 		freecmd(&all);
-		freetable(new);
+		/* freetable(new); */
 	}
 	return 0;
 }
