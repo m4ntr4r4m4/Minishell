@@ -3,7 +3,6 @@
 
 /* control de argumentos con quotes */
 
-char token_l(char token);
 void	init_iterators(t_i *i)
 {
 	i->s = 0;

@@ -111,5 +111,6 @@ void	search_files(t_all *all,char **str);
 int		search_arg(t_all *all,char **str);
 int		search_token(t_all *all,char **str);
 char	*check_spaces(char *str);
+char	token_l(char token);
 
 #endif

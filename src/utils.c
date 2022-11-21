@@ -24,7 +24,10 @@ void	print_all(t_all *all)
 		if (all->cmd[y].path)
 			printf("path %d %s\n", y, all->cmd[y].path);
 		while (all->cmd[y].args[x])
-			printf("arg %d %s\n", y, all->cmd[y].args[x++]);
+		{
+			printf("arg %d %d %s\n", y,x, all->cmd[y].args[x]);
+			x++;
+		}
 		x = -1;
 		while (all->cmd[y].token[++x])
 			printf("tokens %c\n", all->cmd[y].token[x]);
