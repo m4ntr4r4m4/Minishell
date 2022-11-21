@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/08 16:51:52 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:46:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -130,6 +130,7 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 	
 		dupfd(all->pipes, i, size - 1);
 		closefiledes(all->pipes, i, size - 1);
+	fprintf(stderr, "SUCCESSS i : %d\n", i);
 	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 	{
@@ -160,7 +161,9 @@ int	executor(t_all *all, char **envp)
 			i++;
 		}
 	}
-		
+	i = -1;
+	while (++i < all->size)	
+		fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	i = 0;
 	while (i < all->size)
 	{
