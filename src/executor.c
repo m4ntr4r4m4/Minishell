@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/21 12:46:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:59:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -89,7 +89,6 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 
 void	dupfd(t_pipe *pipes, int id, size_t size)
 {
-	///////////// duplicate file descriptors
 	int	i;
 
 	i = 0;
@@ -107,15 +106,14 @@ void	dupfd(t_pipe *pipes, int id, size_t size)
 
 void	closefiledes(t_pipe *var, int x, size_t size)
 {
-	///////////// close file descriptors
 	int	i;
 
 	i = 0;
 	while (i < size )
 	{
-			close(var[i].fd[0]);
-			close(var[i].fd[1]);
-			i++;
+		close(var[i].fd[0]);
+		close(var[i].fd[1]);
+		i++;
 	}
 }
 
@@ -124,14 +122,14 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 
 
 	////// duplicat file desc 
-	fprintf(stderr, "child PID : %d\n", getpid());
+//	fprintf(stderr, "child PID : %d\n", getpid());
 
-	fprintf(stderr, "Size : %zu \n", size);
+//	fprintf(stderr, "Size : %zu \n", size);
 	
 		dupfd(all->pipes, i, size - 1);
 		closefiledes(all->pipes, i, size - 1);
-	fprintf(stderr, "SUCCESSS i : %d\n", i);
-	fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
+//	fprintf(stderr, "SUCCESSS i : %d\n", i);
+	fprintf(stderr, "SUCCESSS cmd : %s\n\n\n", all->cmd[i].name);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 	{
 		perror("command");
@@ -144,7 +142,7 @@ int	executor(t_all *all, char **envp)
 	int	i;
 
 	fprintf(stderr, "parent PID : %d\n", getpid());
-	printf("all size %zu\n", all->size);
+//	printf("all size %zu\n", all->size);
 	pid = malloc(sizeof(int) * all->size);
 	i = 0;
 
@@ -161,9 +159,6 @@ int	executor(t_all *all, char **envp)
 			i++;
 		}
 	}
-	i = -1;
-	while (++i < all->size)	
-		fprintf(stderr, "SUCCESSS cmd : %s\n", all->cmd[i].name);
 	i = 0;
 	while (i < all->size)
 	{
