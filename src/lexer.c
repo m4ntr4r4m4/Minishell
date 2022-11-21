@@ -1,9 +1,9 @@
 #include "minishell.h"
-
 /* TO DO */
 
 /* control de argumentos con quotes */
 
+char token_l(char token);
 void	init_iterators(t_i *i)
 {
 	i->s = 0;
@@ -135,6 +135,8 @@ int	search_arg(t_all *all,char **str)
 	while(str[++i])
 	{
 		token = tokens(str[i]);
+		/* if (quotes && str[i] == 34) */
+		/* 	quotes++; */
 		if (!bol && token == CONTINUE)
 			all->s_t++;
 		else if (token == PIPE || token == AMPERSAND) 
@@ -250,9 +252,63 @@ char	*check_simbols(char **str)
 	return GOOD;
 }
 
-char **parser(char **str, t_all *all)
+/* add a space on the mark and return all the str concatenated */ 
+char *cpy_str(char *str, int y)
 {
+	const int	len = ft_strlen(str);
+	char		*newstr;
 
+	newstr = malloc(sizeof(char) * (len + 2));
+	newstr[len + 1] = '\0';
+	ft_memcpy(newstr, str, y);
+	newstr[y] = ' ';
+	ft_memcpy(&newstr[y + 1], &str[y], len - y);
+	free(str);
+	return (newstr);
+}
+
+char	*check_spaces(char *str)
+{
+	int		y;
+	char	token;
+	int		vol;
+
+	vol = 0;
+	y = -1;
+	while (str[++y])
+	{
+		token = token_l(str[y]);
+		if (vol && str[y] == 32)
+			vol = 0;
+		else if (vol >= 1 && token == CONTINUE && str[y] != 32)
+		{
+			str = cpy_str(str, y);
+			while(str[y] && token_l(str[y]) == CONTINUE && str[y] != 32)
+				y++;
+			vol = 0;
+			if (!str[y])
+				break;
+		}
+		else if (vol >= 1 && token != token_l(str[y - 1]) || vol >= 1 && token == PIPE)
+			return NULL;
+		else if (token != CONTINUE)
+			vol++;
+	}
+	return (str);
+}
+
+char **parser(char *rd, t_all *all)
+{
+	char	**str;
+	/* check_spaces(str); */
+	rd = check_spaces(rd);
+	if (rd == NULL)
+	{
+		printf("\033[1;31msimbol error \n\033[0m");
+		all->size = 0;
+		return str;
+	}
+	str = ft_split(rd,' ');
 	/* CHECK ERRORS AND FILL SIZES*/
 	if (check_quotes(str) == NULL)
 	{
@@ -278,12 +334,26 @@ char **parser(char **str, t_all *all)
 		init_structs(all, str);
 		/* LEXER */ 
 		lexer(str, all);
-
 		/* PRINT */
 		print_all(all);
 	}
 	return str;
 }
+
+char token_l(char token)
+{
+	if (token == 62)
+		return GREAT;
+	else if (token == 60)
+		return LESS;
+	else if (token == 124)
+		return PIPE;
+	else if (token == 38)
+		return AMPERSAND;
+	else
+		return CONTINUE;
+}
+
 /* enlaza los simbolos con comandos para que entienda el parser y los add a la tabla */
 char tokens(char *token)
 {
@@ -292,6 +362,8 @@ char tokens(char *token)
 	else if (!strcmp(token, "<"))
 		return LESS;
 	else if (!strcmp(token, "<<"))
+		return LESSLESS;
+	else if (!strcmp(token, "<n"))
 		return LESSLESS;
 	else if (!strcmp(token, ">>"))
 		return GREATGREAT;

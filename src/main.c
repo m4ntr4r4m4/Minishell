@@ -13,15 +13,15 @@ int	main(int ac,char **av,  char **envp)
 	while(1)
 	{
 		rd = readline("$:");
-		new = ft_split(rd,' ');
+		/* printf("%s\n", rd); */
 		/* ft_print_table(new, 1); */
-		parser(new, &all);
+		new = parser(rd, &all);
 		/* executer */
 	
 		//prexec(&all, envp);
 				
 		/* free */
-		free(rd);
+		/* free(rd); */
 		freecmd(&all);
 		/* freetable(new); */
 	}

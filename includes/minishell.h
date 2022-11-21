@@ -102,7 +102,7 @@ char	**path_var(char **envp);
 
 	/* lexer.c */
 char	tokens(char *token);
-char	**parser(char **str, t_all *all);
+char	**parser(char *rd, t_all *all);
 char	*search_cmd(t_all *all, char **str);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
@@ -110,5 +110,6 @@ void	init_iterators(t_i *i);
 void	search_files(t_all *all,char **str);
 int		search_arg(t_all *all,char **str);
 int		search_token(t_all *all,char **str);
+char	*check_spaces(char *str);
 
 #endif
