@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/08 16:46:47 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:39:50 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	print_all(t_all *all)
 	int x = 0;
 	int y = 0;
 
+	printf("size %zu\n", all->size);
 	while (y < all->size)
 	{
 		if (all->cmd[y].name)
@@ -42,7 +43,7 @@ void	print_all(t_all *all)
 	}
 	x = 0;
 	while (all->token_l[x])
-		printf("T %c\n", all->token_l[x++]);
+		printf("Token %c\n", all->token_l[x++]);
 }
 
 
