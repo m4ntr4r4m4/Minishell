@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/21 12:59:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:20:21 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -16,19 +16,26 @@ char	**path_var(char **envp)
 	int		i;
 	char	**pathvar;
 	char	*str;
+	char	*tmp;
 
+	pathvar = NULL;
 	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
-		i++;
-	envp[i] = ft_strtrim(envp[i], "PATH=");
-	pathvar = ft_split(envp[i], ':');
-	i = 0;
-	while (pathvar[i])
+	if(envp[0])
 	{
-		str = ft_strjoin(pathvar[i], "/");
-		free(pathvar[i]);
-		pathvar[i] = str;
-		i++;
+		while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
+			i++;
+		tmp = ft_strtrim(envp[i], "PATH=");
+		pathvar = ft_split(tmp, ':');
+		i = 0;
+		while (pathvar[i])
+		{
+			str = ft_strjoin(pathvar[i], "/");
+			free(pathvar[i]);
+			pathvar[i] = str;
+			i++;
+		}
+		if (tmp)
+			free(tmp);
 	}
 	return (pathvar);
 }
@@ -64,28 +71,43 @@ char	*get_path(char **pathvar, char *cmd, int code)
 	return (path);
 }
 
+//void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
+//{
+//	int		i;
+//
+//	i = 0;
+//	cmd->num_args = ac - 1;
+////	printf("number args %d\n",cmd->num_args);
+////	ft_print_table(av, 1);
+//	cmd->name = strdup(av[i]);
+//	cmd->args = malloc(sizeof(char *) * (cmd->num_args + 2));
+//	if (!cmd->args)
+//		exit (0);
+//	cmd->path = get_path(cmd->pathvar, cmd->name, 3);
+//	cmd->args[i++] = cmd->path;
+//	cmd->args[cmd->num_args + 1] = NULL;
+//	while (i <= cmd->num_args)
+//	{
+////		printf("******************  %d av : %s\n------\n",i, av[i]);
+//		cmd->args[i] = ft_strdup(av[i]);
+//		i++;
+//	}
+//}
+
 void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp)
 {
-	int		i;
 
-	i = 0;
 	cmd->num_args = ac - 1;
-//	printf("number args %d\n",cmd->num_args);
-//	ft_print_table(av, 1);
-	cmd->name = strdup(av[i]);
-	cmd->args = malloc(sizeof(char *) * (cmd->num_args + 2));
-	if (!cmd->args)
-		exit (0);
-	cmd->path = get_path(cmd->pathvar, cmd->name, 3);
-	cmd->args[i++] = cmd->path;
-	cmd->args[cmd->num_args + 1] = NULL;
-	while (i <= cmd->num_args)
-	{
-//		printf("******************  %d av : %s\n------\n",i, av[i]);
-		cmd->args[i] = ft_strdup(av[i]);
-		i++;
-	}
+	cmd->path = strdup("./executor");
+	cmd->args = malloc(sizeof(char *) * ( 2));
+	cmd->args[0] = strdup("./executor");
+	cmd->args[1] = NULL;
+
+
+
 }
+
+
 
 void	dupfd(t_pipe *pipes, int id, size_t size)
 {
@@ -119,8 +141,7 @@ void	closefiledes(t_pipe *var, int x, size_t size)
 
 void	child1(t_all *all,  char **envp, int i,size_t size)
 {
-
-
+	int	y;
 	////// duplicat file desc 
 //	fprintf(stderr, "child PID : %d\n", getpid());
 
@@ -129,11 +150,13 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 		dupfd(all->pipes, i, size - 1);
 		closefiledes(all->pipes, i, size - 1);
 //	fprintf(stderr, "SUCCESSS i : %d\n", i);
-	fprintf(stderr, "SUCCESSS cmd : %s\n\n\n", all->cmd[i].name);
-	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
+//	ft_print_table(envp, 2);
+	fprintf(stderr, "SUCCESSS cmd : %s\n\n\n", all->cmd[i].path);
+	if ( (y = execve(all->cmd[i].path, all->cmd[i].args, envp)) < 0)
 	{
 		perror("command");
 	}
+	fprintf(stderr, "error code %d\n", y);
 }
 
 int	executor(t_all *all, char **envp)
@@ -188,9 +211,12 @@ int	prexec(t_all *all, char **envp)
 {
 	int	x;
 
-	all->pipes = malloc(sizeof(t_pipe) * (all->size - 1));
-		if(!all->cmd)
-			return (0);
+	x = 0;
+	if (all->size > 1)
+		all->pipes = malloc(sizeof(t_pipe) * (all->size - 1));
+			if(!all->cmd)
+				return (0);
+//	print_all(all);
 	x = executor(all, envp);
 
 

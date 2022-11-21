@@ -12,53 +12,53 @@ void	init_iterators(t_i *i)
 }
 
 /* READ DE COMMAND AND FILL THE STRUCT */
-char lexer(char **str, t_all *all)
-{
-	char	token;
-	t_i		i;
-
-	init_iterators(&i);
-	all->cmd[i.c].name = str[i.s];
-	all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
-	all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
-	while(str[i.s])
+	char lexer(char **str, t_all *all)
 	{
-		token = tokens(str[i.s]);
-		if (token == PIPE || token == AMPERSAND)
+		char	token;
+		t_i		i;
+	
+		init_iterators(&i);
+		all->cmd[i.c].name = str[i.s];
+		all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
+		all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
+		while(str[i.s])
 		{
-			all->token_l[i.T++] = token;
-			all->cmd[i.c].args[i.a] = NULL;
-			all->cmd[i.c].infile[i.i] = NULL;
-			all->cmd[i.c].outfile[i.o] = NULL;
-			all->cmd[++i.c].name = str[++i.s];
-			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
-			i.a = 0;
-			all->cmd[i.c].args[i.a] = all->cmd[i.c].path;
-			i.o = 0;
-			i.i = 0;
-			i.t = 0;
+			token = tokens(str[i.s]);
+			if (token == PIPE || token == AMPERSAND)
+			{
+				all->token_l[i.T++] = token;
+				all->cmd[i.c].args[i.a] = NULL;
+				all->cmd[i.c].infile[i.i] = NULL;
+				all->cmd[i.c].outfile[i.o] = NULL;
+				all->cmd[++i.c].name = str[++i.s];
+				all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
+				i.a = 0;
+				all->cmd[i.c].args[i.a] = all->cmd[i.c].path;
+				i.o = 0;
+				i.i = 0;
+				i.t = 0;
+			}
+			else if (token == LESS)
+			{
+				all->cmd[i.c].token[i.t++] = token;
+				all->cmd[i.c].infile[i.i++] = str[++i.s];
+			}
+			else if (token == GREAT)
+			{
+				all->cmd[i.c].token[i.t++] = token;
+				all->cmd[i.c].outfile[i.o++] = str[++i.s];
+			}
+			else if (token == CONTINUE)
+				all->cmd[i.c].args[i.a++] = str[i.s];
+			else
+				all->cmd[i.c].token[i.t++] = token;
+			i.s++;
 		}
-		else if (token == LESS)
-		{
-			all->cmd[i.c].token[i.t++] = token;
-			all->cmd[i.c].infile[i.i++] = str[++i.s];
-		}
-		else if (token == GREAT)
-		{
-			all->cmd[i.c].token[i.t++] = token;
-			all->cmd[i.c].outfile[i.o++] = str[++i.s];
-		}
-		else if (token == CONTINUE)
-			all->cmd[i.c].args[i.a++] = str[i.s];
-		else
-			all->cmd[i.c].token[i.t++] = token;
-		i.s++;
+		all->cmd[i.c].args[i.a] = NULL;
+		all->cmd[i.c].infile[i.i] = NULL;
+		all->cmd[i.c].outfile[i.o] = NULL;
+		return (CONTINUE);
 	}
-	//all->cmd[i.c].args[i.a] = NULL;
-	all->cmd[i.c].infile[i.i] = NULL;
-	all->cmd[i.c].outfile[i.o] = NULL;
-	return (CONTINUE);
-}
 
 
 void	init_structs(t_all *all, int count)
@@ -138,8 +138,10 @@ char **parser(char **str, int count, t_all *all)
 	}
 	
 	/* INICIALICE */ 
+	fprintf(stderr, "count : %d\n", count);
 	init_structs(all, count);
-	fprintf(stderr,"problem resolved\n");
+
+	fprintf(stderr,"********problem resolved\n");
 
 	/* LEXER */ 
 	lexer(str, all);
