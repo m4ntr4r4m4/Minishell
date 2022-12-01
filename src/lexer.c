@@ -2,6 +2,127 @@
 /* TO DO */
 
 /* control de argumentos con quotes */
+/* call ./executor should call t=he own path */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
+/*   Updated: 2022/11/14 17:30:46 by ahammoud         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include"libft.h"
+
+static int	word(char *str, char c)
+{
+	int	i;
+	int	wc;
+	int	quote;
+
+	i = 0;
+	quote = 0;
+	wc = 0;
+	if (str[i] != c && str[i] != '\0')
+		wc++;
+	while (str[i])
+	{
+		if (str[i] == '"')
+			quote++;
+		if (str[i + 1] && str[i] == c && (str[i + 1] != c) && quote != 1)
+			wc++;
+		i++;
+	}
+	return (wc);
+}
+
+static	int	ft_tr(const char *s, int c, int *quote, int *i)
+{
+	int	len;
+
+	len = 0;
+	while (((s[*i] != c || (*quote % 2) != 0) && s[*i] != '\0'))
+	{
+		(*i)++;
+		if (s[*i] == '"')
+			*quote+=1;
+		len++;
+	}
+	return (len);
+}
+
+static char *delete_quotes(char *str)
+{
+	int	i;
+	int	count;
+	char	*new;
+	int	x;
+	
+	count = 0;
+	i = -1;
+	while(str[++i])
+	{
+		if (str[i] != '"')
+			count++;
+	}
+	new = malloc(count + 1);
+	i = -1;
+	x = 0;
+	new[count] = '\0';
+	while (str[++i])
+	{
+		if (str[i] != '"')
+			new[x++] = str[i];
+	}
+	return new;
+}
+
+
+static char	**cpy(char **mots, char const *s, int wc, char c)
+{
+	int			i;
+	int			j;
+	int			len;
+	int			start;
+	static int	quote;
+
+	i = 0;
+	j = 0;
+	while (j < wc)
+	{
+		while (s[i] == c)
+			i++;
+		if (s[i] == '"')
+		{
+			quote++;
+			i++;
+		}
+		start = i;
+		len = ft_tr(s, c, &quote, &i);
+		mots[j] = ft_substr(s, start, len);
+		mots[j] = delete_quotes(mots[j]);
+		j++;
+	}
+	mots[j] = 0;
+	return (mots);
+}
+
+char	**ft_split_parse(char const *s, char c)
+{
+	char	**mots;
+	int		wc;
+
+	if (!s)
+		return (NULL);
+	wc = word((char *)s, c);
+	mots = malloc(sizeof(char *) * (wc + 1));
+	if (!mots)
+		return (0);
+	mots = cpy(mots, s, wc, c);
+	return (mots);
+}
 
 void	init_iterators(t_i *i)
 {
@@ -19,9 +140,7 @@ char lexer(char **str, t_all *all)
 {
 	char	token;
 	t_i		i;
-	int		quote;
 
-	quote = 0;
 	init_iterators(&i);
 	all->cmd[i.c].name = str[i.s];
 	all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
@@ -29,10 +148,6 @@ char lexer(char **str, t_all *all)
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
-		/* si tiene " */
-		/* activar */
-		if (str[i.s][0] == 34)
-			quote += 1;
 		if (token == PIPE || token == AMPERSAND)
 		{
 			all->token_l[i.T++] = token;
@@ -54,7 +169,7 @@ char lexer(char **str, t_all *all)
 			all->cmd[i.c].token[i.t++] = token;
 			all->cmd[i.c].outfile[i.o++] = str[++i.s];
 		}
-		else if (token == CONTINUE && quote % 2 == 0)
+		else if (token == CONTINUE)
 			all->cmd[i.c].args[i.a++] = str[i.s];
 		else
 			all->cmd[i.c].token[i.t++] = token;
@@ -127,15 +242,15 @@ int	search_arg(t_all *all,char **str)
 	int			i;
 	char		token;
 	int			bol;
+	int			n_q;
 
 	all->s_t = 0;
+	n_q = 0;
 	bol = 0;
 	i = all->i_a;
 	while(str[++i])
 	{
 		token = tokens(str[i]);
-		/* if (quotes && str[i] == 34) */
-		/* 	quotes++; */
 		if (!bol && token == CONTINUE)
 			all->s_t++;
 		else if (token == PIPE || token == AMPERSAND) 
@@ -252,16 +367,29 @@ char	*check_simbols(char **str)
 }
 
 /* add a space on the mark and return all the str concatenated */ 
-char *cpy_str(char *str, int y)
+char *cpy_str(char *str, int y, char bit)
 {
 	const int	len = ft_strlen(str);
 	char		*newstr;
-
-	newstr = malloc(sizeof(char) * (len + 2));
-	newstr[len + 1] = '\0';
-	ft_memcpy(newstr, str, y);
-	newstr[y] = ' ';
-	ft_memcpy(&newstr[y + 1], &str[y], len - y);
+	
+	if (bit == '1')
+	{
+		newstr = malloc(sizeof(char) * (len + 3));
+		newstr[len + 2] = '\0';
+		ft_memcpy(newstr, str, y);
+		newstr[y] = ' ';
+		newstr[y+1] = str[y];
+		newstr[y+2] = ' ';
+		ft_memcpy(&newstr[y + 3], &str[y+1], len - y);
+	}
+	else
+	{
+		newstr = malloc(sizeof(char) * (len + 2));
+		newstr[len + 1] = '\0';
+		ft_memcpy(newstr, str, y);
+		newstr[y] = ' ';
+		ft_memcpy(&newstr[y + 1], &str[y], len - y);
+	}
 	free(str);
 	return (newstr);
 }
@@ -277,11 +405,22 @@ char	*check_spaces(char *str)
 	while (str[++y])
 	{
 		token = token_l(str[y]);
-		if (vol && str[y] == 32)
+		if (str[y] == 34)
+		{
+			y++;
+			while (str[y] && str[y] != 34)
+				y++;
+			if (!str[y])
+				return NULL;
+		}
+		else if (vol && str[y] == 32)
 			vol = 0;
 		else if (vol >= 1 && token == CONTINUE && str[y] != 32)
 		{
-			str = cpy_str(str, y);
+			if (str[y - 2] != 32) 
+				str = cpy_str(str, y-1, '1');
+			else
+				str = cpy_str(str, y, '0');
 			while(str[y] && token_l(str[y]) == CONTINUE && str[y] != 32)
 				y++;
 			vol = 0;
@@ -299,15 +438,19 @@ char	*check_spaces(char *str)
 char **parser(char *rd, t_all *all)
 {
 	char	**str;
-	/* check_spaces(str); */
+
 	rd = check_spaces(rd);
+	int i =0;
 	if (rd == NULL)
 	{
 		printf("\033[1;31msimbol error \n\033[0m");
 		all->size = 0;
 		return str;
 	}
-	str = ft_split(rd,' ');
+	printf("a => %s\n",rd);
+	str = ft_split_parse(rd,' ');
+	while(str[i])
+		printf("r - > %s.\n", str[i++]);
 	/* CHECK ERRORS AND FILL SIZES*/
 	if (check_quotes(str) == NULL)
 	{
@@ -321,10 +464,10 @@ char **parser(char *rd, t_all *all)
 		all->size = 0;
 		return str;
 	}
-	/* look for cmds */
 	if (search_cmd(all, str) == NULL)
 	{
 		printf("\033[1;31mcommand not found\n\033[0m");
+		all->size = 0;
 		return str;
 	}
 	else
@@ -361,8 +504,6 @@ char tokens(char *token)
 	else if (!strcmp(token, "<"))
 		return LESS;
 	else if (!strcmp(token, "<<"))
-		return LESSLESS;
-	else if (!strcmp(token, "<n"))
 		return LESSLESS;
 	else if (!strcmp(token, ">>"))
 		return GREATGREAT;
