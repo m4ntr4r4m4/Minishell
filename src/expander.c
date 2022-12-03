@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/08 13:35:06 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:58:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*expander(char *str)
 
 void	leaks(void)
 {
-	system("leaks expander");
+	system("leaks executor");
 }
 
 void	freecmd(t_all *all)
@@ -61,5 +61,6 @@ void	freecmd(t_all *all)
 		free(all->cmd[i].name);
 	}
 	free(all->cmd);
-	free(all->pipes);
+	if (all->size > 1)
+		free(all->pipes);
 }

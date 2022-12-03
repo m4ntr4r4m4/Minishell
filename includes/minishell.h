@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/21 14:49:36 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:25:26 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -79,13 +79,13 @@ typedef struct	s_all
 
 typedef struct	s_iterators
 {
-	int	s;
-	int	c;
-	int	t;
-	int	T;
-	int	a;
-	int	i;
-	int	o;
+	int	s; /* lexer iterator string */
+	int	c; /* lexer iterator cmd */
+	int	t; /* lexer iterator all->cmd.token_l*/
+	int	T; /* lexer iterator all->token_l */
+	int	a; /* lexer iterator arg */
+	int	i; /* lexer iterator inf */
+	int	o; /* lexer iterator outf */
 }	t_i;
 
 char	*expander(char *str);
@@ -102,13 +102,19 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
-char	tokens(char *token);
-char	**parser(char **str, int count, t_all *all);
-char	*search_cmd(t_all *all, char **str);
-void	init_structs(t_all *all, int count);
-char lexer(char **str, t_all *all);
-void	init_iterators(t_i *i);
 
+	/* lexer.c */
+char	tokens(char *token);
+char	**parser(char *rd, t_all *all);
+char	*search_cmd(t_all *all, char **str);
+void	init_structs(t_all *all, char **str);
+char	lexer(char **str, t_all *all);
+void	init_iterators(t_i *i);
+void	search_files(t_all *all,char **str);
+int		search_arg(t_all *all,char **str);
+int		search_token(t_all *all,char **str);
+char	*check_spaces(char *str);
+char	token_l(char token);
 
 
 #endif
