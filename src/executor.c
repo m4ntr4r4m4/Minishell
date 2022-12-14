@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/08 17:21:59 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:52:57 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -168,21 +168,27 @@ int	executor(t_all *all, char **envp)
 
 void	ft_stdio(t_all *all)
 {
-	int i;
-	int *fd;
+	int 	i;
+	int 	*fd;
+	int		tmp;
+	char	c;
 
 	i = -1;
 	fd = malloc(sizeof(int) * all->s_i);
 	if (fd < 0)
 		exit(0);
-	if (all->cmd[0].token == "5") /////////////////////work here////////////////
+	if (strcmp(all->cmd[0].token, "5") != 0)
 	{
-		fprintf(stderr, "********************************hello\n");
 		while (++i < all->s_i)
 			fd[i] = open(all->cmd[0].infile[i], O_RDONLY);
 	}
-
-
+	tmp = open("file.tmp", O_WRONLY | O_CREAT, 0666);
+	i = -1;
+	while (++i < all->s_i)
+		while(read(fd[i], &c, 1) > 0)
+			write(tmp, &c, 1);
+	close(tmp);
+	free(fd);
 }
 
 int	prexec(t_all *all, char **envp)
@@ -197,8 +203,8 @@ int	prexec(t_all *all, char **envp)
 	else if (all->size >= 1)
 	{
 		ft_stdio(all);
-		x = executor(all, envp);
-		freecmd(all);
+	//	x = executor(all, envp);
+	//	freecmd(all);
 	}
 	return (x);
 }
