@@ -17,33 +17,33 @@ void	print_all(t_all *all)
 	int x = 0;
 	int y = 0;
 
-	printf("size %zu\n", all->size);
+	printf("comands %zu\n", all->size);
 	while (y < all->size)
 	{
 		if (all->cmd[y].name)
-			printf("name %d %s\n", y, all->cmd[y].name);
+			printf("name[%d] %s\n", y, all->cmd[y].name);
 		if (all->cmd[y].path)
-			printf("path %d %s\n", y, all->cmd[y].path);
+			printf("path[%d] %s\n", y, all->cmd[y].path);
 		while (all->cmd[y].args[x])
 		{
-			printf("arg %d %d %s\n", y,x, all->cmd[y].args[x]);
+			printf("arg[%d] %d %s\n", y,x, all->cmd[y].args[x]);
 			x++;
 		}
 		x = -1;
-		while (all->cmd[y].token[++x])
-			printf("tokens %c\n", all->cmd[y].token[x]);
+		while (++x < all->cmd[y].n_tokens)
+			printf("token[%d] %d\n", x,all->cmd[y].token[x]);
 		x = -1;
 		while (all->cmd[y].infile[++x])
-			printf("infile %d %d %s\n", y, x,all->cmd[y].infile[x]);
+			printf("infile[%d] %d %s\n", y, x,all->cmd[y].infile[x]);
 		x = -1;
 		while (all->cmd[y].outfile[++x])
-			printf("outfile %d %d %s\n", y, x, all->cmd[y].outfile[x]);
+			printf("outfile[%d] %d %s\n", y, x, all->cmd[y].outfile[x]);
 		x = 0;
 		y++;
 	}
-	x = 0;
-	while (all->token_l[x])
-		printf("Token %c\n", all->token_l[x++]);
+	x = -1;
+	while (++x < all->size - 1)
+		printf("global tokens %d\n", all->token_l[x]);
 }
 
 

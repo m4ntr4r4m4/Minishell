@@ -54,16 +54,16 @@ typedef struct	s_cmd
 	char	**args;
 	char	**pathvar;
 	char	*path;
-	char	*file;
 	char	**infile;
 	char	**outfile;
-	char 	*token;
+	int		*token;
+	int		n_tokens; /*number of tokens */
 }	t_cmd;
 
 typedef struct	s_all
 {
 	t_cmd	*cmd;
-	char 	*token_l; /* tokens for split cmds */
+	int 	*token_l; /* tokens for split cmds */
 	size_t	size; /* size cmd for init */
 	t_pipe	*pipes;
 	char	**path;
