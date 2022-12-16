@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/15 17:02:02 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/16 11:52:31 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -116,7 +116,9 @@ void	closefiledes(t_pipe *var, int x, size_t size)
 void	child1(t_all *all,  char **envp, int i,size_t size)
 {
 	int	y;
-	if (i == 0 && !strncmp(all->cmd[0].token, "5", 0))
+
+		fprintf(stderr,"***//////******* -%s- \n", all->cmd[0].token);
+	if (i == 0 && !strncmp(all->cmd[0].token, "5", 0) )
 	{
 		fprintf(stderr,"do not enter here \n");
 		all->pipes[i].fdin = open(all->cmd[0].infile[0], O_RDONLY);
@@ -137,6 +139,56 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 	if ( (y = execve(all->cmd[i].path, all->cmd[i].args, envp)) < 0)
 		perror("command");
 //	fprintf(stderr, "error code %d\n", y);
+}
+
+char	*get_line(int fd)
+{
+	char	*buff;
+	char	*str;
+	char	*tmp;
+	int		i;
+
+	buff = malloc(sizeof(char) * 2);
+	str = malloc(sizeof(char) * 1);
+	str[0] = '\0';
+	buff[1] = '\0';
+	i = read(fd, buff, 1);
+	if (i == -1)
+	{
+		free(buff);
+		return (NULL);
+	}
+	while (buff[0] != '\n' && i != 0)
+	{
+		tmp = ft_strjoin(str, buff);
+		free(str);
+		str = tmp;
+		i = read(fd, buff, 1);
+	}
+	free(buff);
+	return (str);
+}
+
+void	ft_here_doc(t_all *all)
+{
+	int		fd;
+	char	*input;
+
+	fd = open("file.tmp", O_WRONLY | O_CREAT, 0666);
+	if (fd < 0)
+		exit(0);
+	input = get_line(0);
+	while (ft_strncmp(input, all->cmd[0].infile[0], ft_strlen(all->cmd[0].infile[0])))
+	{
+		ft_putendl_fd(input, fd);
+		free(input);
+		input = get_line(0);
+	}
+	close(fd);
+	if (input)
+		free(input);
+	free(all->cmd[0].infile[0]);
+	all->cmd[0].infile[0] = strdup("./file.tmp");
 }
 
 int	executor(t_all *all, char **envp)
@@ -195,6 +247,9 @@ int	prexec(t_all *all, char **envp)
 				return (0);
 	else if (all->size >= 1)
 	{
+
+		if (!strncmp(all->cmd[0].token, "6", 0) )
+			ft_here_doc(all);
 		x = executor(all, envp);
 		freecmd(all);
 	}
