@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/16 11:52:31 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:21:37 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -92,10 +92,11 @@ void	dupfd(t_pipe *pipes, int id, size_t size)
 		dup2(pipes[id].fd[1], 1);
 		close(pipes[id].fd[1]);
 	}
+	fprintf(stderr, "this id %d thiss is size %d\n", id, size);
 	if(id == size)
 	{
-		dup2(pipes[id - 1].fdout, 1);
-		close(pipes[id - 1].fdout);
+		dup2(pipes[id].fdout, 1);
+		close(pipes[id].fdout);
 	}
 
 }
@@ -117,22 +118,24 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 {
 	int	y;
 
-		fprintf(stderr,"***//////******* -%s- \n", all->cmd[0].token);
-	if (i == 0 && !strncmp(all->cmd[0].token, "5", 0) )
+		fprintf(stderr,"***//////******* -%zu- \n", all->size);
+	if( all->cmd[0].n_tokens)
 	{
-		fprintf(stderr,"do not enter here \n");
-		all->pipes[i].fdin = open(all->cmd[0].infile[0], O_RDONLY);
-		fprintf(stderr,"this  is infile %s\n", all->cmd[0].infile[0]);
-		if (all->pipes[i].fdin < 0)
-			fprintf(stderr,"this  errrorooo \n");
-	}
-	if (i == (int) all->size - 1 && !strncmp(all->cmd[0].token, "2", 0))
-	{
-		fprintf(stderr,"this  is outfile %s\n", all->cmd[i].outfile[0]);
-		all->pipes[i - 1].fdout \
-			= open(all->cmd[i].outfile[0], O_RDWR | O_TRUNC | O_CREAT, 0666);
-		if (all->pipes[i - 1].fdout < 0)
-			fprintf(stderr,"this  errrorooo \n");
+		if (i == 0 && (all->cmd[i].token[0] == LESSLESS || all->cmd[i].token[0] == LESS))
+		{
+			all->pipes[i].fdin = open(all->cmd[i].infile[0], O_RDONLY);
+			if (all->pipes[i].fdin < 0)
+				fprintf(stderr,"this  errrorooo \n");
+  	}
+		if (i == (int) all->size - 1 && all->cmd[i].token[0] == GREAT)
+
+		{
+			fprintf(stderr,"this  is outfile %s\n", all->cmd[i].outfile[0]);
+			all->pipes[i].fdout \
+				= open(all->cmd[i].outfile[0], O_RDWR | O_TRUNC | O_CREAT, 0666);
+			if (all->pipes[i].fdout < 0)
+				fprintf(stderr,"this  errrorooo \n");
+		}
 	}
 	dupfd(all->pipes, i, size - 1);
 	closefiledes(all->pipes, i, size - 1);
@@ -241,15 +244,16 @@ int	prexec(t_all *all, char **envp)
 	int	x;
 
 	x = 0;
-	if (all->size > 1)
-		all->pipes = malloc(sizeof(t_pipe) * (all->size - 1));
-			if(!all->cmd)
-				return (0);
-	else if (all->size >= 1)
-	{
 
-		if (!strncmp(all->cmd[0].token, "6", 0) )
-			ft_here_doc(all);
+		fprintf(stderr, "size %zu\n", all->size);
+	if (all->size >= 1)
+	{
+		all->pipes = malloc(sizeof(t_pipe) * (all->size));
+			if(!all->pipes)
+				return (0);
+		if (all->cmd[0].n_tokens)
+			if (all->cmd[0].token[0] == LESSLESS)
+				ft_here_doc(all);
 		x = executor(all, envp);
 		freecmd(all);
 	}

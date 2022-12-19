@@ -12,7 +12,9 @@ int	main(int ac,char **av,  char **envp)
 	while(1)
 	{
 	      	all.path = path_var(envp);
-	      	rd = readline("$:");
+	      	rd = readline("$_MINI_SHELL_$:");
+			add_history (rd);
+
 	      	/* printf("%s\n", rd); */
 	      	/* ft_print_table(new, 1); */
 	      	new = parser(rd, &all);

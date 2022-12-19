@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/08 17:14:46 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:48:39 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -54,18 +54,17 @@ typedef struct	s_cmd
 	char	**args;
 	char	**pathvar;
 	char	*path;
-	char	*file;
-	char	**outfile;
 	char	**infile;
-	char 	*token;
+	char	**outfile;
+	int		*token;
+	int		n_tokens; /*number of tokens */
 }	t_cmd;
 
 typedef struct	s_all
 {
 	t_cmd	*cmd;
-	char 	*token_l;
-	int 	token;
-	size_t	size;
+	int 	*token_l; /* tokens for split cmds */
+	size_t	size; /* size cmd for init */
 	t_pipe	*pipes;
 	char	**path;
 	int		s_t; /* size token for init */
@@ -74,7 +73,6 @@ typedef struct	s_all
 	int		i_a; /* iterator args for init */
 	int		i_t; /* iterator token for init */
 	int		i_f; /* iterator file for init */
-	int		n_cmd;
 }	t_all;
 
 typedef struct	s_iterators
@@ -90,7 +88,6 @@ typedef struct	s_iterators
 
 char	*expander(char *str);
 void	leaks(void);
-//void	freecmd(t_cmd *cmd);
 void	freecmd(t_all *all);
 void	freetable(char **str);
 
@@ -115,6 +112,5 @@ int		search_arg(t_all *all,char **str);
 int		search_token(t_all *all,char **str);
 char	*check_spaces(char *str);
 char	token_l(char token);
-
 
 #endif
