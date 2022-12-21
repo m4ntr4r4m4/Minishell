@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/21 19:28:32 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/21 21:26:04 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -30,6 +30,7 @@
 # include <readline/history.h>
 # include "libft.h"
 # include <stdbool.h>
+# include <limits.h>
 
 # define AMPERSAND '1'
 # define GREAT '2'
