@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/08 16:48:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/21 19:28:32 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -73,6 +73,7 @@ typedef struct	s_all
 	int		i_a; /* iterator args for init */
 	int		i_t; /* iterator token for init */
 	int		i_f; /* iterator file for init */
+	int		exit_var;
 }	t_all;
 
 typedef struct	s_iterators
