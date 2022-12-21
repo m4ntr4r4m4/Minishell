@@ -6,10 +6,10 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/16 13:21:37 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:26:21 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 char	**path_var(char **envp)
 {
