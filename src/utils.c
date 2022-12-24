@@ -17,7 +17,6 @@ void	print_all(t_all *all)
 	int x = 0;
 	int y = 0;
 
-	printf("comands %zu\n", all->size);
 	while (y < all->size)
 	{
 		if (all->cmd[y].name)
@@ -54,9 +53,9 @@ void	freetable(char **str)
 	i = 0;
 	while (str[i])
 	{
-		/* printf("free: %s\n", str[i]); */
-		free(str[i++]);
+		printf("free: %s\n", str[i]);
+		/* free(str[i++]); */
 	}
-	free(str[i]);
-	free(str);
+	/* free(str[i]); */
+	/* free(str); */
 }

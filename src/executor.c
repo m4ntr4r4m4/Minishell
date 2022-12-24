@@ -36,13 +36,16 @@ char	**path_var(char **envp)
 char	*check_bin(char *binary, char *path, int ac)
 {
 	int		x;
+	char *str = ft_strjoin(path, binary);
 
 	if (ac == 2)
-		x = access(ft_strjoin(path, binary), W_OK);
+		x = access(str, W_OK);
 	if (ac == 1)
-		x = access(ft_strjoin(path, binary), R_OK);
+		x = access(str, R_OK);
 	if (ac == 3)
-		x = access(ft_strjoin(path, binary), X_OK);
+		x = access(str, X_OK);
+		/* x = access(ft_strjoin(path, binary), X_OK); */
+	free(str);
 	if (x == 0)
 		return (ft_strjoin(path, binary));
 	return (NULL);

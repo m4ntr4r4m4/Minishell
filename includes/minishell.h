@@ -67,6 +67,7 @@ typedef struct	s_all
 	size_t	size; /* size cmd for init */
 	t_pipe	*pipes;
 	char	**path;
+	char	*pwd;
 	int		s_t; /* size token for init */
 	int		s_i; /* size inf for init */
 	int		s_o; /* size outf for init */
@@ -99,7 +100,6 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
-
 	/* lexer.c */
 char	tokens(char *token);
 char	**parser(char *rd, t_all *all);
@@ -112,5 +112,7 @@ int		search_arg(t_all *all,char **str);
 int		search_token(t_all *all,char **str);
 char	*check_spaces(char *str);
 char	token_l(char token);
+char	**ft_split_parse(char *s, char c);
+char	*check_error(t_all *all,char **str);
 
 #endif

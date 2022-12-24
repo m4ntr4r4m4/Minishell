@@ -9,22 +9,34 @@ int	main(int ac,char **av,  char **envp)
 	char **new;
 
 	all.path = path_var(envp);
+	all.size = 0;
+	/* all.pwd = pwd(envp); */
 	atexit(leaks);
-	while(1)
-	{
-		rd = readline("$:");
-		/* printf("%s\n", rd); */
-		/* ft_print_table(new, 1); */
-		new = parser(rd, &all);
-		/* executer */
 	
+	int i = -1;
+	int x = -1;
+	while(++x < 3)
+	{
+			/* printf("%s\n", rd); */
+			/* ft_print_table(new, 1); */
+		rd = readline("$:");
+		printf("rd %s\n",rd);
+		
+		/* free(newpath); */
+		new = parser(rd, &all);
+		if (new != NULL)
+			free(new);
+		/* executer */
 		//prexec(&all, envp);
-				
-		/* free */
-		/* free(rd); */
+		/* printf("newwww %s\n", new[0]); */
 		freecmd(&all);
-		/* freetable(new); */
+		free(rd);
 	}
+	i = -1;
+	while(all.path[++i])
+			free(all.path[i]);
+	free(all.path);
+	/* free */
 	return 0;
 }
 

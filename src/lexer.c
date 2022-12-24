@@ -13,6 +13,7 @@
 #include "minishell.h"
 /* TO DO */
 /* call ./executor should call t=he own path */
+/* see if exists the file */
 /* clean array for cases like cat > b > c only return cat > c or cat > b c return cat > b */ 
 
 static int	word(char *str, char c)
@@ -54,10 +55,10 @@ static	int	ft_tr(const char *s, int c, int *quote, int *i)
 
 static char *delete_quotes(char *str)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
 	char	*new;
-	int	x;
+	int		x;
 	
 	count = 0;
 	i = -1;
@@ -75,11 +76,12 @@ static char *delete_quotes(char *str)
 		if (str[i] != '"')
 			new[x++] = str[i];
 	}
+	free(str);
 	return new;
 }
 
 
-static char	**cpy(char **mots, char const *s, int wc, char c)
+static char	**cpy(char **mots, char *s, int wc, char c)
 {
 	int			i;
 	int			j;
@@ -108,14 +110,14 @@ static char	**cpy(char **mots, char const *s, int wc, char c)
 	return (mots);
 }
 
-char	**ft_split_parse(char const *s, char c)
+char	**ft_split_parse(char *s, char c)
 {
 	char	**mots;
 	int		wc;
 
 	if (!s)
 		return (NULL);
-	wc = word((char *)s, c);
+	wc = word(s, c);
 	mots = malloc(sizeof(char *) * (wc + 1));
 	if (!mots)
 		return (0);
@@ -306,9 +308,9 @@ void	init_structs(t_all *all, char **str)
 		all->cmd[x].args = (char **)malloc(sizeof(char **) * (search_arg(all, str) + 1));
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
-		all->cmd[x].outfile = (char **)malloc(sizeof(char **) * (all->s_o + 1));
+		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
 		all->cmd[x].outfile[all->s_o] = '\0';
-		all->cmd[x].infile = (char **)malloc(sizeof(char **) * (all->s_i + 1));
+		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
 		all->cmd[x].infile[all->s_i] = '\0';
 	}
 }
@@ -434,40 +436,42 @@ char	*check_spaces(char *str)
 	return (str);
 }
 
+char	*check_error(t_all *all,char **str)
+{	char *cmd;
+
+	if (check_quotes(str) == NULL || check_simbols(str) == NULL)
+		return NULL;
+	cmd = search_cmd(all, str);
+	if (cmd == NULL)
+		return NULL;
+	free(cmd);
+	return "GOOD";
+}
+
+
 char **parser(char *rd, t_all *all)
 {
 	char	**str;
+	int		i;
 
+	/* CHECK ERRORS AND FILL SIZES*/
 	rd = check_spaces(rd);
-	int i =0;
 	if (rd == NULL)
 	{
 		printf("\033[1;31msimbol error \n\033[0m");
 		all->size = 0;
-		return str;
+		return NULL;
 	}
-	/* printf("a => %s\n",rd); */
 	str = ft_split_parse(rd,' ');
-	/* while(str[i]) */
-	/* 	printf("r - > %s.\n", str[i++]); */
-	/* CHECK ERRORS AND FILL SIZES*/
-	if (check_quotes(str) == NULL)
-	{
-		printf("\033[1;31mquotes error \n\033[0m");
-		all->size = 0;
-		return str;
-	}
-	if (check_simbols(str) == NULL)
-	{
-		printf("\033[1;31mparse error\n\033[0m");
-		all->size = 0;
-		return str;
-	}
-	if (search_cmd(all, str) == NULL)
+	if(check_error(all ,str) == NULL)
 	{
 		printf("\033[1;31mcommand not found\n\033[0m");
 		all->size = 0;
-		return str;
+		i = -1;
+		while(str[++i])
+			free(str[i]);
+		free(str);
+		return NULL;
 	}
 	else
 	{
