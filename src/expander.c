@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/11/21 21:58:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/26 12:00:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,4 @@ char	*expander(char *str)
 void	leaks(void)
 {
 	system("leaks executor");
-}
-
-void	freecmd(t_all *all)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while(++i < all->size)
-	{
-		j = -1;
-		while(all->cmd[i].args[++j])
-			free(all->cmd[i].args[j]);
-		free(all->cmd[i].args[j]);
-		free(all->cmd[i].args);
-		free(all->cmd[i].name);
-	}
-	free(all->cmd);
-	if (all->size > 1)
-		free(all->pipes);
 }
