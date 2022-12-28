@@ -12,6 +12,7 @@
 #include"libft.h"
 #include "minishell.h"
 /* TO DO */
+/* finish env variable */
 /* call ./executor should call t=he own path */
 /* see if exists the file */
 /* clean array for cases like cat > b > c only return cat > c or cat > b c return cat > b */ 
@@ -202,21 +203,14 @@ char	*search_cmd(t_all *all, char **str, char **envp)
 				while (envp[i] && ft_strncmp(envp[i], &str[x][1], size - 1))
 					i++;
 				if (envp[i] == NULL)
-				{
-					free(path);
 					return NULL;
-				}
 				bol = 0;
 			}
 		else if (bol)
 		{
 			path = get_path(all->path, str[x], 3);
-			printf("... %s\n",path);
 			if (path == NULL)
-			{
-				free(path);
 				return NULL;
-			}
 			all->size++;
 			bol = 0;
 			free(path);
@@ -321,10 +315,10 @@ void	init_structs(t_all *all, char **str)
 		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
 		all->cmd[x].n_tokens = all->s_t;
 		all->cmd[x].args = (char **)malloc(sizeof(char **) * (search_arg(all, str) + 1));
-		printf("%d\n", all->s_t);
+		/* printf("%d\n", all->s_t); */
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
-		printf("%d %d\n", all->s_i, all->s_o);
+		/* printf("%d %d\n", all->s_i, all->s_o); */
 		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
 		all->cmd[x].outfile[all->s_o] = '\0';
 		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
@@ -462,7 +456,6 @@ char	*check_error(t_all *all, char **str, char **envp)
 
 	if (cmd == NULL)
 		return NULL;
-	printf("cmd %s\n", cmd);
 	/* free(cmd); */
 	return GOOD;
 }

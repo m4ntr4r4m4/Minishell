@@ -24,14 +24,14 @@ int	main(int ac,char **av,  char **envp)
 		i = -1;
 		/* executer */
 		//prexec(&all, envp);
-		/* printf("newwww %s\n", new[0]); */
 		freecmd(&all);
 		free(rd);
-		while(new[++i])
-			free(new[i]);
-			/* printf("a %s\n",new[i]); */
 		if (new != NULL)
+		{
+			while(new[++i])
+				free(new[i]);
 			free(new);
+		}
 	/* } */
 	i = -1;
 	while(all.path[++i])
