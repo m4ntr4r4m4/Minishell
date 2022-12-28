@@ -54,21 +54,26 @@ void	freecmd(t_all *all)
 	while(++i < all->size)
 	{
 		j = -1;
-		while(all->cmd[i].args[++j])
-			free(all->cmd[i].args[j]);
+		/* while(all->cmd[i].args[++j]) */
+		/* { */
+		/* 	printf(" -> %s\n",all->cmd[i].args[j]); */
+		/* 	free(all->cmd[i].args[j]); */
+		/* } */
+		/* printf(" -> hola\n"); */
 		j = -1;
-		while(all->cmd[i].infile[++j])
-			free(all->cmd[i].infile[j]);
+		/* while(all->cmd[i].infile[++j]) */
+		/* 	free(all->cmd[i].infile[j]); */
 		j = -1;
-		while(all->cmd[i].outfile[++j])
-			free(all->cmd[i].outfile[j]);
+		/* while(all->cmd[i].outfile[++j]) */
+		/* 	free(all->cmd[i].outfile[j]); */
 		if (all->cmd[i].token)
 			free(all->cmd[i].token);
-		if (all->cmd[i].name)
-			free(all->cmd[i].name);
+		/* if (all->cmd[i].name) */
+		/* 	free(all->cmd[i].name); */
 		free(all->cmd[i].infile);
 		free(all->cmd[i].outfile);
 		free(all->cmd[i].args);
+		free(all->cmd[i].path);
 	}
 	if (i)
 	{

@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-
-
 int	main(int ac,char **av,  char **envp)
 {
 	t_all	all;
@@ -15,23 +13,26 @@ int	main(int ac,char **av,  char **envp)
 	
 	int i = -1;
 	int x = -1;
-	while(++x < 3)
-	{
+	/* while(++x < 3) */
+	/* { */
 			/* printf("%s\n", rd); */
 			/* ft_print_table(new, 1); */
 		rd = readline("$:");
 		printf("rd %s\n",rd);
 		
-		/* free(newpath); */
-		new = parser(rd, &all);
-		if (new != NULL)
-			free(new);
+		new = parser(rd, &all, envp);
+		i = -1;
 		/* executer */
 		//prexec(&all, envp);
 		/* printf("newwww %s\n", new[0]); */
 		freecmd(&all);
 		free(rd);
-	}
+		while(new[++i])
+			free(new[i]);
+			/* printf("a %s\n",new[i]); */
+		if (new != NULL)
+			free(new);
+	/* } */
 	i = -1;
 	while(all.path[++i])
 			free(all.path[i]);

@@ -151,6 +151,7 @@ char lexer(char **str, t_all *all)
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
+			/* printf("hola\n"); */
 			all->token_l[i.T++] = token;
 			all->cmd[++i.c].name = str[++i.s];
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
@@ -179,7 +180,7 @@ char lexer(char **str, t_all *all)
 	return (CONTINUE);
 }
 
-char	*search_cmd(t_all *all, char **str)
+char	*search_cmd(t_all *all, char **str, char **envp)
 {
 	int		x;
 	int		bol;
@@ -188,31 +189,43 @@ char	*search_cmd(t_all *all, char **str)
 
 	x = 0;
 	all->size = 0;
-	bol = 0;
+	bol = 1;
 	path = NULL;
 	while (str[x])
 	{
 		token = tokens(str[x]);
-		if (bol)
+		if (str[x][0] == 36)
+			{
+				int i = 0;
+				int size = ft_strlen(str[x]);
+				char *new =  &str[x][1];
+				while (envp[i] && ft_strncmp(envp[i], &str[x][1], size - 1))
+					i++;
+				if (envp[i] == NULL)
+				{
+					free(path);
+					return NULL;
+				}
+				bol = 0;
+			}
+		else if (bol)
 		{
 			path = get_path(all->path, str[x], 3);
+			printf("... %s\n",path);
 			if (path == NULL)
-				return path;
+			{
+				free(path);
+				return NULL;
+			}
 			all->size++;
 			bol = 0;
-		}
-		else if (x == 0)
-		{
-			path = get_path(all->path, str[x], 3);
-			if (path == NULL)
-				return path;
-			all->size++;
+			free(path);
 		}
 		else if (token == PIPE || token == AMPERSAND)
 			bol = 1;
 		x++;
 	}
-	return path;
+	return GOOD;
 }
 
 int	search_token(t_all *all,char **str)
@@ -299,6 +312,8 @@ void	init_structs(t_all *all, char **str)
 	all->i_t = 0;
 	all->i_f = 0;
 	all->i_a = 0;
+	if (all->size == 0)
+		all->size = 1;
 	all->cmd = (t_cmd *)malloc(sizeof(*(all->cmd)) * all->size);
 	all->token_l = malloc(sizeof(int) * (all->size - 1));
 	while (++x < all->size)
@@ -306,8 +321,10 @@ void	init_structs(t_all *all, char **str)
 		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
 		all->cmd[x].n_tokens = all->s_t;
 		all->cmd[x].args = (char **)malloc(sizeof(char **) * (search_arg(all, str) + 1));
+		printf("%d\n", all->s_t);
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
+		printf("%d %d\n", all->s_i, all->s_o);
 		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
 		all->cmd[x].outfile[all->s_o] = '\0';
 		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
@@ -436,20 +453,21 @@ char	*check_spaces(char *str)
 	return (str);
 }
 
-char	*check_error(t_all *all,char **str)
+char	*check_error(t_all *all, char **str, char **envp)
 {	char *cmd;
 
 	if (check_quotes(str) == NULL || check_simbols(str) == NULL)
 		return NULL;
-	cmd = search_cmd(all, str);
+	cmd = search_cmd(all, str, envp);
+
 	if (cmd == NULL)
 		return NULL;
-	free(cmd);
-	return "GOOD";
+	printf("cmd %s\n", cmd);
+	/* free(cmd); */
+	return GOOD;
 }
 
-
-char **parser(char *rd, t_all *all)
+char **parser(char *rd, t_all *all, char **envp)
 {
 	char	**str;
 	int		i;
@@ -463,9 +481,10 @@ char **parser(char *rd, t_all *all)
 		return NULL;
 	}
 	str = ft_split_parse(rd,' ');
-	if(check_error(all ,str) == NULL)
+	i = -1;
+	if (check_error(all ,str, envp) == NULL)
 	{
-		printf("\033[1;31mcommand not found\n\033[0m");
+		/* printf("\033[1;31mcommand not found\n\033[0m"); */
 		all->size = 0;
 		i = -1;
 		while(str[++i])
@@ -473,15 +492,12 @@ char **parser(char *rd, t_all *all)
 		free(str);
 		return NULL;
 	}
-	else
-	{
-		/* INICIALICE */ 
-		init_structs(all, str);
-		/* LEXER */ 
-		lexer(str, all);
-		/* PRINT */
-		print_all(all);
-	}
+	/* INICIALICE */ 
+	init_structs(all, str);
+	/* LEXER */ 
+	lexer(str, all);
+	/* PRINT */
+	print_all(all);
 	return str;
 }
 
@@ -495,7 +511,7 @@ char token_l(char token)
 		return PIPE;
 	else if (token == 38)
 		return AMPERSAND;
-	else
+	else 
 		return CONTINUE;
 }
 

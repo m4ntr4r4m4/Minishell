@@ -102,8 +102,8 @@ char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
 	/* lexer.c */
 char	tokens(char *token);
-char	**parser(char *rd, t_all *all);
-char	*search_cmd(t_all *all, char **str);
+char	**parser(char *rd, t_all *all, char **envp);
+char	*search_cmd(t_all *all, char **str, char **envp);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
 void	init_iterators(t_i *i);
@@ -113,6 +113,6 @@ int		search_token(t_all *all,char **str);
 char	*check_spaces(char *str);
 char	token_l(char token);
 char	**ft_split_parse(char *s, char c);
-char	*check_error(t_all *all,char **str);
+char	*check_error(t_all *all,char **str, char **envp);
 
 #endif

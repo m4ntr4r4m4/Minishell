@@ -13,10 +13,10 @@
 
 char	**path_var(char **envp)
 {
+
 	int		i;
 	char	**pathvar;
 	char	*str;
-
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
 		i++;
@@ -44,7 +44,6 @@ char	*check_bin(char *binary, char *path, int ac)
 		x = access(str, R_OK);
 	if (ac == 3)
 		x = access(str, X_OK);
-		/* x = access(ft_strjoin(path, binary), X_OK); */
 	free(str);
 	if (x == 0)
 		return (ft_strjoin(path, binary));
