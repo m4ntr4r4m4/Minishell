@@ -425,7 +425,10 @@ char	*check_spaces(char *str)
 			while (str[y] && str[y] != 34)
 				y++;
 			if (!str[y])
+			{
+				free(str);
 				return NULL;
+			}
 		}
 		else if (vol && str[y] == 32)
 			vol = 0;
@@ -438,11 +441,26 @@ char	*check_spaces(char *str)
 			while(str[y] && token_l(str[y]) == CONTINUE && str[y] != 32)
 				y++;
 			vol = 0;
+			while(str[y] && token_l(str[y]) == CONTINUE && str[y] != 32)
+				y++;
 			if (!str[y])
 				break;
 		}
-		else if (vol >= 1 && token != token_l(str[y - 1]) || vol >= 1 && token == PIPE)
+		else if (token == GREAT && str[y - 1] != 32 && token_l(str[y - 1]) == CONTINUE)
+		{
+			str = cpy_str(str, y, '0');
+			vol = 0;
+			while(str[y] && token_l(str[y]) == CONTINUE && str[y] != 32)
+				y++;
+			if (!str[y])
+				break;
+		}
+		else if (vol >= 2 && (token == token_l(str[y - 1])) ||
+				vol && (token != token_l(str[y - 1])))
+		{
+			free(str);
 			return NULL;
+		}
 		else if (token != CONTINUE)
 			vol++;
 	}

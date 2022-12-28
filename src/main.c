@@ -8,38 +8,46 @@ int	main(int ac,char **av,  char **envp)
 
 	all.path = path_var(envp);
 	all.size = 0;
-	/* all.pwd = pwd(envp); */
 	atexit(leaks);
 	
-	int i = -1;
 	int x = -1;
-	/* while(++x < 3) */
-	/* { */
+	int i = -1;
+	while(++x < 3)
+	{
 			/* printf("%s\n", rd); */
 			/* ft_print_table(new, 1); */
 		rd = readline("$:");
+
+		/* add space to tokens */
 		rd = check_spaces(rd);
 		printf("rd %s\n",rd);
 		if (rd != NULL)
-			new = parser(rd, &all, envp);
-		i = -1;
-		/* executer */
-		//prexec(&all, envp);
-		freecmd(&all);
-		if (rd)
-			free(rd);
-		if (new != NULL)
 		{
-			while(new[++i])
-				free(new[i]);
-			free(new);
+			new = parser(rd, &all, envp);
+			/* executer */
+			//prexec(&all, envp);
+			//
+			/* cmd free */
+			if (rd)
+				free(rd);
+			printf("hola\n");
+			if (new != NULL)
+			{
+				 i = -1;
+				while(new[++i])
+					free(new[i]);
+				free(new);
+			}
+			freecmd(&all);
+			/* cmd free */
 		}
-	/* } */
+	}
+	/* global free */
 	i = -1;
 	while(all.path[++i])
 			free(all.path[i]);
 	free(all.path);
-	/* free */
+	/* global free */
 	return 0;
 }
 
