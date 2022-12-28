@@ -386,6 +386,7 @@ char *cpy_str(char *str, int y, char bit)
 	
 	if (bit == '1')
 	{
+		printf("hoplaa\n");
 		newstr = malloc(sizeof(char) * (len + 3));
 		newstr[len + 2] = '\0';
 		ft_memcpy(newstr, str, y);
@@ -396,6 +397,7 @@ char *cpy_str(char *str, int y, char bit)
 	}
 	else
 	{
+		printf("adioos\n");
 		newstr = malloc(sizeof(char) * (len + 2));
 		newstr[len + 1] = '\0';
 		ft_memcpy(newstr, str, y);
@@ -453,7 +455,6 @@ char	*check_error(t_all *all, char **str, char **envp)
 	if (check_quotes(str) == NULL || check_simbols(str) == NULL)
 		return NULL;
 	cmd = search_cmd(all, str, envp);
-
 	if (cmd == NULL)
 		return NULL;
 	/* free(cmd); */
@@ -466,15 +467,7 @@ char **parser(char *rd, t_all *all, char **envp)
 	int		i;
 
 	/* CHECK ERRORS AND FILL SIZES*/
-	rd = check_spaces(rd);
-	if (rd == NULL)
-	{
-		printf("\033[1;31msimbol error \n\033[0m");
-		all->size = 0;
-		return NULL;
-	}
 	str = ft_split_parse(rd,' ');
-	i = -1;
 	if (check_error(all ,str, envp) == NULL)
 	{
 		/* printf("\033[1;31mcommand not found\n\033[0m"); */

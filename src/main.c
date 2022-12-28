@@ -18,14 +18,16 @@ int	main(int ac,char **av,  char **envp)
 			/* printf("%s\n", rd); */
 			/* ft_print_table(new, 1); */
 		rd = readline("$:");
+		rd = check_spaces(rd);
 		printf("rd %s\n",rd);
-		
-		new = parser(rd, &all, envp);
+		if (rd != NULL)
+			new = parser(rd, &all, envp);
 		i = -1;
 		/* executer */
 		//prexec(&all, envp);
 		freecmd(&all);
-		free(rd);
+		if (rd)
+			free(rd);
 		if (new != NULL)
 		{
 			while(new[++i])
