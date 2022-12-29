@@ -1,2 +1,0 @@
-gua
-wwww
