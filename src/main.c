@@ -30,7 +30,6 @@ int	main(int ac,char **av,  char **envp)
 			/* cmd free */
 			if (rd)
 				free(rd);
-			printf("hola\n");
 			if (new != NULL)
 			{
 				 i = -1;

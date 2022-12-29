@@ -242,7 +242,6 @@ int	search_token(t_all *all,char **str)
 		i++;
 	}
 	all->i_t = i;
-	/* all-> */
 	return (all->s_t);
 }
 
@@ -260,7 +259,9 @@ int	search_arg(t_all *all,char **str)
 	while(str[++i])
 	{
 		token = tokens(str[i]);
-		if (!bol && token == CONTINUE)
+		if (token == CONTINUE && bol)
+			bol = 0;
+		else if (!bol && token == CONTINUE)
 			all->s_t++;
 		else if (token == PIPE || token == AMPERSAND) 
 		{
@@ -386,7 +387,6 @@ char *cpy_str(char *str, int y, char bit)
 	
 	if (bit == '1')
 	{
-		printf("hoplaa\n");
 		newstr = malloc(sizeof(char) * (len + 3));
 		newstr[len + 2] = '\0';
 		ft_memcpy(newstr, str, y);
@@ -397,7 +397,6 @@ char *cpy_str(char *str, int y, char bit)
 	}
 	else
 	{
-		printf("adioos\n");
 		newstr = malloc(sizeof(char) * (len + 2));
 		newstr[len + 1] = '\0';
 		ft_memcpy(newstr, str, y);
