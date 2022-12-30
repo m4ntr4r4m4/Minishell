@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/29 18:52:22 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:30:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -15,7 +15,7 @@
 /* call ./executor should call t=he own path */
 /* clean array for cases like cat > b > c only return cat > c or cat > b c return cat > b */ 
 
- int	word(char *str, char c)
+static int	word(char *str, char c)
 {
 	int	i;
 	int	wc;
@@ -37,7 +37,7 @@
 	return (wc);
 }
 
-	int	ft_tr(const char *s, int c, int *quote, int *i)
+static	int	ft_tr(const char *s, int c, int *quote, int *i)
 {
 	int	len;
 
@@ -52,7 +52,7 @@
 	return (len);
 }
 
- char *delete_quotes(char *str)
+static char *delete_quotes(char *str)
 {
 	int	i;
 	int	count;
@@ -67,8 +67,6 @@
 			count++;
 	}
 	new = malloc(count + 1);
-	if (!new)
-		return NULL;
 	i = -1;
 	x = 0;
 	new[count] = '\0';
@@ -77,18 +75,17 @@
 		if (str[i] != '"')
 			new[x++] = str[i];
 	}
-	free(str);
 	return new;
 }
 
 
- char	**cpy(char **mots, char const *s, int wc, char c)
+static char	**cpy(char **mots, char const *s, int wc, char c)
 {
 	int			i;
 	int			j;
 	int			len;
 	int			start;
-	 int	quote;
+	static int	quote;
 
 	i = 0;
 	j = 0;
@@ -103,7 +100,8 @@
 		}
 		start = i;
 		len = ft_tr(s, c, &quote, &i);
-		mots[j] = delete_quotes(ft_substr(s, start, len));
+		mots[j] = ft_substr(s, start, len);
+		mots[j] = delete_quotes(mots[j]);
 		j++;
 	}
 	mots[j] = 0;
@@ -143,19 +141,19 @@ char lexer(char **str, t_all *all)
 	t_i		i;
 
 	init_iterators(&i);
-	all->cmd[i.c].name = ft_strdup(str[i.s]);
+	all->cmd[i.c].name = str[i.s];
 	all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
-	all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
+	all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
 			all->token_l[i.T++] = token;
-			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
+			all->cmd[++i.c].name = str[++i.s];
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
 			i.a = 0;
-			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
+			all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
 			i.o = 0;
 			i.i = 0;
 			i.t = 0;
@@ -163,15 +161,15 @@ char lexer(char **str, t_all *all)
 		else if (token == LESS || token == LESSLESS)
 		{
 			all->cmd[i.c].token[i.t++] = token;
-			all->cmd[i.c].infile[i.i++] = ft_strdup(str[++i.s]);
+			all->cmd[i.c].infile[i.i++] = str[++i.s];
 		}
 		else if (token == GREAT || token == GREATGREAT)
 		{
 			all->cmd[i.c].token[i.t++] = token;
-			all->cmd[i.c].outfile[i.o++] = ft_strdup(str[++i.s]);
+			all->cmd[i.c].outfile[i.o++] = str[++i.s];
 		}
 		else if (token == CONTINUE)
-			all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]);
+			all->cmd[i.c].args[i.a++] = str[i.s];
 		else
 			all->cmd[i.c].token[i.t++] = token;
 		i.s++;
@@ -299,26 +297,18 @@ void	init_structs(t_all *all, char **str)
 	all->i_t = 0;
 	all->i_f = 0;
 	all->i_a = 0;
-	all->cmd = malloc(sizeof(*(all->cmd)) * all->size);
-	if (!all->cmd)
-		return;
+	all->cmd = (t_cmd *)malloc(sizeof(*(all->cmd)) * all->size);
 	all->token_l = malloc(sizeof(int) * (all->size - 1));
-	if (!all->token_l)
-		return;
 	while (++x < all->size)
 	{
 		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
-		if (!all->cmd[x].token)
-			return;
 		all->cmd[x].n_tokens = all->s_t;
-		all->cmd[x].args = malloc(sizeof(char **) * (search_arg(all, str) + 1));
-		if (!all->cmd[x].args)
-			return;
+		all->cmd[x].args = (char **)malloc(sizeof(char **) * (search_arg(all, str) + 1));
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
-		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
+		all->cmd[x].outfile = (char **)malloc(sizeof(char **) * (all->s_o + 1));
 		all->cmd[x].outfile[all->s_o] = '\0';
-		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
+		all->cmd[x].infile = (char **)malloc(sizeof(char **) * (all->s_i + 1));
 		all->cmd[x].infile[all->s_i] = '\0';
 	}
 }
