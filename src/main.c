@@ -8,19 +8,24 @@ int	main(int ac,char **av,  char **envp)
 	char *rd;
 	char **new;
 
+	all.exit_var = 0;
 //	atexit(leaks);
 	while(1)
 	{
 	      	all.path = path_var(envp);
 	      	rd = readline("$_MINI_SHELL_$:");
-			add_history (rd);
+			if (strncmp(rd, "\0", 1))
+			{
+				add_history (rd);
 
 	      	/* printf("%s\n", rd); */
 	      	/* ft_print_table(new, 1); */
-	      	new = parser(rd, &all, envp);
+		      	new = parser(rd, &all, envp);
 	      	/* executer */
 	
-	      	prexec(&all, envp);
+				if (new)
+			      	prexec(&all, envp);
+			}
 	
 	      	/* free */
 	      	free(rd);

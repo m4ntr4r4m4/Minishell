@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/30 14:05:52 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/30 18:17:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -44,6 +44,7 @@ char	*check_bin(char *binary, char *path, int ac)
 {
 	int		x;
 
+	x = 0;
 	if (ac == 2)
 		x = access(ft_strjoin(path, binary), W_OK);
 	if (ac == 1)
@@ -73,13 +74,10 @@ char	*get_path(char **pathvar, char *cmd, int code)
 
 void	dupfd(t_pipe *pipes, int id, size_t size)
 {
-	int	i;
-
-	i = 0;
-	if (id == 0)
+	if (id == 0 && pipes[id].fdin != -1)
 	{
 		dup2(pipes[id].fdin, 0);
-		close(pipes[id].fd[0]);
+//		close(pipes[id].fd[0]);
 		close(pipes[id].fdin);
 	}
 	if (id > 0)
@@ -93,7 +91,7 @@ void	dupfd(t_pipe *pipes, int id, size_t size)
 		close(pipes[id].fd[1]);
 	}
 	fprintf(stderr, "this id %d thiss is size %d\n", id, size);
-	if(id == size)
+	if(id == size && pipes[id].fdout != -1)
 	{
 		dup2(pipes[id].fdout, 1);
 		close(pipes[id].fdout);
@@ -117,6 +115,8 @@ void	closefiledes(t_pipe *var, int x, size_t size)
 void	child1(t_all *all,  char **envp, int i,size_t size)
 {
 	int	j;
+	all->pipes[i].fdin = -1;
+	all->pipes[i].fdout = -1;
 	if( all->cmd[0].n_tokens)
 	{
 		if (i == 0 && (all->cmd[i].token[0] == LESSLESS || all->cmd[i].token[0] == LESS))
@@ -159,6 +159,7 @@ char	*get_line(int fd)
 	if (i == -1)
 	{
 		free(buff);
+		free(str);
 		return (NULL);
 	}
 	while (buff[0] != '\n' && i != 0)
@@ -200,6 +201,8 @@ int	executor(t_all *all, char **envp)
 	int	i;
 
 	pid = malloc(sizeof(int) * all->size);
+	if(!pid)
+		return(-1);
 	i = 0;
 	if (all->size > 1)
 	{
@@ -208,19 +211,22 @@ int	executor(t_all *all, char **envp)
 			if (pipe(all->pipes[i].fd) < 0)
 			{
 				fprintf(stderr, "serror pipes \n");
+				free(pid);
 				return (-1);
 			}
 			fprintf(stderr, "success pipes \n");
 			i++;
 		}
 	}
-	i = 0;
-	while (i < all->size)
+
+	fprintf(stderr, "this  size %zu\n", all->size );
+	i = -1;
+	while (++i < all->size)
 	{
+		pid[i] = -1;
 		pid[i] = fork();
 		if (pid[i] == 0)
 			child1(all, envp, i, all->size);
-		i++;
 	}
 	///////// clode file desc
 	i = 0;
@@ -232,9 +238,10 @@ int	executor(t_all *all, char **envp)
 		close(all->pipes[i].fd[1]);
 		i++;
 	}
-	i = 0;
-	while (i < all->size)
-		waitpid(pid[i++], &all->exit_var, 0);
+	i = -1;
+	fprintf(stderr, "this  size %zu\n", all->size );
+	while (++i < all->size)
+		waitpid(pid[i], &all->exit_var, 0);
 	free(pid);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/12/30 17:15:40 by ahammoud         ###   ########.fr        #
+#    Updated: 2022/12/30 17:49:05 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ NAME	=	 executor
 
 #CFLAGS	=	 -Wall -Wextra -Werror -lreadline
 CFLAGS	=	 -lreadline -g -fsanitize=address
-#CFLAGS	=	 -lreadline 
+#CFLAGS	=	 -lreadline -g
 
 
 CC	=	gcc
