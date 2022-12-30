@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/26 12:35:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/30 14:00:07 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -30,7 +30,6 @@
 # include <readline/history.h>
 # include "libft.h"
 # include <stdbool.h>
-# include <limits.h>
 
 # define AMPERSAND '1'
 # define GREAT '2'
@@ -68,14 +67,15 @@ typedef struct	s_all
 	size_t	size; /* size cmd for init */
 	t_pipe	*pipes;
 	char	**path;
+	char	*pwd;
 	int		s_t; /* size token for init */
 	int		s_i; /* size inf for init */
 	int		s_o; /* size outf for init */
 	int		i_a; /* iterator args for init */
 	int		i_t; /* iterator token for init */
 	int		i_f; /* iterator file for init */
-	int		exit_var;
 	char	**myenv;
+	int		exit_var;
 }	t_all;
 
 typedef struct	s_iterators
@@ -102,11 +102,10 @@ void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
-
 	/* lexer.c */
 char	tokens(char *token);
-char	**parser(char *rd, t_all *all);
-char	*search_cmd(t_all *all, char **str);
+char	**parser(char *rd, t_all *all, char **envp);
+char	*search_cmd(t_all *all, char **str, char **envp);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
 void	init_iterators(t_i *i);
@@ -115,5 +114,7 @@ int		search_arg(t_all *all,char **str);
 int		search_token(t_all *all,char **str);
 char	*check_spaces(char *str);
 char	token_l(char token);
+char	**ft_split_parse(char *s, char c);
+char	*check_error(t_all *all,char **str, char **envp);
 
 #endif

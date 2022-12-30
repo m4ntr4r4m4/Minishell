@@ -17,7 +17,7 @@ int	main(int ac,char **av,  char **envp)
 
 	      	/* printf("%s\n", rd); */
 	      	/* ft_print_table(new, 1); */
-	      	new = parser(rd, &all);
+	      	new = parser(rd, &all, envp);
 	      	/* executer */
 	
 	      	prexec(&all, envp);
