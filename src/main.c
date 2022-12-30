@@ -8,7 +8,7 @@ int	main(int ac,char **av,  char **envp)
 	char *rd;
 	char **new;
 
-	atexit(leaks);
+//	atexit(leaks);
 	while(1)
 	{
 	      	all.path = path_var(envp);

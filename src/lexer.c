@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/30 14:06:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2022/12/30 17:05:49 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -69,6 +69,8 @@ static char *delete_quotes(char *str)
 			count++;
 	}
 	new = malloc(count + 1);
+	if (!new)
+		return (NULL);
 	i = -1;
 	x = 0;
 	new[count] = '\0';
@@ -144,9 +146,9 @@ char lexer(char **str, t_all *all)
 	t_i		i;
 
 	init_iterators(&i);
-	all->cmd[i.c].name = str[i.s];
+	all->cmd[i.c].name = ft_strdup(str[i.s]);
 	all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
-	all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
+	all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
@@ -154,10 +156,10 @@ char lexer(char **str, t_all *all)
 		{
 			/* printf("hola\n"); */
 			all->token_l[i.T++] = token;
-			all->cmd[++i.c].name = str[++i.s];
+			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
 			i.a = 0;
-			all->cmd[i.c].args[i.a++] = all->cmd[i.c].path;
+			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
 			i.o = 0;
 			i.i = 0;
 			i.t = 0;
@@ -309,20 +311,32 @@ void	init_structs(t_all *all, char **str)
 	all->i_a = 0;
 	if (all->size == 0)
 		all->size = 1;
-	all->cmd = (t_cmd *)malloc(sizeof(*(all->cmd)) * all->size);
+	all->cmd = malloc(sizeof(*(all->cmd)) * all->size);
+	if (!all->cmd)
+		return;
 	all->token_l = malloc(sizeof(int) * (all->size - 1));
+	if (!all->token_l)
+		return;
 	while (++x < all->size)
 	{
 		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
+		if (!all->cmd[x].token)
+			return;
 		all->cmd[x].n_tokens = all->s_t;
-		all->cmd[x].args = (char **)malloc(sizeof(char **) * (search_arg(all, str) + 1));
+		all->cmd[x].args = malloc(sizeof(char **) * (search_arg(all, str) + 1));
+		if (!all->cmd[x].args)
+			return;
 		/* printf("%d\n", all->s_t); */
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
 		/* printf("%d %d\n", all->s_i, all->s_o); */
 		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
+		if (!all->cmd[x].outfile)
+			return;
 		all->cmd[x].outfile[all->s_o] = '\0';
 		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
+		if (!all->cmd[x].infile)
+			return;
 		all->cmd[x].infile[all->s_i] = '\0';
 	}
 }
@@ -388,6 +402,8 @@ char *cpy_str(char *str, int y, char bit)
 	if (bit == '1')
 	{
 		newstr = malloc(sizeof(char) * (len + 3));
+		if (!newstr)
+			return (NULL);
 		newstr[len + 2] = '\0';
 		ft_memcpy(newstr, str, y);
 		newstr[y] = ' ';
@@ -398,6 +414,8 @@ char *cpy_str(char *str, int y, char bit)
 	else
 	{
 		newstr = malloc(sizeof(char) * (len + 2));
+		if (!newstr)
+			return (NULL);
 		newstr[len + 1] = '\0';
 		ft_memcpy(newstr, str, y);
 		newstr[y] = ' ';
