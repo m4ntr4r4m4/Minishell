@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/12/30 17:49:05 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/01/04 16:45:50 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ OBJS	=	${SRCS:.c=.o}
 NAME	=	 executor
 
 #CFLAGS	=	 -Wall -Wextra -Werror -lreadline
-CFLAGS	=	 -lreadline -g -fsanitize=address
-#CFLAGS	=	 -lreadline -g
+#CFLAGS	=	 -lreadline -g -fsanitize=address
+CFLAGS	=	 -lreadline -g
 
 
 CC	=	gcc

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/30 17:09:56 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:28:56 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,11 @@ void	freecmd(t_all *all)
 		freetable(all->cmd[i].outfile);
 		free(all->cmd[i].token);
 	}
-	free(all->cmd);
 	free(all->token_l);
 	if (all->size > 1)
 		free(all->pipes);
 	freetable(all->path);
+	if (!access("./file.tmp", R_OK))
+		unlink("file.tmp");
+	free(all->cmd);
 }

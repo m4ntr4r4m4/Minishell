@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/30 17:05:49 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/03 14:51:53 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -154,7 +154,6 @@ char lexer(char **str, t_all *all)
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
-			/* printf("hola\n"); */
 			all->token_l[i.T++] = token;
 			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);

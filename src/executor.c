@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/30 18:17:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:11:34 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -121,7 +121,7 @@ void	child1(t_all *all,  char **envp, int i,size_t size)
 	{
 		if (i == 0 && (all->cmd[i].token[0] == LESSLESS || all->cmd[i].token[0] == LESS))
 		{
-			all->pipes[i].fdin = open(all->cmd[i].infile[all->s_i - 1], O_RDONLY);
+			all->pipes[i].fdin = open(all->cmd[i].infile[0], O_RDONLY);
 			if (all->pipes[i].fdin < 0)
 				fprintf(stderr,"this  errrorooo \n");
   		}
