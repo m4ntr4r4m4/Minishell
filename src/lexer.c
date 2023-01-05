@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 17:39:10 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 18:00:04 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -517,7 +517,7 @@ char **parser(char *rd, t_all *all, char **envp)
 	/* LEXER */ 
 	lexer(str, all);
 	/* PRINT */
-//	print_all(all);
+	print_all(all);
 	return str;
 }
 

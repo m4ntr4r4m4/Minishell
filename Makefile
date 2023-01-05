@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2023/01/05 17:17:47 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/01/05 19:09:16 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,11 @@ SRCS	=	./src/env.c ./src/fd.c ./src/free.c ./src/utils.c ./src/lexer.c ./src/mai
 OBJS	=	${SRCS:.c=.o}
 
 .c.o	:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes/
+			${CC} ${CFLAGS}  -c $< -o ${<:.c=.o} -I includes/
 
 NAME	=	 executor
 
-LIB		=		-lreadline
+LIB		=		-lreadline -L ~/.brew/Cellar/readline/8.2.1/lib/
 
 #CFLAGS	=	 -Wall -Wextra -Werror
 #CFLAGS	=	 -g -fsanitize=address

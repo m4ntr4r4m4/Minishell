@@ -15,6 +15,16 @@ void	all_fill(t_all *all)
 	all->cmd[0].args[0] = strdup("/bin/ls");
 	all->cmd[0].n_tokens = 0;
 }
+int		xx = 0;
+
+void	intHandler(int x)
+{
+	if (x == 2)
+	{	
+		xx =1;
+	}
+
+}
 
 int	main(int ac,char **av,  char **envp)
 {
@@ -23,11 +33,14 @@ int	main(int ac,char **av,  char **envp)
 	char **new;
 
 	all.exit_var = 0;
-//	atexit(leaks);
+	signal(SIGINT, intHandler);
+	atexit(leaks);
 	while(1)
 	{
-	      	rd = readline("$_MINI_SHELL_$:");
-			if (strncmp(rd, "\0", 1))
+		rd = readline("$_MINI_SHELL_$:");
+		if(rd)
+		{
+			if (ft_strncmp(rd, "\0", 1))
 			{
 				add_history (rd);
 				ft_env_init(envp, &all);
@@ -41,10 +54,12 @@ int	main(int ac,char **av,  char **envp)
 	
 				if (new)
 			      	prexec(&all, all.myenv);
-			}
+  		}
 	
 	      	/* free */
 	      	free(rd);
+		}
 	}
+//	execve("clear", ["clear", NULL], NULL);
 	return 0;
 }
