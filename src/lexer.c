@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/03 14:51:53 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:05:19 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -312,31 +312,31 @@ void	init_structs(t_all *all, char **str)
 		all->size = 1;
 	all->cmd = malloc(sizeof(*(all->cmd)) * all->size);
 	if (!all->cmd)
-		return;
+		exit(0);
 	all->token_l = malloc(sizeof(int) * (all->size - 1));
 	if (!all->token_l)
-		return;
+		exit(0);
 	while (++x < all->size)
 	{
 		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
 		if (!all->cmd[x].token)
-			return;
+			exit(0);
 		all->cmd[x].n_tokens = all->s_t;
-		all->cmd[x].args = malloc(sizeof(char **) * (search_arg(all, str) + 1));
+		all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
 		if (!all->cmd[x].args)
-			return;
+			exit(0);
 		/* printf("%d\n", all->s_t); */
-		all->cmd[x].args[all->s_t] = '\0';
+		all->cmd[x].args[all->s_t] = NULL;
 		search_files(all, str);
 		/* printf("%d %d\n", all->s_i, all->s_o); */
-		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
+		all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
 		if (!all->cmd[x].outfile)
-			return;
-		all->cmd[x].outfile[all->s_o] = '\0';
-		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
+			exit(0);
+		all->cmd[x].outfile[all->s_o] = NULL;
+		all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
 		if (!all->cmd[x].infile)
-			return;
-		all->cmd[x].infile[all->s_i] = '\0';
+			exit(0);
+		all->cmd[x].infile[all->s_i] = NULL;
 	}
 }
 
@@ -484,7 +484,8 @@ char	*check_spaces(char *str)
 }
 
 char	*check_error(t_all *all, char **str, char **envp)
-{	char *cmd;
+{
+	char *cmd;
 
 	if (check_quotes(str) == NULL || check_simbols(str) == NULL)
 		return NULL;
@@ -504,7 +505,6 @@ char **parser(char *rd, t_all *all, char **envp)
 	str = ft_split_parse(rd,' ');
 	if (check_error(all ,str, envp) == NULL)
 	{
-		/* printf("\033[1;31mcommand not found\n\033[0m"); */
 		all->size = 0;
 		i = -1;
 		while(str[++i])
