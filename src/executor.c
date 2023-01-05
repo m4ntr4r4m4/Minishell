@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 16:35:15 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:40:52 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -67,7 +67,7 @@ int	executor(t_all *all, char **envp)
 		}
 	}
 
-	fprintf(stderr, "this  size %zu\n", all->size );
+//	fprintf(stderr, "this  size %zu\n", all->size );
 	i = -1;
 	while (++i < all->size)
 	{
@@ -81,22 +81,23 @@ int	executor(t_all *all, char **envp)
 
 	while (i < all->size - 1)
 	{
-		fprintf(stderr," in parrent success closing\n");
+	//	fprintf(stderr," in parrent success closing\n");
 		close(all->pipes[i].fd[0]);
 		close(all->pipes[i].fd[1]);
 		i++;
 	}
 	i = -1;
-	fprintf(stderr, "this  size %zu\n", all->size );
 	while (++i < all->size)
+	{
+	//	kill(pid[i], SIGKILL);
 		waitpid(pid[i], &all->exit_var, 0);
+	}
 	free(pid);
 	return (0);
 }
 
 int	prexec(t_all *all, char **envp)
 {
-	fprintf(stderr, "size %zu\n", all->size);
 	if (all->size >= 1)
 	{
 		all->pipes = malloc(sizeof(t_pipe) * (all->size));

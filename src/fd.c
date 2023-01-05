@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 14:37:30 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:41:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	dupfd(t_pipe *pipes, int id, size_t size)
 		dup2(pipes[id].fd[1], 1);
 		close(pipes[id].fd[1]);
 	}
-	fprintf(stderr, "this id %d thiss is size %zu\n", id, size);
+//	fprintf(stderr, "this id %d thiss is size %zu\n", id, size);
 	if((size_t) id == size && pipes[id].fdout != -1)
 	{
 		dup2(pipes[id].fdout, 1);
