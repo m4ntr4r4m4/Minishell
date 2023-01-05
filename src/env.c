@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 14:24:44 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:18:54 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ void	ft_export(char *st, t_all *all)
 	free(all->myenv);
 	all->myenv = tmp;
 //	ft_print_table(tmp, 1);
-}
-void	leaks()
-{
-	system("leaks a.out");
 }
 /*
 int	main(int ac, char **av, char **envp)

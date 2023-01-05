@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 15:48:30 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:17:35 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -90,6 +90,11 @@ typedef struct	s_iterators
 }	t_i;
 
 void	leaks(void);
+
+
+void	ft_export(char *st, t_all *all);
+size_t	ft_get_size(char **arr);
+void	ft_env_init(char **envp, t_all *all);
 char	*expander(char *str);
 void	freecmd(t_all *all);
 void	freetable(char **str);

@@ -30,16 +30,17 @@ int	main(int ac,char **av,  char **envp)
 			if (strncmp(rd, "\0", 1))
 			{
 				add_history (rd);
-	  		   	all.path = path_var(envp);
+				ft_env_init(envp, &all);
+	  		   	all.path = path_var(all.myenv);
 
 			//	all_fill(&all);
 	      	/* printf("%s\n", rd); */
 	      	/* ft_print_table(new, 1); */
-		      	new = parser(rd, &all, envp);
+		      	new = parser(rd, &all, all.myenv);
 	      	/* executer */
 	
 				if (new)
-			      	prexec(&all, envp);
+			      	prexec(&all, all.myenv);
 			}
 	
 	      	/* free */
