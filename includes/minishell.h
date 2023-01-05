@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/30 14:00:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:48:30 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -89,16 +89,18 @@ typedef struct	s_iterators
 	int	o; /* lexer iterator outf */
 }	t_i;
 
-char	*expander(char *str);
 void	leaks(void);
+char	*expander(char *str);
 void	freecmd(t_all *all);
 void	freetable(char **str);
-
+void	dupfd(t_pipe *pipes, int id, size_t size);
+void	closefiledes(t_pipe *var, size_t size);
+char	*get_line(int fd);
+void	ft_here_doc(t_all *all);
 void	print_all(t_all *all);
 int		executor(t_all *all, char **envp);
 int		prexec(t_all *all, char **envp);
 void	child1(t_all *all, char **envp, int i, size_t size);
-void	cmd_init(t_cmd *cmd, int ac, char **av, char **envp);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);

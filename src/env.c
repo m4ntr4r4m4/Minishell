@@ -6,11 +6,11 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/26 15:12:18 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:24:44 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 size_t	ft_get_size(char **arr)
 {
