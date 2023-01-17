@@ -17,7 +17,7 @@ EOF  ####
 | Display a prompt when waiting for a new command. | done  | done   |
 | Have a working history | done   | done  |
 | Search and launch the right executable (based on the PATH variable or using arelative or an absolute path). | done   | TO DO   |
-| Not use more than one global variable. Think about it. You will have to explainits purpose. | TO DO  | -   |
+| Not use more than one global variable. Think about it. You will have to explainits purpose. | DONE  | -   |
 | Handle (single & doublle quote) | done   | done   |
 | Implement redirections: | done    | done    |
 |  Implement pipes | done | done   |
