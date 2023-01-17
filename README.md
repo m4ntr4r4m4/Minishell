@@ -23,6 +23,6 @@ EOF  ####
 |  Implement pipes | done | done   |
 | Handle environment variables ($) | done    | TO DO    |
 | Handle $? which should expand to the exit status of the most recently executedforeground pipeline. | DONE    | TODO    |
-| Handle ctrl-C, ctrl-D and ctrl-\ | TO DO    | TO DO    |
+| Handle ctrl-C, ctrl-D and ctrl-\ | DONE    | -    |
 | implement the  builtins | DONE    | TO DO    |
 | task | M4ntr4    | Jaime    |
