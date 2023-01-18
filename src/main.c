@@ -32,10 +32,12 @@ void	Handlerint(int x)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
+
 void	Handlerquit(int x)
 {
 	rl_on_new_line();
 }
+
 int	main(int ac,char **av,  char **envp)
 {
 	t_all	all;
@@ -59,21 +61,12 @@ int	main(int ac,char **av,  char **envp)
 				add_history (rd);
 				ft_env_init(envp, &all);
 	  		   	all.path = path_var(all.myenv);
-
-		//		all_fill(&all);
-	      	/* printf("%s\n", rd); */
-	      	/* ft_print_table(new, 1); */
 		     	new = parser(rd, &all, all.myenv);
-	      	/* executer */
-	
 				if (new)
 			      	prexec(&all, all.myenv);
-  		}
-	
-	      	/* free */
+  			}
 	      	free(rd);
 		}
 	}
-//	execve("clear", ["clear", NULL], NULL);
 	return 0;
 }

@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2023/01/17 18:12:40 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/01/18 16:30:40 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ OBJS	=	${SRCS:.c=.o}
 .c.o	:
 			${CC} ${CFLAGS}  -c $< -o ${<:.c=.o} -I includes/
 
-NAME	=	 executor
+NAME	=	 minishell
 
 LIB		=		-lreadline -L ~/.brew/Cellar/readline/8.2.1/lib/
 
