@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:20:54 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/18 15:40:42 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:47:18 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	freetable(char **str)
 
 	i = -1;
 	while (str[++i])
-	{
-//		fprintf(stderr,"********** FREE %s **********\n", str[i]);
 		free(str[i]);
-	}
 	free(str[i]);
 	free(str);
 }
@@ -31,7 +28,7 @@ void	freecmd(t_all *all)
 	int	i;
 
 	i = -1;
-	while(++i < all->size)
+	while (++i < all->size)
 	{
 		free(all->cmd[i].name);
 		freetable(all->cmd[i].args);

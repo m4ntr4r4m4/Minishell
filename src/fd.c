@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 17:41:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:35:15 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,17 @@ void	dupfd(t_pipe *pipes, int id, size_t size)
 		dup2(pipes[id - 1].fd[0], 0);
 		close(pipes[id - 1].fd[0]);
 	}
-	if((size_t) id < size)
+	if ((size_t) id < size)
 	{
 		dup2(pipes[id].fd[1], 1);
 		close(pipes[id].fd[1]);
 	}
 //	fprintf(stderr, "this id %d thiss is size %zu\n", id, size);
-	if((size_t) id == size && pipes[id].fdout != -1)
+	if ((size_t) id == size && pipes[id].fdout != -1)
 	{
 		dup2(pipes[id].fdout, 1);
 		close(pipes[id].fdout);
 	}
-
 }
 
 void	closefiledes(t_pipe *var, size_t size)
@@ -44,7 +43,7 @@ void	closefiledes(t_pipe *var, size_t size)
 	size_t	i;
 
 	i = 0;
-	while (i < size )
+	while (i < size)
 	{
 		close(var[i].fd[0]);
 		close(var[i].fd[1]);
@@ -90,7 +89,8 @@ void	ft_here_doc(t_all *all)
 	if (fd < 0)
 		exit(0);
 	input = get_line(0);
-	while (ft_strncmp(input, all->cmd[0].infile[0], ft_strlen(all->cmd[0].infile[0])))
+	while (ft_strncmp(input, all->cmd[0].infile[0], \
+				ft_strlen(all->cmd[0].infile[0])))
 	{
 		ft_putendl_fd(input, fd);
 		free(input);
