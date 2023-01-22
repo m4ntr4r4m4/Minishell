@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/18 15:28:35 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:39:34 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,7 +26,7 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 			if (all->pipes[i].fdin < 0)
 				perror("file desc");
 		}
-		if (i == (int) all->size - 1 && all->cmd[i].token[0] == GREAT)
+		if (i == (int) all->size - 1 && all->cmd[i].token[1] == GREAT)
 		{
 			j = -1;
 			while (++j < all->s_o)

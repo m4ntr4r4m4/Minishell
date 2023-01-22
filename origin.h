@@ -58,7 +58,6 @@ typedef struct	s_cmd
 	char	**infile;
 	char	**outfile;
 	int		*token;
-	int		check;
 	int		n_tokens; /*number of tokens */
 }	t_cmd;
 
@@ -89,8 +88,6 @@ typedef struct	s_iterators
 	int	a; /* lexer iterator arg */
 	int	i; /* lexer iterator inf */
 	int	o; /* lexer iterator outf */
-	int	c_i; /* lexer checker inf */
-	int	c_o; /* lexer checker outf */
 }	t_i;
 
 static 	int		sig_mini;
