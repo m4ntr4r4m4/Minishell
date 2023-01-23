@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:20:54 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/19 14:47:18 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:54:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	freecmd(t_all *all)
 		free(all->cmd[i].name);
 		freetable(all->cmd[i].args);
 		free(all->cmd[i].path);
+		ft_print_table(all->cmd[i].infile, 1);
 		freetable(all->cmd[i].infile);
 		freetable(all->cmd[i].outfile);
+		freetable(all->cmd[i].eof);
 		free(all->cmd[i].token);
 	}
 	free(all->token_l);

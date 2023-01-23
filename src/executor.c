@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/23 16:30:01 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:13:51 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -94,10 +94,8 @@ int	prexec(t_all *all, char **envp)
 		all->pipes = malloc(sizeof(t_pipe) * (all->size));
 		if (!all->pipes)
 			return (0);
-		if (all->cmd[0].n_tokens)
-			if (all->cmd[0].token[2] == LESSLESS)
-				ft_here_doc(all);
-		fprintf(stderr, "here i am \n");
+		if (all->cmd[0].token[2] == LESSLESS)
+			ft_here_doc(all);
 		executor(all, envp);
 		freecmd(all);
 	}

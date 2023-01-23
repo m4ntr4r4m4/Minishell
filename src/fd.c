@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/23 16:59:12 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/23 18:48:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,18 @@ void	ft_here_doc(t_all *all)
 {
 	int		fd;
 	char	*input;
+	char	**infile;
 	int	i;
 
 	fd = open("file.tmp", O_WRONLY | O_CREAT, 0666);
 	if (fd < 0)
 		exit(0);
 	i = -1;
-	while (all->cmd[0].infile[++i])
+	while (all->cmd[0].eof[++i])
 	{
 		input = get_line(0);
-		while (ft_strncmp(input, all->cmd[0].infile[i], \
-				ft_strlen(all->cmd[0].infile[i])))
+		while (ft_strncmp(input, all->cmd[0].eof[i], \
+				ft_strlen(all->cmd[0].eof[i])))
 		{
 			ft_putendl_fd(input, fd);
 			free(input);
@@ -104,6 +105,14 @@ void	ft_here_doc(t_all *all)
 	close(fd);
 	if (input)
 		free(input);
-	free(all->cmd[0].infile[0]);
-	all->cmd[0].infile[0] = strdup("./file.tmp");
+	i = -1;
+	infile = malloc(sizeof(char *) * (ft_get_size(all->cmd[0].infile) + 2));
+	if (!infile)
+		exit(0);
+	infile[ft_get_size(all->cmd[0].infile) + 1] = NULL;
+	while (all->cmd[0].infile[++i])
+		infile[i] = ft_strdup(all->cmd[0].infile[i]);
+	infile[0] = ft_strdup("./file.tmp");
+	freetable(all->cmd[0].infile);
+	all->cmd[0].infile = infile;
 }

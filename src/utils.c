@@ -6,45 +6,47 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/22 16:31:45 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/05 16:17:05 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-	void	print_all(t_all *all)
+void	print_all(t_all *all)
+{
+	size_t x = -1;
+	size_t y = 0;
+
+	printf("comands %zu\n", all->size);
+	while (y < all->size)
 	{
-		size_t x = 0;
-		size_t y = 0;
-	
-		printf("comands %zu\n", all->size);
-		while (y < all->size)
-		{
-			if (all->cmd[y].name)
-				printf("name[%zu] %s\n", y, all->cmd[y].name);
-			if (all->cmd[y].path)
-				printf("path[%zu] %s\n", y, all->cmd[y].path);
-			while (all->cmd[y].args[x])
-			{
-				printf("arg[%zu] %zu %s\n", y,x, all->cmd[y].args[x]);
-				x++;
-			}
-			x = -1;
-			while (++x < (size_t) all->cmd[y].n_tokens)
-				printf("token[%zu] %d\n", x,all->cmd[y].token[x]);
-			x = -1;
-			while (all->cmd[y].infile[++x])
-				printf("infile[%zu] %zu %s\n", y, x,all->cmd[y].infile[x]);
-			x = -1;
-			while (all->cmd[y].outfile[++x])
-				printf("outfile[%zu] %zu %s\n", y, x, all->cmd[y].outfile[x]);
-			x = 0;
-			y++;
-		}
+		if (all->cmd[y].name)
+			printf("name[%zu] %s\n", y, all->cmd[y].name);
+		if (all->cmd[y].path)
+			printf("path[%zu] %s\n", y, all->cmd[y].path);
+		while (all->cmd[y].args[++x])
+			printf("arg[%zu] %zu %s\n", y,x, all->cmd[y].args[x]);
 		x = -1;
-		while (++x < all->size - 1)
-			printf("global tokens %d\n", all->token_l[x]);
+		printf("a %d\n", all->cmd[y].n_tokens);
+		while (++x < (size_t) all->cmd[y].n_tokens)
+			printf("token[%zu] %d\n", x,all->cmd[y].token[x]);
+		printf("hola\n");
+		x = -1;
+		while (all->cmd[y].eof[++x])
+			printf("eof[%zu] %zu %s\n", y, x,all->cmd[y].eof[x]);
+		x = -1;
+		while (all->cmd[y].infile[++x])
+			printf("infile[%zu] %zu %s\n", y, x,all->cmd[y].infile[x]);
+		x = -1;
+		while (all->cmd[y].outfile[++x])
+			printf("outfile[%zu] %zu %s\n", y, x, all->cmd[y].outfile[x]);
+		x = 0;
+		y++;
 	}
+	x = -1;
+	while (++x < all->size - 1)
+		printf("global tokens %d\n", all->token_l[x]);
+}
 
 char	**path_var(char **envp)
 {
@@ -55,7 +57,7 @@ char	**path_var(char **envp)
 
 	pathvar = NULL;
 	i = 0;
-	if (envp[0])
+	if(envp[0])
 	{
 		while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
 			i++;
@@ -79,6 +81,7 @@ char	*check_bin(char *binary, char *path, int ac)
 {
 	int		x;
 	char	*tmp;
+
 
 	tmp = ft_strjoin(path, binary);
 	x = 0;

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2022/12/26 12:00:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/23 18:46:41 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ char	*expander(char *str)
 
 void	leaks(void)
 {
-	system("leaks executor");
+	system("leaks minishell");
 }

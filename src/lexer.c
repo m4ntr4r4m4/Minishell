@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/17 17:28:00 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:55:19 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -136,6 +136,7 @@ void	init_iterators(t_i *i)
 	i->i = 0;
 	i->o = 0;
 	i->c_i = 0;
+	i->eof = 0;
 	i->c_o = 0;
 }
 
@@ -169,31 +170,16 @@ char lexer(char **str, t_all *all)
 		}
 		else if (token == LESS)
 		{
-			if (i.c_i != 1)
-			{
-				all->cmd[i.c].infile[i.i] = str[i.s + 1];
-				if (i.c_o == 1)
-				{
-					temp = all->cmd[i.c].token[0];
-					all->cmd[i.c].token[0] = token;
-					all->cmd[i.c].token[i.t++] = temp;
-				}
-				else
-					all->cmd[i.c].token[i.t++] = token;
-				i.c_i = 1;
-			}
+			all->cmd[i.c].infile[i.i++] = str[i.s + 1];
+			all->cmd[i.c].token[0] = token;
 			i.s++;
 		}
 		else if (token == LESSLESS)
 		{
 			all->cmd[i.c].token[2] = token;
-			if (i.c_i == 1)
-				all->cmd[i.c].infile[++i.i] = str[++i.s];
-			else
-				all->cmd[i.c].infile[i.i++] = str[++i.s];
-
+			all->cmd[i.c].eof[i.eof++] = str[++i.s];
 		}
-		else if (token == GREAT) 
+		else if (token == GREAT)
 		{
 			i.c_o = 1;
 			all->cmd[i.c].token[1] = token;
@@ -319,12 +305,15 @@ void	search_files(t_all *all,char **str)
 
 	all->s_i = 0;
 	all->s_o = 0;
+	all->s_eof = 0;
 	i = all->i_f;
 	while(str[++i])
 	{
 		token = tokens(str[i]);
-		if (token == LESS || token == LESSLESS)
+		if (token == LESS)
 			all->s_i++;
+		else if (token == LESSLESS)
+			all->s_eof++;
 		else if (token == GREAT || token == GREATGREAT) 
 			all->s_o++;
 		else if (token == PIPE || token == AMPERSAND) 
@@ -344,6 +333,7 @@ void	init_structs(t_all *all, char **str)
 	all->i_t = 0;
 	all->i_f = 0;
 	all->i_a = 0;
+	all->s_eof = 0;
 	if (all->size == 0)
 		all->size = 1;
 	all->cmd = malloc(sizeof(*(all->cmd)) * all->size);
@@ -369,7 +359,11 @@ void	init_structs(t_all *all, char **str)
 		/* printf("%d\n", all->s_t); */
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
-		/* printf("i %d o %d\n", all->s_i, all->s_o); */
+		/* printf("i %d o %d eof %d\n", all->s_i, all->s_o, all->s_eof); */
+		all->cmd[x].eof = malloc(sizeof(char **) * (all->s_eof + 1));
+		if (!all->cmd[x].eof)
+			return;
+		all->cmd[x].eof[all->s_eof] = '\0';
 		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
 		if (!all->cmd[x].outfile)
 			return;

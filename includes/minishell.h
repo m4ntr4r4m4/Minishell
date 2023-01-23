@@ -57,6 +57,7 @@ typedef struct	s_cmd
 	char	*path;
 	char	**infile;
 	char	**outfile;
+	char	**eof;
 	int		*token;
 	int		check;
 	int		n_tokens; /*number of tokens */
@@ -76,6 +77,7 @@ typedef struct	s_all
 	int		i_a; /* iterator args for init */
 	int		i_t; /* iterator token for init */
 	int		i_f; /* iterator file for init */
+	int		s_eof; /* iterator file for init */
 	char	**myenv;
 	int		exit_var;
 }	t_all;
@@ -90,6 +92,7 @@ typedef struct	s_iterators
 	int	i; /* lexer iterator inf */
 	int	o; /* lexer iterator outf */
 	int	c_i; /* lexer checker inf */
+	int	eof; /* lexer checker lessless */
 	int	c_o; /* lexer checker outf */
 }	t_i;
 
