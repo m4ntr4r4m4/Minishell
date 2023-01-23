@@ -157,14 +157,6 @@ char lexer(char **str, t_all *all)
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
-		/* if (i.s == 1) */
-		/* { */
-		/* 	if (str[i.s][0] != '-' && token == CONTINUE) */
-		/* 	{ */
-		/* 		all->cmd[i.c].infile[i.i++] = str[i.s]; */
-		/* 		i.c_i = 1; */
-		/* 	} */
-		/* } */
 		if (token == PIPE || token == AMPERSAND)
 		{
 			all->token_l[i.T++] = token;
@@ -175,7 +167,7 @@ char lexer(char **str, t_all *all)
 			i.i = 0;
 			i.t = 0;
 		}
-		else if (token == LESS || token == LESSLESS)
+		else if (token == LESS)
 		{
 			if (i.c_i != 1)
 			{
@@ -192,12 +184,23 @@ char lexer(char **str, t_all *all)
 			}
 			i.s++;
 		}
-		else if (token == GREAT || token == GREATGREAT)
+		else if (token == LESSLESS)
+		{
+			all->cmd[i.c].token[2] = token;
+			if (i.c_i == 1)
+				all->cmd[i.c].infile[++i.i] = str[++i.s];
+			else
+				all->cmd[i.c].infile[i.i++] = str[++i.s];
+
+		}
+		else if (token == GREAT) 
 		{
 			i.c_o = 1;
-			all->cmd[i.c].token[i.t++] = token;
+			all->cmd[i.c].token[1] = token;
 			all->cmd[i.c].outfile[i.o++] = str[++i.s];
 		}
+		else if (token == GREATGREAT)
+			all->cmd[i.c].token[3] = token;
 		else if (token == CONTINUE)
 			all->cmd[i.c].args[i.a++] = str[i.s];
 		i.s++;
@@ -274,7 +277,7 @@ int	search_token(t_all *all,char **str)
 		}
 		i++;
 	}
-	all->i_t = i;
+	all->i_t = 4;
 	return (all->s_t);
 }
 
@@ -305,7 +308,7 @@ int	search_arg(t_all *all,char **str)
 			bol = 1;
 	}
 	all->i_a = i;
-	printf("%d\n", i);
+	/* printf("%d\n", i); */
 	return (++all->s_t);
 }
 
@@ -321,7 +324,7 @@ void	search_files(t_all *all,char **str)
 	{
 		token = tokens(str[i]);
 		if (token == LESS || token == LESSLESS)
-			all->s_i = 1;
+			all->s_i++;
 		else if (token == GREAT || token == GREATGREAT) 
 			all->s_o++;
 		else if (token == PIPE || token == AMPERSAND) 
@@ -351,18 +354,22 @@ void	init_structs(t_all *all, char **str)
 		return;
 	while (++x < all->size)
 	{
-		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
+		all->cmd[x].token = malloc(sizeof(int) * 4);
+		all->cmd[x].token[0] = 0;
+		all->cmd[x].token[1] = 0;
+		all->cmd[x].token[2] = 0;
+		all->cmd[x].token[3] = 0;
 		if (!all->cmd[x].token)
 			return;
-		all->cmd[x].n_tokens = all->s_t;
-		printf("%d\n", all->cmd[x].n_tokens);
+		all->cmd[x].n_tokens = 4;
+		/* printf("%d\n", all->cmd[x].n_tokens); */
 		all->cmd[x].args = malloc(sizeof(char **) * (search_arg(all, str) + 1));
 		if (!all->cmd[x].args)
 			return;
 		/* printf("%d\n", all->s_t); */
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
-		/* printf("%d %d\n", all->s_i, all->s_o); */
+		/* printf("i %d o %d\n", all->s_i, all->s_o); */
 		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
 		if (!all->cmd[x].outfile)
 			return;

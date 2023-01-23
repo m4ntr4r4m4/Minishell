@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/18 19:35:15 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:59:12 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,22 @@ void	ft_here_doc(t_all *all)
 {
 	int		fd;
 	char	*input;
+	int	i;
 
 	fd = open("file.tmp", O_WRONLY | O_CREAT, 0666);
 	if (fd < 0)
 		exit(0);
-	input = get_line(0);
-	while (ft_strncmp(input, all->cmd[0].infile[0], \
-				ft_strlen(all->cmd[0].infile[0])))
+	i = -1;
+	while (all->cmd[0].infile[++i])
 	{
-		ft_putendl_fd(input, fd);
-		free(input);
 		input = get_line(0);
+		while (ft_strncmp(input, all->cmd[0].infile[i], \
+				ft_strlen(all->cmd[0].infile[i])))
+		{
+			ft_putendl_fd(input, fd);
+			free(input);
+			input = get_line(0);
+		}
 	}
 	close(fd);
 	if (input)

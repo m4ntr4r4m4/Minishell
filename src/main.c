@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/19 14:58:55 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:15:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,7 +40,7 @@
 void	handlerint(int x)
 {
 	ioctl(0, TIOCSTI, "\n");
-	rl_replace_line("", 0);
+//	rl_replace_line("", 0);
 	rl_on_new_line();
 }
 
