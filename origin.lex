@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/23 17:55:19 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/19 15:00:51 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
 #include "minishell.h"
 /* TO DO */
+/* finish env variable */
+/* call ./executor should call t=he own path */
 /* see if exists the file */
-/* detectar cuando es parametro de cmd */ 
+/* clean array for cases like cat > b > c only return cat > c or cat > b c return cat > b */ 
 
 static int	word(char *str, char c)
 {
@@ -135,68 +137,46 @@ void	init_iterators(t_i *i)
 	i->a = 0;
 	i->i = 0;
 	i->o = 0;
-	i->c_i = 0;
-	i->eof = 0;
-	i->c_o = 0;
 }
 
 /* READ DE COMMAND AND FILL THE STRUCT */
-
 char lexer(char **str, t_all *all)
 {
 	char	token;
-	char 	temp;
 	t_i		i;
 
 	init_iterators(&i);
 	all->cmd[i.c].name = ft_strdup(str[i.s]);
-	all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
-	if (!all->cmd[i.c].path)
-		all->cmd[i.c].path = ft_strdup(str[i.s]);
+	all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
 	all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
-	i.s++;
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
-			printf("hola\n");
-			i.a = 0;
-			i.o = 0;
-			i.i = 0;
-			i.t = 0;
-			i.eof = 0;
 			all->token_l[i.T++] = token;
 			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
-			if (!all->cmd[i.c].path)
-				all->cmd[i.c].path = ft_strdup(str[i.s]);
+			i.a = 0;
 			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
-			/* i.s++; */
-			/* all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]); */
-			printf("holaaa\n");
+			i.o = 0;
+			i.i = 0;
+			i.t = 0;
 		}
-		else if (token == LESS)
+		else if (token == LESS || token == LESSLESS)
 		{
-			all->cmd[i.c].infile[i.i++] = str[i.s + 1];
-			all->cmd[i.c].token[0] = token;
-			i.s++;
+			all->cmd[i.c].token[i.t++] = token;
+			all->cmd[i.c].infile[i.i++] = str[++i.s];
 		}
-		else if (token == LESSLESS)
+		else if (token == GREAT || token == GREATGREAT)
 		{
-			all->cmd[i.c].token[2] = token;
-			all->cmd[i.c].eof[i.eof++] = str[++i.s];
-		}
-		else if (token == GREAT)
-		{
-			i.c_o = 1;
-			all->cmd[i.c].token[1] = token;
+			all->cmd[i.c].token[i.t++] = token;
 			all->cmd[i.c].outfile[i.o++] = str[++i.s];
 		}
-		else if (token == GREATGREAT)
-			all->cmd[i.c].token[3] = token;
 		else if (token == CONTINUE)
 			all->cmd[i.c].args[i.a++] = str[i.s];
+		else
+			all->cmd[i.c].token[i.t++] = token;
 		i.s++;
 	}
 	return (CONTINUE);
@@ -206,36 +186,35 @@ char	*search_cmd(t_all *all, char **str, char **envp)
 {
 	int		x;
 	int		bol;
+	char	*path;
 	char	token;
 
 	x = 0;
 	all->size = 0;
 	bol = 1;
+	path = NULL;
 	while (str[x])
 	{
 		token = tokens(str[x]);
 		if (str[x][0] == 36)
 			{
-				
 				int i = 0;
 				int size = ft_strlen(str[x]);
-				while (envp[i])
-				{
-					if (!ft_strncmp(envp[i], &str[x][1], size - 1))
-					{
-						if (envp[i][size - 1] == '=')
-							break;
-					}
+				char *new =  &str[x][1];
+				while (envp[i] && ft_strncmp(envp[i], &str[x][1], size - 1))
 					i++;
-				}
 				if (envp[i] == NULL)
 					return NULL;
 				bol = 0;
 			}
 		else if (bol)
 		{
+			path = get_path(all->path, str[x], 3);
+			if (path == NULL)
+				return NULL;
 			all->size++;
 			bol = 0;
+			free(path);
 		}
 		else if (token == PIPE || token == AMPERSAND)
 			bol = 1;
@@ -247,22 +226,15 @@ char	*search_cmd(t_all *all, char **str, char **envp)
 int	search_token(t_all *all,char **str)
 {
 	int	i;
-	int	less;
 	char		token;
 
-	less = 0;
 	i = all->i_t;
 	all->s_t = 0;
 	while(str[i])
 	{
 		token = tokens(str[i]);
 		if (token != PIPE && token != AMPERSAND && token != CONTINUE)
-		{
-			if (!less || token != LESS)
-				all->s_t++;
-			if (token == LESS)
-				less = 1;
-		}
+			all->s_t++;
 		else if (token != CONTINUE)
 		{
 			i++;
@@ -270,7 +242,7 @@ int	search_token(t_all *all,char **str)
 		}
 		i++;
 	}
-	all->i_t = 4;
+	all->i_t = i;
 	return (all->s_t);
 }
 
@@ -301,7 +273,6 @@ int	search_arg(t_all *all,char **str)
 			bol = 1;
 	}
 	all->i_a = i;
-	/* printf("%d\n", i); */
 	return (++all->s_t);
 }
 
@@ -312,15 +283,12 @@ void	search_files(t_all *all,char **str)
 
 	all->s_i = 0;
 	all->s_o = 0;
-	all->s_eof = 0;
 	i = all->i_f;
 	while(str[++i])
 	{
 		token = tokens(str[i]);
-		if (token == LESS)
+		if (token == LESS || token == LESSLESS)
 			all->s_i++;
-		else if (token == LESSLESS)
-			all->s_eof++;
 		else if (token == GREAT || token == GREATGREAT) 
 			all->s_o++;
 		else if (token == PIPE || token == AMPERSAND) 
@@ -340,45 +308,35 @@ void	init_structs(t_all *all, char **str)
 	all->i_t = 0;
 	all->i_f = 0;
 	all->i_a = 0;
-	all->s_eof = 0;
 	if (all->size == 0)
 		all->size = 1;
 	all->cmd = malloc(sizeof(*(all->cmd)) * all->size);
 	if (!all->cmd)
-		return;
+		exit(0);
 	all->token_l = malloc(sizeof(int) * (all->size - 1));
 	if (!all->token_l)
-		return;
+		exit(0);
 	while (++x < all->size)
 	{
-		all->cmd[x].token = malloc(sizeof(int) * 4);
-		all->cmd[x].token[0] = 0;
-		all->cmd[x].token[1] = 0;
-		all->cmd[x].token[2] = 0;
-		all->cmd[x].token[3] = 0;
+		all->cmd[x].token = malloc(sizeof(int) * search_token(all, str));
 		if (!all->cmd[x].token)
-			return;
-		all->cmd[x].n_tokens = 4;
-		/* printf("%d\n", all->cmd[x].n_tokens); */
+			exit(0);
+		all->cmd[x].n_tokens = all->s_t;
 		all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
 		if (!all->cmd[x].args)
-			return;
-		printf("%d\n", all->s_t);
-		all->cmd[x].args[all->s_t] = '\0';
+			exit(0);
+		/* printf("%d\n", all->s_t); */
+		all->cmd[x].args[all->s_t] = NULL;
 		search_files(all, str);
-		/* printf("i %d o %d eof %d\n", all->s_i, all->s_o, all->s_eof); */
-		all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
-		if (!all->cmd[x].eof)
-			return;
-		all->cmd[x].eof[all->s_eof] = '\0';
+		/* printf("%d %d\n", all->s_i, all->s_o); */
 		all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
 		if (!all->cmd[x].outfile)
-			return;
-		all->cmd[x].outfile[all->s_o] = '\0';
+			exit(0);
+		all->cmd[x].outfile[all->s_o] = NULL;
 		all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
 		if (!all->cmd[x].infile)
-			return;
-		all->cmd[x].infile[all->s_i] = '\0';
+			exit(0);
+		all->cmd[x].infile[all->s_i] = NULL;
 	}
 }
 
@@ -526,7 +484,8 @@ char	*check_spaces(char *str)
 }
 
 char	*check_error(t_all *all, char **str, char **envp)
-{	char *cmd;
+{
+	char *cmd;
 
 	if (check_quotes(str) == NULL || check_simbols(str) == NULL)
 		return NULL;
@@ -546,7 +505,6 @@ char **parser(char *rd, t_all *all, char **envp)
 	str = ft_split_parse(rd,' ');
 	if (check_error(all ,str, envp) == NULL)
 	{
-		/* printf("\033[1;31mcommand not found\n\033[0m"); */
 		all->size = 0;
 		i = -1;
 		while(str[++i])
@@ -559,7 +517,7 @@ char **parser(char *rd, t_all *all, char **envp)
 	/* LEXER */ 
 	lexer(str, all);
 	/* PRINT */
-	print_all(all);
+//	print_all(all);
 	return str;
 }
 
