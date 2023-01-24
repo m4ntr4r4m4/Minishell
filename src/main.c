@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 14:54:35 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:56:42 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -64,6 +64,7 @@ void	minishell(char **envp)
 	all.exit_var = 0;
 	while (1)
 	{
+	fprintf(stderr, "HELLO TO MINISHELL\n");
 		rd = readline("$_MINI_SHELL_$:");
 		if (!rd)
 			exit(0);
@@ -74,9 +75,8 @@ void	minishell(char **envp)
 				add_history (rd);
 				ft_env_init(envp, &all);
 				all.path = path_var(all.myenv);
-				new = parser(rd, &all, all.myenv);
-				if (new)
-					prexec(&all, all.myenv);
+				parser(rd, &all, all.myenv);
+				prexec(&all, all.myenv);
 			}
 			free(rd);
 		}
@@ -85,7 +85,7 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-//	atexit(leaks);
+	atexit(leaks);
 	mysignal();
 	minishell(envp);
 	return (0);

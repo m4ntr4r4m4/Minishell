@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/23 17:13:51 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:34:05 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -42,16 +42,17 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 	closefiledes(all->pipes, size - 1);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 		perror("command");
+	kill(getpid(), SIGTERM);
 }
 
-int	executor(t_all *all, char **envp)
+void	executor(t_all *all, char **envp)
 {
 	int	*pid;
 	int	i;
 
 	pid = malloc(sizeof(int) * all->size);
 	if (!pid)
-		return (-1);
+		exit(1);
 	i = 0;
 	if (all->size > 1)
 	{
@@ -60,7 +61,7 @@ int	executor(t_all *all, char **envp)
 			if (pipe(all->pipes[i].fd) < 0)
 			{
 				free(pid);
-				return (-1);
+				exit(1);
 			}
 			i++;
 		}
@@ -84,7 +85,6 @@ int	executor(t_all *all, char **envp)
 	while (++i < all->size)
 		waitpid(pid[i], &all->exit_var, 0);
 	free(pid);
-	return (0);
 }
 
 int	prexec(t_all *all, char **envp)

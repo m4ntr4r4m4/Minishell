@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 14:58:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:52:24 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -150,23 +150,31 @@ char lexer(char **str, t_all *all)
 
 	init_iterators(&i);
 	all->cmd[i.c].name = ft_strdup(str[i.s]);
-	if (str[0][0] < 65 || str[0][0] > 122)
-		all->cmd[i.c].path = ft_strdup(str[i.s++]);
-	else
-		all->cmd[i.c].path = get_path(all->path, str[i.s++], 3);
+	all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
+	if (!all->cmd[i.c].path)
+		all->cmd[i.c].path = ft_strdup(str[i.s]);
 	all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
+	i.s++;
 	while(str[i.s])
 	{
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
-			all->token_l[i.T++] = token;
-			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
+			printf("hola\n");
 			i.a = 0;
-			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
 			i.o = 0;
 			i.i = 0;
 			i.t = 0;
+			i.eof = 0;
+			all->token_l[i.T++] = token;
+			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
+			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
+			if (!all->cmd[i.c].path)
+				all->cmd[i.c].path = ft_strdup(str[i.s]);
+			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
+			/* i.s++; */
+			/* all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]); */
+			printf("holaaa\n");
 		}
 		else if (token == LESS)
 		{
@@ -188,7 +196,7 @@ char lexer(char **str, t_all *all)
 		else if (token == GREATGREAT)
 			all->cmd[i.c].token[3] = token;
 		else if (token == CONTINUE)
-			all->cmd[i.c].args[i.a++] = str[i.s];
+			all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]);
 		i.s++;
 	}
 	return (CONTINUE);
@@ -211,7 +219,6 @@ char	*search_cmd(t_all *all, char **str, char **envp)
 				
 				int i = 0;
 				int size = ft_strlen(str[x]);
-				char *new =  &str[x][1];
 				while (envp[i])
 				{
 					if (!ft_strncmp(envp[i], &str[x][1], size - 1))
@@ -353,22 +360,22 @@ void	init_structs(t_all *all, char **str)
 			return;
 		all->cmd[x].n_tokens = 4;
 		/* printf("%d\n", all->cmd[x].n_tokens); */
-		all->cmd[x].args = malloc(sizeof(char **) * (search_arg(all, str) + 1));
+		all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
 		if (!all->cmd[x].args)
 			return;
-		/* printf("%d\n", all->s_t); */
+		printf("%d\n", all->s_t);
 		all->cmd[x].args[all->s_t] = '\0';
 		search_files(all, str);
 		/* printf("i %d o %d eof %d\n", all->s_i, all->s_o, all->s_eof); */
-		all->cmd[x].eof = malloc(sizeof(char **) * (all->s_eof + 1));
+		all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
 		if (!all->cmd[x].eof)
 			return;
 		all->cmd[x].eof[all->s_eof] = '\0';
-		all->cmd[x].outfile = malloc(sizeof(char **) * (all->s_o + 1));
+		all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
 		if (!all->cmd[x].outfile)
 			return;
 		all->cmd[x].outfile[all->s_o] = '\0';
-		all->cmd[x].infile = malloc(sizeof(char **) * (all->s_i + 1));
+		all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
 		if (!all->cmd[x].infile)
 			return;
 		all->cmd[x].infile[all->s_i] = '\0';
@@ -530,7 +537,7 @@ char	*check_error(t_all *all, char **str, char **envp)
 	return GOOD;
 }
 
-char **parser(char *rd, t_all *all, char **envp)
+void	parser(char *rd, t_all *all, char **envp)
 {
 	char	**str;
 	int		i;
@@ -545,15 +552,15 @@ char **parser(char *rd, t_all *all, char **envp)
 		while(str[++i])
 			free(str[i]);
 		free(str);
-		return NULL;
+		return;;
 	}
 	/* INICIALICE */ 
 	init_structs(all, str);
 	/* LEXER */ 
 	lexer(str, all);
 	/* PRINT */
-//	print_all(all);
-	return str;
+	print_all(all);
+	freetable(str);
 }
 
 char token_l(char token)
