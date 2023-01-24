@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/23 18:48:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:49:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	ft_here_doc(t_all *all)
 	int		fd;
 	char	*input;
 	char	**infile;
+	size_t	x;
 	int	i;
 
 	fd = open("file.tmp", O_WRONLY | O_CREAT, 0666);
@@ -106,12 +107,12 @@ void	ft_here_doc(t_all *all)
 	if (input)
 		free(input);
 	i = -1;
-	infile = malloc(sizeof(char *) * (ft_get_size(all->cmd[0].infile) + 2));
+	x = ft_get_size(all->cmd[0].infile);
+
+	infile = malloc(sizeof(char *) * (2));
 	if (!infile)
 		exit(0);
-	infile[ft_get_size(all->cmd[0].infile) + 1] = NULL;
-	while (all->cmd[0].infile[++i])
-		infile[i] = ft_strdup(all->cmd[0].infile[i]);
+	infile[1] = NULL;
 	infile[0] = ft_strdup("./file.tmp");
 	freetable(all->cmd[0].infile);
 	all->cmd[0].infile = infile;
