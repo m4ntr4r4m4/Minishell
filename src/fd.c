@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 15:49:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:28:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ void	ft_here_doc(t_all *all)
 			free(input);
 			input = get_line(0);
 		}
+		fprintf(stderr,"catched eof\n");
 	}
+		fprintf(stderr,"out of read eof\n");
 	close(fd);
 	if (input)
 		free(input);
@@ -116,4 +118,5 @@ void	ft_here_doc(t_all *all)
 	infile[0] = ft_strdup("./file.tmp");
 	freetable(all->cmd[0].infile);
 	all->cmd[0].infile = infile;
+	fprintf(stderr,"this is the new infile %s\n", all->cmd[0].infile[0]);
 }

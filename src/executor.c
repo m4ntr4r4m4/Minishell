@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 17:34:05 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:29:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -19,7 +19,7 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 	all->pipes[i].fdout = -1;
 	if (all->cmd[0].n_tokens)
 	{
-		if (i == 0 && (all->cmd[i].token[0] == LESSLESS \
+		if (i == 0 && (all->cmd[i].token[2] == LESSLESS \
 					|| all->cmd[i].token[0] == LESS))
 		{
 			all->pipes[i].fdin = open(all->cmd[i].infile[0], O_RDONLY);

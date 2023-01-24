@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/05 16:17:05 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:11:54 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	print_all(t_all *all)
 {
-	size_t x = -1;
+	size_t x ;
 	size_t y = 0;
 
 	printf("comands %zu\n", all->size);
 	while (y < all->size)
 	{
+		x = -1;
 		if (all->cmd[y].name)
 			printf("name[%zu] %s\n", y, all->cmd[y].name);
 		if (all->cmd[y].path)

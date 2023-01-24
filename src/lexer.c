@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 17:52:24 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:16:11 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -178,20 +178,20 @@ char lexer(char **str, t_all *all)
 		}
 		else if (token == LESS)
 		{
-			all->cmd[i.c].infile[i.i++] = str[i.s + 1];
+			all->cmd[i.c].infile[i.i++] = ft_strdup(str[i.s + 1]);
 			all->cmd[i.c].token[0] = token;
 			i.s++;
 		}
 		else if (token == LESSLESS)
 		{
 			all->cmd[i.c].token[2] = token;
-			all->cmd[i.c].eof[i.eof++] = str[++i.s];
+			all->cmd[i.c].eof[i.eof++] = ft_strdup(str[++i.s]);
 		}
 		else if (token == GREAT)
 		{
 			i.c_o = 1;
 			all->cmd[i.c].token[1] = token;
-			all->cmd[i.c].outfile[i.o++] = str[++i.s];
+			all->cmd[i.c].outfile[i.o++] = ft_strdup(str[++i.s]);
 		}
 		else if (token == GREATGREAT)
 			all->cmd[i.c].token[3] = token;
