@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 17:52:05 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:35:19 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -100,8 +100,9 @@ static 	int		sig_mini;
 void	leaks(void);
 void	ft_export(char *st, t_all *all);
 size_t	ft_get_size(char **arr);
+char	*ft_mygetenv(char *str, t_all *all);
 void	ft_env_init(char **envp, t_all *all);
-char	*expander(char *str);
+char	*expander(char *str, t_all *all);
 void	freecmd(t_all *all);
 void	freetable(char **str);
 void	dupfd(t_pipe *pipes, int id, size_t size);

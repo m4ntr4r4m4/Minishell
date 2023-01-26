@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 18:29:47 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:31:33 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -17,8 +17,6 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 
 	all->pipes[i].fdin = -1;
 	all->pipes[i].fdout = -1;
-	if (all->cmd[0].n_tokens)
-	{
 		if (i == 0 && (all->cmd[i].token[2] == LESSLESS \
 					|| all->cmd[i].token[0] == LESS))
 		{
@@ -37,7 +35,6 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 					perror("file desc");
 			}
 		}
-	}
 	dupfd(all->pipes, i, size - 1);
 	closefiledes(all->pipes, size - 1);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
@@ -89,13 +86,19 @@ void	executor(t_all *all, char **envp)
 
 int	prexec(t_all *all, char **envp)
 {
+	size_t x;
+
+	x = -1;
 	if (all->size >= 1)
 	{
 		all->pipes = malloc(sizeof(t_pipe) * (all->size));
 		if (!all->pipes)
 			return (0);
-		if (all->cmd[0].token[2] == LESSLESS)
-			ft_here_doc(all);
+		while (++x < all->size)
+		{
+			if (all->cmd[x].token[2] == LESSLESS)
+				ft_here_doc(all);
+		}
 		executor(all, envp);
 		freecmd(all);
 	}

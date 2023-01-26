@@ -6,11 +6,11 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:20:54 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 15:01:51 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:20:08 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	freetable(char **str)
 {

@@ -6,11 +6,10 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 18:16:11 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:19:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
-#include "minishell.h"
+#include "../includes/minishell.h"
 /* TO DO */
 /* see if exists the file */
 /* detectar cuando es parametro de cmd */ 
@@ -559,7 +558,7 @@ void	parser(char *rd, t_all *all, char **envp)
 	/* LEXER */ 
 	lexer(str, all);
 	/* PRINT */
-	print_all(all);
+//	print_all(all);
 	freetable(str);
 }
 

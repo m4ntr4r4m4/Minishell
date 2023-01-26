@@ -6,11 +6,11 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/18 15:48:12 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:27:52 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 size_t	ft_get_size(char **arr)
 {
@@ -80,6 +80,7 @@ char	*ft_mygetenv(char *str, t_all *all)
 	char	*st;
 
 	st = ft_strjoin(str, "=");
+	st = ft_strtrim(str, "$");
 	i = -1;
 	len = ft_strlen(st);
 	while (all->myenv[++i])
@@ -97,16 +98,16 @@ char	*ft_mygetenv(char *str, t_all *all)
 int	main(int ac, char **av, char **envp)
 {
 	int i = -1;
-	atexit(leaks);
 	t_all all;
 	
 	printf("this envp size: %zu\n", ft_get_size(envp));
 	ft_env_init(envp, &all);
-	ft_export("hrllo I am Here!", &all);
+
+	printf("this env var: %s\n", ft_mygetenv("$PWD", &all));
+//	ft_export("hrllo I am Here!", &all);
 	size_t	x = ft_get_size(all.myenv);
-	printf("this myenvp size: %zu\n", x);
+//	printf("this myenvp size: %zu\n", x);
 	while(++i < x)
 		free(all.myenv[i]);
 	free(all.myenv);
-}
-*/
+}*/

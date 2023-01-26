@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 17:56:42 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:37:56 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -64,7 +64,6 @@ void	minishell(char **envp)
 	all.exit_var = 0;
 	while (1)
 	{
-	fprintf(stderr, "HELLO TO MINISHELL\n");
 		rd = readline("$_MINI_SHELL_$:");
 		if (!rd)
 			exit(0);
