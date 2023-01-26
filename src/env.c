@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/25 16:27:52 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:56:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,31 @@ void	ft_export(char *st, t_all *all)
 char	*ft_mygetenv(char *str, t_all *all)
 {
 	int		i;
+	int		j;
 	int		len;
 	char	*st;
+	char	*tmp;
 
 	st = ft_strjoin(str, "=");
-	st = ft_strtrim(str, "$");
+	tmp = ft_strtrim(st, "$");
+	free(st);
+	st = tmp;
 	i = -1;
 	len = ft_strlen(st);
 	while (all->myenv[++i])
 	{
 		if (!ft_strncmp(st, all->myenv[i], len))
 		{
+			j = 0;
+			while(st[j] == all->myenv[i][j])
+				j++;
 			free(st);
-			return (all->myenv[i]);
+			return(&all->myenv[i][j]);
 		}
 	}
 	free(st);
-	return (NULL);
+	free(str);
+	return (ft_strdup(""));
 }
 /*
 int	main(int ac, char **av, char **envp)
