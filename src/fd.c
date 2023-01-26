@@ -6,31 +6,36 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/25 15:34:19 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/26 20:10:54 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dupfd(t_pipe *pipes, int id, size_t size)
+void	dupfd(t_all *all, int id, size_t size)
 {
-	if (id == 0 && pipes[id].fdin != -1)
+	t_pipe	*pipes;
+
+	pipes = all->pipes;
+	//if ((id == 0 && pipes[id].fdin != -1))
+	if (all->cmd[id].token[2] == 54 || all->cmd[id].token[0] == LESS) 
 	{
 		dup2(pipes[id].fdin, 0);
 //		close(pipes[id].fd[0]);
 		close(pipes[id].fdin);
 	}
-	if (id > 0)
+//	if (id > 0)
+	if (all->cmd[id].token[2] == 0 && all->cmd[id].token[0] == 0) 
 	{
-		dup2(pipes[id - 1].fd[0], 0);
-		close(pipes[id - 1].fd[0]);
+
+			dup2(pipes[id - 1].fd[0], 0);
+			close(pipes[id - 1].fd[0]);
 	}
 	if ((size_t) id < size)
 	{
 		dup2(pipes[id].fd[1], 1);
 		close(pipes[id].fd[1]);
 	}
-//	fprintf(stderr, "this id %d thiss is size %zu\n", id, size);
 	if ((size_t) id == size && pipes[id].fdout != -1)
 	{
 		dup2(pipes[id].fdout, 1);
@@ -88,36 +93,44 @@ void	ft_here_doc(t_all *all)
 	size_t	x;
 	int	i;
 
-	fd = open("file.tmp", O_WRONLY | O_CREAT, 0666);
-	if (fd < 0)
-		exit(0);
-	x = 0;
+	x = -1;
 	i = -1;
-	while (all->cmd[x].token[2] != LESSLESS)
-		x++;
-	while (all->cmd[x].eof[++i])
+
+//	while (all->cmd[x].token[2] != LESSLESS)
+//
+	while (++x < all->size)
 	{
-		input = get_line(0);
-		while (ft_strncmp(input, all->cmd[x].eof[i], \
-				ft_strlen(all->cmd[x].eof[i])))
+//			fprintf(stderr,"X:  %zu\n", x);
+		if (all->cmd[x].token[2] == LESSLESS)
 		{
-			ft_putendl_fd(input, fd);
-			free(input);
-			input = get_line(0);
+			fd = open("file.tmp", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+			if (fd < 0)
+				exit(0);
+
+			while (all->cmd[x].eof[++i])
+			{
+				input = get_line(0);
+				while (ft_strncmp(input, all->cmd[x].eof[i], \
+					ft_strlen(all->cmd[x].eof[i])))
+				{
+					ft_putendl_fd(input, fd);
+					free(input);
+					input = get_line(0);
+				}
+			}
+//			fprintf(stderr,"catched eof %zu %zu\n", x, all->size);
+			close(fd);
+			if (input)
+				free(input);
+			i = -1;
+			infile = malloc(sizeof(char *) * (2));
+			if (!infile)
+			exit(0);
+			infile[1] = NULL;
+			infile[0] = ft_strdup("./file.tmp");
+			freetable(all->cmd[x].infile);
+			all->cmd[x].infile = infile;
 		}
-		fprintf(stderr,"catched eof\n");
 	}
-		fprintf(stderr,"out of read eof\n");
-	close(fd);
-	if (input)
-		free(input);
-	i = -1;
-	infile = malloc(sizeof(char *) * (2));
-	if (!infile)
-		exit(0);
-	infile[1] = NULL;
-	infile[0] = ft_strdup("./file.tmp");
-	freetable(all->cmd[x].infile);
-	all->cmd[x].infile = infile;
-	fprintf(stderr,"this is the new infile %s\n", all->cmd[x].infile[0]);
+//	fprintf(stderr,"out of read heredoc end \n");
 }

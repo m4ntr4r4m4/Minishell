@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/26 16:35:52 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:05:18 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -105,7 +105,7 @@ void	ft_env_init(char **envp, t_all *all);
 char	*expander(char *str, t_all *all);
 void	freecmd(t_all *all);
 void	freetable(char **str);
-void	dupfd(t_pipe *pipes, int id, size_t size);
+void	dupfd(t_all *all, int id, size_t size);
 void	closefiledes(t_pipe *var, size_t size);
 char	*get_line(int fd);
 void	ft_here_doc(t_all *all);

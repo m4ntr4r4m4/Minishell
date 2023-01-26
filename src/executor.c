@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/25 15:31:33 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/26 20:06:12 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -17,9 +17,10 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 
 	all->pipes[i].fdin = -1;
 	all->pipes[i].fdout = -1;
-		if (i == 0 && (all->cmd[i].token[2] == LESSLESS \
+		if ((all->cmd[i].token[2] == 54 \
 					|| all->cmd[i].token[0] == LESS))
 		{
+	//		fprintf(stderr, " ********    ***** this is ifile id chilkd %s\n", all->cmd[i].infile[0]);
 			all->pipes[i].fdin = open(all->cmd[i].infile[0], O_RDONLY);
 			if (all->pipes[i].fdin < 0)
 				perror("file desc");
@@ -35,7 +36,7 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 					perror("file desc");
 			}
 		}
-	dupfd(all->pipes, i, size - 1);
+	dupfd(all, i, size - 1);
 	closefiledes(all->pipes, size - 1);
 	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 		perror("command");
@@ -97,8 +98,13 @@ int	prexec(t_all *all, char **envp)
 		while (++x < all->size)
 		{
 			if (all->cmd[x].token[2] == LESSLESS)
+			{
 				ft_here_doc(all);
+				break;
+			}
 		}
+
+	//	print_all(all);
 		executor(all, envp);
 		freecmd(all);
 	}
