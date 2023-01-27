@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/27 15:19:37 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:51:08 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ void	ft_env(t_all *all)
 		printf("%s\n", all->myenv[i++]);
 }
 
-void	ft_shell_level(t_all *all)
+char	*ft_shell_level(char *str)
 {
+	char	*tmp;
 
-
+	tmp = ft_strchr(str, '=');
+	tmp++;
+	str = ft_strjoin("SHLVL=", tmp = ft_itoa(ft_atoi(tmp) + 1));
+	free(tmp);
+	return (str);
 }
 
 void	ft_env_init(char **envp, t_all *all)
@@ -51,8 +56,12 @@ void	ft_env_init(char **envp, t_all *all)
 			return ;
 		all->myenv[x] = NULL;
 		while (++i < x)
-			all->myenv[i] = ft_strdup(envp[i]);
-		ft_shell_level(all);
+		{
+			if (!ft_strncmp(envp[i] , "SHLVL", 4))
+				all->myenv[i] = ft_shell_level(envp[i]);
+			else
+				all->myenv[i] = ft_strdup(envp[i]);
+		}
 	}
 	else
 	{
