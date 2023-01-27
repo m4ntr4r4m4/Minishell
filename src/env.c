@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/26 16:56:47 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:19:37 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void	ft_env(t_all *all)
 		printf("%s\n", all->myenv[i++]);
 }
 
+void	ft_shell_level(t_all *all)
+{
+
+
+}
+
 void	ft_env_init(char **envp, t_all *all)
 {
 	int		i;
@@ -46,6 +52,7 @@ void	ft_env_init(char **envp, t_all *all)
 		all->myenv[x] = NULL;
 		while (++i < x)
 			all->myenv[i] = ft_strdup(envp[i]);
+		ft_shell_level(all);
 	}
 	else
 	{
