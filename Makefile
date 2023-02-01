@@ -32,7 +32,7 @@ CC	=	gcc
 
 ${NAME}	:	${OBJS} 
 			cd ./src/libft/ && make bonus
-			${CC} ${CFLAGS} ${LIB} ${OBJS} ./src/libft/libft.a -o ${NAME}
+			${CC} ${CFLAGS} ${OBJS} ${LIB} ./src/libft/libft.a -o ${NAME}
 
 all	:	${NAME}
 
