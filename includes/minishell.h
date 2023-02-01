@@ -132,5 +132,6 @@ char	**ft_split_parse(char *s, char c);
 char	*check_error(char	*rd, t_all	*all);
 char	*check_tokens(char *str);
 char	*check_quotes(char *str);
+char	*cpy_str(char *str, int y);
 
 #endif

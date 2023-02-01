@@ -141,7 +141,6 @@ void	init_iterators(t_i *i)
 char lexer(char **str, t_all *all)
 {
 	char	token;
-	char 	temp;
 	t_i		i;
 
 	init_iterators(&i);
@@ -226,10 +225,8 @@ int	search_arg(t_all *all,char **str)
 	int			i;
 	char		token;
 	int			bol;
-	int			n_q;
 
 	all->s_t = 0;
-	n_q = 0;
 	bol = 0;
 	i = all->i_a;
 	while(str[++i])
@@ -297,7 +294,7 @@ void	init_structs(t_all *all, char **str)
 	all->token_l = malloc(sizeof(int) * (all->size - 1));
 	if (!all->token_l)
 		return;
-	while (++x < all->size)
+	while ((size_t)++x < all->size)
 	{
 		all->cmd[x].token = malloc(sizeof(int) * 4);
 		all->cmd[x].token[0] = 0;
@@ -356,7 +353,7 @@ char	*check_quotes(char *str)
 }
 
 /* add a space on the mark and return all the str concatenated */ 
-char *cpy_str(char *str, int y, char bit)
+char *cpy_str(char *str, int y)
 {
 	const int	len = ft_strlen(str);
 	char		*newstr;
@@ -392,8 +389,8 @@ char	*check_spaces(char *str)
 			}
 			if (str[++y]) 
 			{
-				str = cpy_str(str, y - (vol + 1), '0');
-				str = cpy_str(str, y + 1, '0');
+				str = cpy_str(str, y - (vol + 1));
+				str = cpy_str(str, y + 1);
 			}
 			vol = 0;
 		}
@@ -439,7 +436,6 @@ char	*check_tokens(char *str)
 	int		i;
 	char	token;
 	int		count;
-	char	prev;
 
 	i = -1;
 	count = 0;
@@ -478,7 +474,6 @@ char	*check_error(char *rd, t_all *all)
 void	parser(char *rd, t_all *all, char **envp)
 {
 	char	**str;
-	int		i;
 
 	/* fprintf(stderr,"rd %s\n", rd); */
 	rd = check_error(rd, all);

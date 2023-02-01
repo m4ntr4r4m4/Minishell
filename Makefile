@@ -22,8 +22,8 @@ NAME	=	 minishell
 LIB		=		-lreadline -L ~/.brew/Cellar/readline/8.2.1/lib/
 #LIB		=	 -lreadline -L /usr/local/Cellar/readline/8.1/lib/ -I /usr/local/Cellar/readline/8.1/include/readline/
 
-#CFLAGS	=	 -Wall -Wextra -Werror
-#CFLAGS	=	 -g -fsanitize=address
+# CFLAGS	=	 -Wall -Wextra -Werror
+# CFLAGS	=	 -g -fsanitize=address
 CFLAGS	=	 -g
 
 
