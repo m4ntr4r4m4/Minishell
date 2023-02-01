@@ -118,7 +118,7 @@ char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
 	/* lexer.c */
 char	tokens(char *token);
-void	parser(char *rd, t_all *all, char **envp);
+int		parser(char *rd, t_all *all, char **envp);
 void	search_cmd(t_all *all, char **str);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);

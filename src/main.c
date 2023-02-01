@@ -74,8 +74,8 @@ void	minishell(char **envp)
 				add_history (rd);
 				ft_env_init(envp, &all);
 				all.path = path_var(all.myenv);
-				parser(rd, &all, all.myenv);
-				prexec(&all, all.myenv);
+				if (parser(rd, &all, all.myenv))
+					prexec(&all, all.myenv);
 			}
 			free(rd);
 		}
@@ -84,7 +84,7 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	atexit(leaks);
+	/* atexit(leaks); */
 	mysignal();
 	minishell(envp);
 	return (0);

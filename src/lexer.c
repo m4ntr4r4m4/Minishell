@@ -471,24 +471,27 @@ char	*check_error(char *rd, t_all *all)
 	return	(rd);
 }
 
-void	parser(char *rd, t_all *all, char **envp)
+int	parser(char *rd, t_all *all, char **envp)
 {
 	char	**str;
 
 	/* fprintf(stderr,"rd %s\n", rd); */
 	rd = check_error(rd, all);
 	/* fprintf(stderr,"rd %s\n", rd); */
-	if (!rd)
-		return;;
-	/* CHECK ERRORS AND FILL SIZES*/
-	str = ft_split_parse(rd,' ');
-	/* INICIALICE */ 
-	init_structs(all, str);
-	/* LEXER */ 
-	lexer(str, all);
-	/* PRINT */
-	print_all(all);
-	freetable(str);
+	if (rd)
+	{
+		/* CHECK ERRORS AND FILL SIZES*/
+		str = ft_split_parse(rd,' ');
+		/* INICIALICE */ 
+		init_structs(all, str);
+		/* LEXER */ 
+		lexer(str, all);
+		/* PRINT */
+		/* print_all(all); */
+		freetable(str);
+		return	(1);
+	}
+	return	(0);
 }
 
 char token_l(char token)
