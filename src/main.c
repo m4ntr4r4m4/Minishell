@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 16:17:01 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:39:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,19 +39,14 @@
 
 void	handlerint(int x)
 {
-	if (x)
-	{
 	ioctl(0, TIOCSTI, "\n");
 //	rl_replace_line("", 0);
 	rl_on_new_line();
-	}
 }
 
 void	handlerquit(int x)
-{	if (x)
-	{
-		rl_on_new_line();
-	}
+{
+	rl_on_new_line();
 }
 
 void	mysignal(void)
@@ -64,6 +59,7 @@ void	minishell(char **envp)
 {
 	t_all	all;
 	char	*rd;
+	char	**new;
 
 	all.exit_var = 0;
 	while (1)
@@ -78,8 +74,8 @@ void	minishell(char **envp)
 				add_history (rd);
 				ft_env_init(envp, &all);
 				all.path = path_var(all.myenv);
-				parser(rd, &all);
-				prexec(&all, all.myenv);
+				if (parser(rd, &all))
+					prexec(&all, all.myenv);
 			}
 			free(rd);
 		}
@@ -88,11 +84,8 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	if (ac == 1 && av[0])
-	{
-//		atexit(leaks);
-		mysignal();
-		minishell(envp);
-	}
+	/* atexit(leaks); */
+	mysignal();
+	minishell(envp);
 	return (0);
 }

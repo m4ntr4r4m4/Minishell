@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 16:07:19 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:38:22 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -471,24 +471,27 @@ char	*check_error(char *rd, t_all *all)
 	return	(rd);
 }
 
-void	parser(char *rd, t_all *all)
+int	parser(char *rd, t_all *all)
 {
 	char	**str;
 
 	/* fprintf(stderr,"rd %s\n", rd); */
 	rd = check_error(rd, all);
 	/* fprintf(stderr,"rd %s\n", rd); */
-	if (!rd)
-		return;;
-	/* CHECK ERRORS AND FILL SIZES*/
-	str = ft_split_parse(rd,' ');
-	/* INICIALICE */ 
-	init_structs(all, str);
-	/* LEXER */ 
-	lexer(str, all);
-	/* PRINT */
-	print_all(all);
-	freetable(str);
+	if (rd)
+	{
+		/* CHECK ERRORS AND FILL SIZES*/
+		str = ft_split_parse(rd,' ');
+		/* INICIALICE */ 
+		init_structs(all, str);
+		/* LEXER */ 
+		lexer(str, all);
+		/* PRINT */
+		/* print_all(all); */
+		freetable(str);
+		return	(1);
+	}
+	return	(0);
 }
 
 char token_l(char token)

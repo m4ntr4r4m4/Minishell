@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 15:38:21 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:37:55 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -118,7 +118,7 @@ char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
 	/* lexer.c */
 char	tokens(char *token);
-void	parser(char *rd, t_all *all);
+int		parser(char *rd, t_all *all);
 void	search_cmd(t_all *all, char **str);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
