@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/27 15:51:08 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:37:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_shell_level(char *str)
 void	ft_env_init(char **envp, t_all *all)
 {
 	int		i;
-	size_t	x;
+	int	x;
 
 	i = -1;
 	if (envp)
@@ -73,7 +73,7 @@ void	ft_env_init(char **envp, t_all *all)
 void	ft_export(char *st, t_all *all)
 {
 	char	**tmp;
-	size_t	x;	
+	int	x;	
 	int		i;
 
 	i = -1;

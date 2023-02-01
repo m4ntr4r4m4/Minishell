@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/26 20:06:12 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:45:53 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,7 +54,7 @@ void	executor(t_all *all, char **envp)
 	i = 0;
 	if (all->size > 1)
 	{
-		while (i < all->size - 1)
+		while (i < (int) all->size - 1)
 		{
 			if (pipe(all->pipes[i].fd) < 0)
 			{
@@ -65,7 +65,7 @@ void	executor(t_all *all, char **envp)
 		}
 	}
 	i = -1;
-	while (++i < all->size)
+	while (++i < (int)all->size)
 	{
 		pid[i] = -1;
 		pid[i] = fork();
@@ -73,14 +73,14 @@ void	executor(t_all *all, char **envp)
 			child1(all, envp, i, all->size);
 	}
 	i = 0;
-	while (i < all->size - 1)
+	while (i < (int)all->size - 1)
 	{
 		close(all->pipes[i].fd[0]);
 		close(all->pipes[i].fd[1]);
 		i++;
 	}
 	i = -1;
-	while (++i < all->size)
+	while (++i < (int)all->size)
 		waitpid(pid[i], &all->exit_var, 0);
 	free(pid);
 }

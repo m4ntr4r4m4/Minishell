@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 15:29:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:38:06 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -471,7 +471,7 @@ char	*check_error(char *rd, t_all *all)
 	return	(rd);
 }
 
-void	parser(char *rd, t_all *all, char **envp)
+void	parser(char *rd, t_all *all)
 {
 	char	**str;
 
