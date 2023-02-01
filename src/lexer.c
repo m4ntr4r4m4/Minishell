@@ -9,7 +9,6 @@
 /*   Updated: 2023/01/24 18:16:11 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
 #include "minishell.h"
 
 static int	word(char *str, char c)
@@ -313,21 +312,21 @@ void	init_structs(t_all *all, char **str)
 		if (!all->cmd[x].args)
 			return;
 		printf("%d\n", all->s_t);
-		all->cmd[x].args[all->s_t] = '\0';
+		all->cmd[x].args[all->s_t] = NULL;
 		search_files(all, str);
 		/* printf("i %d o %d eof %d\n", all->s_i, all->s_o, all->s_eof); */
 		all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
 		if (!all->cmd[x].eof)
 			return;
-		all->cmd[x].eof[all->s_eof] = '\0';
+		all->cmd[x].eof[all->s_eof] = NULL;
 		all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
 		if (!all->cmd[x].outfile)
 			return;
-		all->cmd[x].outfile[all->s_o] = '\0';
+		all->cmd[x].outfile[all->s_o] = NULL;
 		all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
 		if (!all->cmd[x].infile)
 			return;
-		all->cmd[x].infile[all->s_i] = '\0';
+		all->cmd[x].infile[all->s_i] = NULL;
 	}
 }
 
@@ -405,30 +404,19 @@ char	*check_spaces(char *str)
 
 char *check_expanser(char *rd, t_all *all)
 {
-	int i;
-	int	dolar;
-	int	quote;
+	int	i;
 
 	i = -1;
 	while (rd[++i])
 	{
+		if (rd[i] == 39)
+		{
+			i++;
+			while (rd[i] != 39)
+				i++;
+		}
 		if (rd[i] == '$')
-			dolar = 1;
-	}
-	i = -1;
-	if (dolar == 1)
-	{
-		while (rd[++i])
-		{
-			if (rd[i] == 39)
-				quote = 1;
-		}
-		if (quote != 1)
-		{
-			/* fprintf(stderr, "fail %s\n", rd); */
 			return (expander(rd, all));
-		}
-		/* fprintf(stderr, "NOTHINGGG %s %d\n", rd, quote); */
 	}
 	return (rd);
 }
@@ -483,6 +471,7 @@ char	*check_error(char *rd, t_all *all)
 	if (check_quotes(rd) == NULL)
 		return	(NULL);
 	rd = check_expanser(rd, all);
+
 	return	(rd);
 }
 
