@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 18:16:11 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:38:22 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,7 +26,7 @@ static int	word(char *str, char c)
 	{
 		if (str[i] == '"')
 			quote++;
-		if (str[i + 1] && str[i] == c && (str[i + 1] != c) && quote != 1)
+		if (str[i + 1] && str[i] == c && (str[i + 1] != c) && quote % 2 == 0)
 			wc++;
 		i++;
 	}
@@ -42,38 +42,77 @@ static	int	ft_tr(const char *s, int c, int *quote, int *i)
 	{
 		(*i)++;
 		if (s[*i] == '"')
+		{
+			len++;
 			*quote+=1;
+		}
 		len++;
 	}
 	return (len);
 }
 
-static char *delete_quotes(char *str)
+int	count_quotes(char *str)
 {
-	int		i;
-	int		count;
-	char	*new;
-	int		x;
-	
+	int	i;
+	int	count;
+
+	i = -1;
 	count = 0;
-	i = -1;
-	while(str[++i])
-	{
-		if (str[i] != '"')
-			count++;
-	}
-	new = malloc(count + 1);
-	if (!new)
-		return (NULL);
-	i = -1;
-	x = 0;
-	new[count] = '\0';
 	while (str[++i])
 	{
-		if (str[i] != '"')
+		if (str[i] == '"')
+		{
+			while (str[++i] != '"')
+				count++;
+		}
+		else if (str[i] == 39)
+		{
+			while (str[++i] != 39)
+				count++;
+		}
+		else
+			count++;
+	}
+	return (count);
+}
+
+char	*fill_str(char *str, char *new)
+{
+	int		x;
+	int		i;
+
+	x = 0;
+	i = -1;
+	while (str[++i])
+	{	
+		if (str[i] == 39)
+		{
+			while(str[++i] != 39)
+				new[x++] = str[i];
+		}
+		else if (str[i] == '"')
+		{
+			while(str[++i] != '"')
+				new[x++] = str[i];
+		}
+		else
 			new[x++] = str[i];
 	}
 	free(str);
+	return (new);
+}
+
+static char *delete_quotes(char *str)
+{
+	int		count;
+	char	*new;
+	
+	count = count_quotes(str);
+	new = malloc(count + 1);
+	if (!new)
+		return (NULL);
+	new[count] = '\0';
+	new = fill_str(str,new);
 	return new;
 }
 
@@ -93,10 +132,7 @@ static char	**cpy(char **mots, char *s, int wc, char c)
 		while (s[i] == c)
 			i++;
 		if (s[i] == '"')
-		{
 			quote++;
-			i++;
-		}
 		start = i;
 		len = ft_tr(s, c, &quote, &i);
 		mots[j] = ft_substr(s, start, len);
@@ -136,8 +172,48 @@ void	init_iterators(t_i *i)
 	i->c_o = 0;
 }
 
-/* READ DE COMMAND AND FILL THE STRUCT */
 
+void	lexer_check(char token, t_all *all, t_i *i, char **str)
+{
+	if (token == LESS)
+	{
+		all->cmd[i->c].infile[i->i++] = ft_strdup(str[i->s + 1]);
+		all->cmd[i->c].token[0] = token;
+		i->s++;
+	}
+	else if (token == LESSLESS)
+	{
+		all->cmd[i->c].token[2] = token;
+		all->cmd[i->c].eof[i->eof++] = ft_strdup(str[++i->s]);
+	}
+	else if (token == GREAT)
+	{
+		i->c_o = 1;
+		all->cmd[i->c].token[1] = token;
+		all->cmd[i->c].outfile[i->o++] = ft_strdup(str[++i->s]);
+	}
+	else if (token == GREATGREAT)
+		all->cmd[i->c].token[3] = token;
+	else if (token == CONTINUE)
+		all->cmd[i->c].args[i->a++] = ft_strdup(str[i->s]);
+}
+
+void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
+{
+	i->a = 0;
+	i->o = 0;
+	i->i = 0;
+	i->t = 0;
+	i->eof = 0;
+	all->token_l[i->T++] = token;
+	all->cmd[++i->c].name = ft_strdup(str[++i->s]);
+	all->cmd[i->c].path = get_path(all->path, str[i->s], 3);
+	if (!all->cmd[i->c].path)
+		all->cmd[i->c].path = ft_strdup(str[i->s]);
+	all->cmd[i->c].args[i->a++] = ft_strdup(all->cmd[i->c].path);
+}
+
+/* READ DE COMMAND AND FILL THE STRUCT */
 char lexer(char **str, t_all *all)
 {
 	char	token;
@@ -155,43 +231,10 @@ char lexer(char **str, t_all *all)
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
-			/* printf("hola\n"); */
-			i.a = 0;
-			i.o = 0;
-			i.i = 0;
-			i.t = 0;
-			i.eof = 0;
-			all->token_l[i.T++] = token;
-			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
-			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
-			if (!all->cmd[i.c].path)
-				all->cmd[i.c].path = ft_strdup(str[i.s]);
-			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
-			/* i.s++; */
-			/* all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]); */
-			/* printf("holaaa\n"); */
-		}
-		else if (token == LESS)
-		{
-			all->cmd[i.c].infile[i.i++] = ft_strdup(str[i.s + 1]);
-			all->cmd[i.c].token[0] = token;
-			i.s++;
-		}
-		else if (token == LESSLESS)
-		{
-			all->cmd[i.c].token[2] = token;
-			all->cmd[i.c].eof[i.eof++] = ft_strdup(str[++i.s]);
-		}
-		else if (token == GREAT)
-		{
-			i.c_o = 1;
-			all->cmd[i.c].token[1] = token;
-			all->cmd[i.c].outfile[i.o++] = ft_strdup(str[++i.s]);
-		}
-		else if (token == GREATGREAT)
-			all->cmd[i.c].token[3] = token;
-		else if (token == CONTINUE)
-			all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]);
+			lexer_pipe(token, all, &i, str);
+					}
+		else
+			lexer_check(token, all, &i, str);
 		i.s++;
 	}
 	return (CONTINUE);
@@ -245,7 +288,6 @@ int	search_arg(t_all *all,char **str)
 			bol = 1;
 	}
 	all->i_a = i;
-	/* printf("%d\n", i); */
 	return (++all->s_t);
 }
 
@@ -276,6 +318,35 @@ void	search_files(t_all *all,char **str)
 	all->i_f = i;
 }
 
+
+int	init_fill(int x, char **str, t_all *all, int s)
+{
+	all->cmd[x].token = malloc(sizeof(int) * 4);
+	while (++s < 4)
+		all->cmd[x].token[s] = 0;
+	if (!all->cmd[x].token)
+		return (0);
+	all->cmd[x].n_tokens = 4;
+	all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
+	if (!all->cmd[x].args)
+		return (0);
+	all->cmd[x].args[all->s_t] = NULL;
+	search_files(all, str);
+	all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
+	if (!all->cmd[x].eof)
+		return (0);
+	all->cmd[x].eof[all->s_eof] = NULL;
+	all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
+	if (!all->cmd[x].outfile)
+		return (0);
+	all->cmd[x].outfile[all->s_o] = NULL;
+	all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
+	if (!all->cmd[x].infile)
+		return (0);
+	all->cmd[x].infile[all->s_i] = NULL;
+	return (1);
+}
+
 void	init_structs(t_all *all, char **str)
 {
 	int	x;
@@ -296,34 +367,8 @@ void	init_structs(t_all *all, char **str)
 		return;
 	while ((size_t)++x < all->size)
 	{
-		all->cmd[x].token = malloc(sizeof(int) * 4);
-		all->cmd[x].token[0] = 0;
-		all->cmd[x].token[1] = 0;
-		all->cmd[x].token[2] = 0;
-		all->cmd[x].token[3] = 0;
-		if (!all->cmd[x].token)
-			return;
-		all->cmd[x].n_tokens = 4;
-		/* printf("%d\n", all->cmd[x].n_tokens); */
-		all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
-		if (!all->cmd[x].args)
-			return;
-		printf("%d\n", all->s_t);
-		all->cmd[x].args[all->s_t] = NULL;
-		search_files(all, str);
-		/* printf("i %d o %d eof %d\n", all->s_i, all->s_o, all->s_eof); */
-		all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
-		if (!all->cmd[x].eof)
-			return;
-		all->cmd[x].eof[all->s_eof] = NULL;
-		all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
-		if (!all->cmd[x].outfile)
-			return;
-		all->cmd[x].outfile[all->s_o] = NULL;
-		all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
-		if (!all->cmd[x].infile)
-			return;
-		all->cmd[x].infile[all->s_i] = NULL;
+		if (!init_fill(x, str, all, -1))
+			return ;
 	}
 }
 
@@ -358,7 +403,7 @@ char *cpy_str(char *str, int y)
 	const int	len = ft_strlen(str);
 	char		*newstr;
 	
-	newstr = malloc(sizeof(char) * (len + 1));
+	newstr = malloc(sizeof(char) * (len + 2));
 	if (!newstr)
 		return (NULL);
 	newstr[len + 1] = '\0';
@@ -467,17 +512,14 @@ char	*check_error(char *rd, t_all *all)
 	if (check_quotes(rd) == NULL)
 		return	(NULL);
 	rd = check_expanser(rd, all);
-
 	return	(rd);
 }
 
-int	parser(char *rd, t_all *all, char **envp)
+char	*parser(char *rd, t_all *all)
 {
 	char	**str;
 
-	/* fprintf(stderr,"rd %s\n", rd); */
 	rd = check_error(rd, all);
-	/* fprintf(stderr,"rd %s\n", rd); */
 	if (rd)
 	{
 		/* CHECK ERRORS AND FILL SIZES*/
@@ -489,9 +531,10 @@ int	parser(char *rd, t_all *all, char **envp)
 		/* PRINT */
 		/* print_all(all); */
 		freetable(str);
-		return	(1);
+		/* fprintf(stderr,"rd %s\n", rd); */
+		/* return	(1); */
 	}
-	return	(0);
+	return	(rd);
 }
 
 char token_l(char token)

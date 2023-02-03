@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/26 20:10:54 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:51:36 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	dupfd(t_all *all, int id, size_t size)
 		close(pipes[id].fdin);
 	}
 //	if (id > 0)
-	if (all->cmd[id].token[2] == 0 && all->cmd[id].token[0] == 0) 
+	if (id != 0 && all->cmd[id].token[2] == 0 && all->cmd[id].token[0] == 0) 
 	{
 
 			dup2(pipes[id - 1].fd[0], 0);

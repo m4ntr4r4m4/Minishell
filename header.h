@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 16:37:55 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:05:18 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -118,8 +118,8 @@ char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
 	/* lexer.c */
 char	tokens(char *token);
-char	*parser(char *rd, t_all *all);
-void	search_cmd(t_all *all, char **str);
+void	parser(char *rd, t_all *all, char **envp);
+char	*search_cmd(t_all *all, char **str, char **envp);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
 void	init_iterators(t_i *i);
@@ -129,11 +129,6 @@ int		search_token(t_all *all,char **str);
 char	*check_spaces(char *str);
 char	token_l(char token);
 char	**ft_split_parse(char *s, char c);
-char	*check_error(char	*rd, t_all	*all);
-char	*check_tokens(char *str);
-char	*check_quotes(char *str);
-char	*cpy_str(char *str, int y);
-int		count_quotes(char *str);
-void	lexer_pipe(char token, t_all *all, t_i *i, char **str);
-void	lexer_check(char token, t_all *all, t_i *i, char **str);
+char	*check_error(t_all *all,char **str, char **envp);
+
 #endif

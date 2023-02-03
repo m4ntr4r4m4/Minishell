@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:20:54 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/25 17:20:08 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:37:27 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	freecmd(t_all *all)
 	int	i;
 
 	i = -1;
-	while (++i < all->size)
+	while (++i < (int)all->size)
 	{
 		free(all->cmd[i].name);
 		freetable(all->cmd[i].args);

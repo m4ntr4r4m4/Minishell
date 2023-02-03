@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/24 18:37:56 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:39:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -74,7 +74,8 @@ void	minishell(char **envp)
 				add_history (rd);
 				ft_env_init(envp, &all);
 				all.path = path_var(all.myenv);
-				if (parser(rd, &all, all.myenv))
+				rd = parser(rd, &all);
+				if (rd)
 					prexec(&all, all.myenv);
 			}
 			free(rd);
