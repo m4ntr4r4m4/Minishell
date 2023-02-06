@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 15:32:01 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 13:28:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ char	*ft_merge(char **tab)
 	return (str);
 }
 
-char	*expander(char *st, t_all *all)
+void	expander(char **st, t_all *all)
 {
 	char	**tmp;
 	int		i;
 	char	*s;
 	char	*sst;
 
-	tmp = ft_split_parse(st, ' ');
+	tmp = ft_split_parse(*st, ' ');
 	i = -1;
 	while (tmp[++i])
 	{
@@ -64,8 +64,9 @@ char	*expander(char *st, t_all *all)
 	}
 	s = ft_merge(tmp);
 	freetable(tmp);
-	free(st);
-	return (s);
+	free(*st);
+	*st = s;
+	fprintf(stderr, "this is s %s\n", *st);
 }
 
 void	leaks(void)

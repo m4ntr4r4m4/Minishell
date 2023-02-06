@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 16:31:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 12:59:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,10 +20,12 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 		if ((all->cmd[i].token[2] == 54 \
 					|| all->cmd[i].token[0] == LESS))
 		{
-	//		fprintf(stderr, " ********    ***** this is ifile id chilkd %s\n", all->cmd[i].infile[0]);
 			all->pipes[i].fdin = open(all->cmd[i].infile[0], O_RDONLY);
 			if (all->pipes[i].fdin < 0)
+			{
 				perror("file desc");
+				exit(1);
+			}
 		}
 		if (i == (int) all->size - 1 && all->cmd[i].token[1] == GREAT)
 		{
@@ -33,7 +35,10 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 				all->pipes[i].fdout = open(all->cmd[i].outfile[j], \
 					O_RDWR | O_TRUNC | O_CREAT, 0666);
 				if (all->pipes[i].fdout < 0)
+				{
 					perror("file desc");
+					exit(1);
+				}
 			}
 		}
 	dupfd(all, i, size - 1);
@@ -80,8 +85,10 @@ void	executor(t_all *all, char **envp)
 		i++;
 	}
 	i = -1;
+	fprintf(stderr, "beforeexit value: %d\n", WEXITSTATUS(all->exit_var));
 	while (++i < (int)all->size)
 		waitpid(pid[i], &all->exit_var, 0);
+	fprintf(stderr, "after exit value: %d\n", WEXITSTATUS(all->exit_var));
 	free(pid);
 }
 

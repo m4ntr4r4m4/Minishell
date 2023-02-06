@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 16:37:55 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 13:16:40 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -102,7 +102,7 @@ void	ft_export(char *st, t_all *all);
 size_t	ft_get_size(char **arr);
 char	*ft_mygetenv(char *str, t_all *all);
 void	ft_env_init(char **envp, t_all *all);
-char	*expander(char *str, t_all *all);
+void	expander(char **str, t_all *all);
 void	freecmd(t_all *all);
 void	freetable(char **str);
 void	dupfd(t_all *all, int id, size_t size);
