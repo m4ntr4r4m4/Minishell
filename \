@@ -403,15 +403,19 @@ int	cpy_str(char **str, int y)
 	const int	len = ft_strlen(*str);
 	char		*newstr;
 	
+	printf("len %d y %d\n",len ,y);
 	newstr = malloc(sizeof(char) * (len + 2));
 	if (!newstr)
 		return (0);
 	newstr[len + 1] = '\0';
 	ft_memcpy(newstr, *str, y);
+	printf("3a %s\n", newstr);
 	newstr[y] = ' ';
 	ft_memcpy(&newstr[y + 1], &(*str)[y], len - y);
+	printf("3c %s\n", newstr);
 	free(*str);
 	*str = newstr;
+	printf("end %s\n", *str);
 	return (1);
 	/* return (newstr); */
 }
@@ -428,6 +432,7 @@ int	check_spaces(char **temp)
 	y = -1;
 	while (str[++y] != '\0')
 	{
+		printf("after secand cpy %s this y %d %c\n", str, y, str[y]);
 		token = token_l(str[y]);
 		if (token != CONTINUE)
 		{
@@ -438,9 +443,14 @@ int	check_spaces(char **temp)
 			}
 			if (str[y]) 
 			{
+				printf("1c %c\n", str[y]);
 				y++;
 				if (!cpy_str(&str, y - (vol + 1)))
+				{
+					printf("3ca %c\n", str[y]);
 					return (0);
+				}
+				printf("after fiirst cpy %s\n", str);
 				if (!cpy_str(&str, y + 1))
 					return (0);
 				if (str[y] == '\0')
@@ -456,10 +466,12 @@ int	check_spaces(char **temp)
 
 void	check_expanser(char **str, t_all *all)
 {
-	int		i;
+	int	i;
 	char	*rd;
 
+	printf("rdddd %s\n", rd);
 	rd = *str;
+	printf("rdddd %s\n", rd);
 	i = -1;
 	while (rd[++i] == '\0')
 	{
@@ -519,22 +531,26 @@ int	check_error(char **rd, t_all *all)
 {
 	if (!check_tokens(*rd))
 		return	(0);
-	if (!check_spaces(rd))
+	printf("outside %s\n", *rd);
+	if (!check_spaces(ft_strdup(rd)))
 		return	(0);
+	printf("outside %s\n", *rd);
 	if (!check_quotes(*rd))
 		return	(0);
+	printf("aaaoutside %s\n", *rd);
 	return	(1);
 }
 
-int	parser(char **rd, t_all *all)
+int	parser(char *rd, t_all *all)
 {
 	char	**str;
 
-	if (check_error(rd, all))
+	if (check_error(&rd, all))
 	{
-		check_expanser(rd, all);
+		printf("rdddd %s\n", rd);
+		check_expanser(&rd, all);
 		/* CHECK ERRORS AND FILL SIZES*/
-		str = ft_split_parse(*rd,' ');
+		str = ft_split_parse(&rd,' ');
 		/* INICIALICE */ 
 		init_structs(all, str);
 		/* LEXER */ 

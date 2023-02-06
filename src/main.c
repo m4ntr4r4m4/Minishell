@@ -74,8 +74,7 @@ void	minishell(char **envp)
 				add_history (rd);
 				ft_env_init(envp, &all);
 				all.path = path_var(all.myenv);
-				rd = parser(rd, &all);
-				if (rd)
+				if (parser(&rd, &all))
 					prexec(&all, all.myenv);
 			}
 			free(rd);
