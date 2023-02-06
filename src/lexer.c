@@ -26,7 +26,7 @@ static int	word(char *str, char c)
 	{
 		if (str[i] == '"')
 			quote++;
-		if (str[i + 1] && str[i] == c && (str[i + 1] != c) && quote != 1)
+		if (str[i + 1] && str[i] == c && (str[i + 1] != c) && quote % 2 == 0)
 			wc++;
 		i++;
 	}
@@ -42,38 +42,77 @@ static	int	ft_tr(const char *s, int c, int *quote, int *i)
 	{
 		(*i)++;
 		if (s[*i] == '"')
+		{
+			len++;
 			*quote+=1;
+		}
 		len++;
 	}
 	return (len);
 }
 
-static char *delete_quotes(char *str)
+int	count_quotes(char *str)
 {
-	int		i;
-	int		count;
-	char	*new;
-	int		x;
-	
+	int	i;
+	int	count;
+
+	i = -1;
 	count = 0;
-	i = -1;
-	while(str[++i])
-	{
-		if (str[i] != '"')
-			count++;
-	}
-	new = malloc(count + 1);
-	if (!new)
-		return (NULL);
-	i = -1;
-	x = 0;
-	new[count] = '\0';
 	while (str[++i])
 	{
-		if (str[i] != '"')
+		if (str[i] == '"')
+		{
+			while (str[++i] != '"')
+				count++;
+		}
+		else if (str[i] == 39)
+		{
+			while (str[++i] != 39)
+				count++;
+		}
+		else
+			count++;
+	}
+	return (count);
+}
+
+char	*fill_str(char *str, char *new)
+{
+	int		x;
+	int		i;
+
+	x = 0;
+	i = -1;
+	while (str[++i])
+	{	
+		if (str[i] == 39)
+		{
+			while(str[++i] != 39)
+				new[x++] = str[i];
+		}
+		else if (str[i] == '"')
+		{
+			while(str[++i] != '"')
+				new[x++] = str[i];
+		}
+		else
 			new[x++] = str[i];
 	}
 	free(str);
+	return (new);
+}
+
+static char *delete_quotes(char *str)
+{
+	int		count;
+	char	*new;
+	
+	count = count_quotes(str);
+	new = malloc(count + 1);
+	if (!new)
+		return (NULL);
+	new[count] = '\0';
+	new = fill_str(str,new);
 	return new;
 }
 
@@ -93,10 +132,7 @@ static char	**cpy(char **mots, char *s, int wc, char c)
 		while (s[i] == c)
 			i++;
 		if (s[i] == '"')
-		{
 			quote++;
-			i++;
-		}
 		start = i;
 		len = ft_tr(s, c, &quote, &i);
 		mots[j] = ft_substr(s, start, len);
@@ -136,8 +172,48 @@ void	init_iterators(t_i *i)
 	i->c_o = 0;
 }
 
-/* READ DE COMMAND AND FILL THE STRUCT */
 
+void	lexer_check(char token, t_all *all, t_i *i, char **str)
+{
+	if (token == LESS)
+	{
+		all->cmd[i->c].infile[i->i++] = ft_strdup(str[i->s + 1]);
+		all->cmd[i->c].token[0] = token;
+		i->s++;
+	}
+	else if (token == LESSLESS)
+	{
+		all->cmd[i->c].token[2] = token;
+		all->cmd[i->c].eof[i->eof++] = ft_strdup(str[++i->s]);
+	}
+	else if (token == GREAT)
+	{
+		i->c_o = 1;
+		all->cmd[i->c].token[1] = token;
+		all->cmd[i->c].outfile[i->o++] = ft_strdup(str[++i->s]);
+	}
+	else if (token == GREATGREAT)
+		all->cmd[i->c].token[3] = token;
+	else if (token == CONTINUE)
+		all->cmd[i->c].args[i->a++] = ft_strdup(str[i->s]);
+}
+
+void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
+{
+	i->a = 0;
+	i->o = 0;
+	i->i = 0;
+	i->t = 0;
+	i->eof = 0;
+	all->token_l[i->T++] = token;
+	all->cmd[++i->c].name = ft_strdup(str[++i->s]);
+	all->cmd[i->c].path = get_path(all->path, str[i->s], 3);
+	if (!all->cmd[i->c].path)
+		all->cmd[i->c].path = ft_strdup(str[i->s]);
+	all->cmd[i->c].args[i->a++] = ft_strdup(all->cmd[i->c].path);
+}
+
+/* READ DE COMMAND AND FILL THE STRUCT */
 char lexer(char **str, t_all *all)
 {
 	char	token;
@@ -155,43 +231,10 @@ char lexer(char **str, t_all *all)
 		token = tokens(str[i.s]);
 		if (token == PIPE || token == AMPERSAND)
 		{
-			/* printf("hola\n"); */
-			i.a = 0;
-			i.o = 0;
-			i.i = 0;
-			i.t = 0;
-			i.eof = 0;
-			all->token_l[i.T++] = token;
-			all->cmd[++i.c].name = ft_strdup(str[++i.s]);
-			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
-			if (!all->cmd[i.c].path)
-				all->cmd[i.c].path = ft_strdup(str[i.s]);
-			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
-			/* i.s++; */
-			/* all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]); */
-			/* printf("holaaa\n"); */
-		}
-		else if (token == LESS)
-		{
-			all->cmd[i.c].infile[i.i++] = ft_strdup(str[i.s + 1]);
-			all->cmd[i.c].token[0] = token;
-			i.s++;
-		}
-		else if (token == LESSLESS)
-		{
-			all->cmd[i.c].token[2] = token;
-			all->cmd[i.c].eof[i.eof++] = ft_strdup(str[++i.s]);
-		}
-		else if (token == GREAT)
-		{
-			i.c_o = 1;
-			all->cmd[i.c].token[1] = token;
-			all->cmd[i.c].outfile[i.o++] = ft_strdup(str[++i.s]);
-		}
-		else if (token == GREATGREAT)
-			all->cmd[i.c].token[3] = token;
-		else if (token == CONTINUE)
-			all->cmd[i.c].args[i.a++] = ft_strdup(str[i.s]);
+			lexer_pipe(token, all, &i, str);
+					}
+		else
+			lexer_check(token, all, &i, str);
 		i.s++;
 	}
 	return (CONTINUE);
@@ -245,7 +288,6 @@ int	search_arg(t_all *all,char **str)
 			bol = 1;
 	}
 	all->i_a = i;
-	/* printf("%d\n", i); */
 	return (++all->s_t);
 }
 
@@ -276,6 +318,35 @@ void	search_files(t_all *all,char **str)
 	all->i_f = i;
 }
 
+
+int	init_fill(int x, char **str, t_all *all, int s)
+{
+	all->cmd[x].token = malloc(sizeof(int) * 4);
+	while (++s < 4)
+		all->cmd[x].token[s] = 0;
+	if (!all->cmd[x].token)
+		return (0);
+	all->cmd[x].n_tokens = 4;
+	all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
+	if (!all->cmd[x].args)
+		return (0);
+	all->cmd[x].args[all->s_t] = NULL;
+	search_files(all, str);
+	all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
+	if (!all->cmd[x].eof)
+		return (0);
+	all->cmd[x].eof[all->s_eof] = NULL;
+	all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
+	if (!all->cmd[x].outfile)
+		return (0);
+	all->cmd[x].outfile[all->s_o] = NULL;
+	all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
+	if (!all->cmd[x].infile)
+		return (0);
+	all->cmd[x].infile[all->s_i] = NULL;
+	return (1);
+}
+
 void	init_structs(t_all *all, char **str)
 {
 	int	x;
@@ -296,38 +367,12 @@ void	init_structs(t_all *all, char **str)
 		return;
 	while ((size_t)++x < all->size)
 	{
-		all->cmd[x].token = malloc(sizeof(int) * 4);
-		all->cmd[x].token[0] = 0;
-		all->cmd[x].token[1] = 0;
-		all->cmd[x].token[2] = 0;
-		all->cmd[x].token[3] = 0;
-		if (!all->cmd[x].token)
-			return;
-		all->cmd[x].n_tokens = 4;
-		/* printf("%d\n", all->cmd[x].n_tokens); */
-		all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
-		if (!all->cmd[x].args)
-			return;
-		printf("%d\n", all->s_t);
-		all->cmd[x].args[all->s_t] = NULL;
-		search_files(all, str);
-		/* printf("i %d o %d eof %d\n", all->s_i, all->s_o, all->s_eof); */
-		all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
-		if (!all->cmd[x].eof)
-			return;
-		all->cmd[x].eof[all->s_eof] = NULL;
-		all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
-		if (!all->cmd[x].outfile)
-			return;
-		all->cmd[x].outfile[all->s_o] = NULL;
-		all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
-		if (!all->cmd[x].infile)
-			return;
-		all->cmd[x].infile[all->s_i] = NULL;
+		if (!init_fill(x, str, all, -1))
+			return ;
 	}
 }
 
-char	*check_quotes(char *str)
+int	check_quotes(char *str)
 {
 	int	y;
 
@@ -338,46 +383,50 @@ char	*check_quotes(char *str)
 		{
 			while (str[++y] && str[y] != 34);
 			if (!str[y])
-				return	(NULL);
+				return	(0);
 		}
 		else if (str[y] == 39)
 		{
 			while (str[++y] && str[y] != 39);
 			if (!str[y])
-				return	(NULL);
+				return	(0);
 		}
 		else if (str[y] == 59 || str[y] == 92)
-			return NULL;
+			return (0);
 	}
-	return	(GOOD);
+	return	(1);
 }
 
 /* add a space on the mark and return all the str concatenated */ 
-char *cpy_str(char *str, int y)
+int	cpy_str(char **str, int y)
 {
-	const int	len = ft_strlen(str);
+	const int	len = ft_strlen(*str);
 	char		*newstr;
 	
-	newstr = malloc(sizeof(char) * (len + 1));
+	newstr = malloc(sizeof(char) * (len + 2));
 	if (!newstr)
-		return (NULL);
+		return (0);
 	newstr[len + 1] = '\0';
-	ft_memcpy(newstr, str, y);
+	ft_memcpy(newstr, *str, y);
 	newstr[y] = ' ';
-	ft_memcpy(&newstr[y + 1], &str[y], len - y);
-	free(str);
-	return (newstr);
+	ft_memcpy(&newstr[y + 1], &(*str)[y], len - y);
+	free(*str);
+	*str = newstr;
+	return (1);
+	/* return (newstr); */
 }
 
-char	*check_spaces(char *str)
+int	check_spaces(char **temp)
 {
 	int		y;
 	char	token;
 	int		vol;
+	char	*str;
 
+	str = *temp;
 	vol = 0;
 	y = -1;
-	while (str[++y])
+	while (str[++y] != '\0')
 	{
 		token = token_l(str[y]);
 		if (token != CONTINUE)
@@ -387,24 +436,32 @@ char	*check_spaces(char *str)
 				y++;
 				vol++;
 			}
-			if (str[++y]) 
+			if (str[y]) 
 			{
-				str = cpy_str(str, y - (vol + 1));
-				str = cpy_str(str, y + 1);
+				y++;
+				if (!cpy_str(&str, y - (vol + 1)))
+					return (0);
+				if (!cpy_str(&str, y + 1))
+					return (0);
+				if (str[y] == '\0')
+					return (1);
 			}
 			vol = 0;
 		}
 	}
-	return	(str);
+	*temp = str;
+	return (1);
 }
 
 
-char *check_expanser(char *rd, t_all *all)
+void	check_expanser(char **str, t_all *all)
 {
-	int	i;
+	int		i;
+	char	*rd;
 
+	rd = *str;
 	i = -1;
-	while (rd[++i])
+	while (rd[++i] == '\0')
 	{
 		if (rd[i] == 39)
 		{
@@ -413,9 +470,11 @@ char *check_expanser(char *rd, t_all *all)
 				i++;
 		}
 		if (rd[i] == '$')
-			return (expander(rd, all));
+		{
+			expander(rd, all);
+			*str = rd;
+		}
 	}
-	return (rd);
 }
 
 
@@ -431,7 +490,7 @@ int	check_token(char token, char prev, char str, int count)
 	return	(1);
 }
 
-char	*check_tokens(char *str)
+int	check_tokens(char *str)
 {
 	int		i;
 	char	token;
@@ -439,49 +498,43 @@ char	*check_tokens(char *str)
 
 	i = -1;
 	count = 0;
-	while(str[++i])
+	while (str[++i])
 	{
 		token = token_l(str[i]);
 		if (token != CONTINUE)
 		{
 			if (!check_token(token, token_l(str[i - 1]), token_l(str[i + 1]), count))
-				return (NULL);
+				return (0);
 			count = 0;
 		}
 		else if (str[i] != 32)
 			count = 1;
 	}
 	if (!count)
-		return	(NULL);
-	return	(str);
+		return	(0);
+	return	(1);
 }
 
-char	*check_error(char *rd, t_all *all)
+int	check_error(char **rd, t_all *all)
 {
-	rd = check_tokens(rd);
-	if (!rd)
-		return	(NULL);
-	rd = check_spaces(rd);
-	if (!rd)
-		return	(NULL);
-	if (check_quotes(rd) == NULL)
-		return	(NULL);
-	rd = check_expanser(rd, all);
-
-	return	(rd);
+	if (!check_tokens(*rd))
+		return	(0);
+	if (!check_spaces(rd))
+		return	(0);
+	if (!check_quotes(*rd))
+		return	(0);
+	return	(1);
 }
 
-int	parser(char *rd, t_all *all)
+int	parser(char **rd, t_all *all)
 {
 	char	**str;
 
-	/* fprintf(stderr,"rd %s\n", rd); */
-	rd = check_error(rd, all);
-	/* fprintf(stderr,"rd %s\n", rd); */
-	if (rd)
+	if (check_error(rd, all))
 	{
+		check_expanser(rd, all);
 		/* CHECK ERRORS AND FILL SIZES*/
-		str = ft_split_parse(rd,' ');
+		str = ft_split_parse(*rd,' ');
 		/* INICIALICE */ 
 		init_structs(all, str);
 		/* LEXER */ 
@@ -489,7 +542,9 @@ int	parser(char *rd, t_all *all)
 		/* PRINT */
 		/* print_all(all); */
 		freetable(str);
-		return	(1);
+		/* fprintf(stderr,"rd %s\n", rd); */
+		/* return	(1); */
+		return (1);
 	}
 	return	(0);
 }
@@ -497,34 +552,34 @@ int	parser(char *rd, t_all *all)
 char token_l(char token)
 {
 	if (token == 62)
-		return GREAT;
+		return	(GREAT);
 	else if (token == 60)
-		return LESS;
+		return	(LESS);
 	else if (token == 124)
-		return PIPE;
+		return	(PIPE);
 	else if (token == 38)
-		return AMPERSAND;
+		return	(AMPERSAND);
 	else 
-		return CONTINUE;
+		return	(CONTINUE);
 }
 
 /* enlaza los simbolos con comandos para que entienda el parser y los add a la tabla */
 char tokens(char *token)
 {
 	if (!strcmp(token, ">"))
-		return GREAT;
+		return	(GREAT);
 	else if (!strcmp(token, "<"))
-		return LESS;
+		return	(LESS);
 	else if (!strcmp(token, "<<"))
-		return LESSLESS;
+		return	(LESSLESS);
 	else if (!strcmp(token, ">>"))
-		return GREATGREAT;
+		return	(GREATGREAT);
 	else if (!strcmp(token, ">&"))
-		return GREATAMPERSAND;
+		return	(GREATAMPERSAND);
 	else if (!strcmp(token, "|"))
-		return PIPE;
+		return	(PIPE);
 	else if (!strcmp(token, "&"))
-		return AMPERSAND;
+		return	(AMPERSAND);
 	else
-		return CONTINUE;
+		return	(CONTINUE);
 }

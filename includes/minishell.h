@@ -118,7 +118,7 @@ char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
 	/* lexer.c */
 char	tokens(char *token);
-int		parser(char *rd, t_all *all);
+int		parser(char **rd, t_all *all);
 void	search_cmd(t_all *all, char **str);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
@@ -126,12 +126,14 @@ void	init_iterators(t_i *i);
 void	search_files(t_all *all,char **str);
 int		search_arg(t_all *all,char **str);
 int		search_token(t_all *all,char **str);
-char	*check_spaces(char *str);
+int		check_spaces(char **str);
 char	token_l(char token);
 char	**ft_split_parse(char *s, char c);
-char	*check_error(char	*rd, t_all	*all);
-char	*check_tokens(char *str);
-char	*check_quotes(char *str);
-char	*cpy_str(char *str, int y);
-
+int		check_error(char	**rd, t_all	*all);
+int		check_tokens(char *str);
+int		check_quotes(char *str);
+int		cpy_str(char **str, int y);
+int		count_quotes(char *str);
+void	lexer_pipe(char token, t_all *all, t_i *i, char **str);
+void	lexer_check(char token, t_all *all, t_i *i, char **str);
 #endif
