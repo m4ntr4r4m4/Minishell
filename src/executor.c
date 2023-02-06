@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 12:59:23 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:01:48 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -43,7 +43,23 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 		}
 	dupfd(all, i, size - 1);
 	closefiledes(all->pipes, size - 1);
-	if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
+	if (all->cmd[i].builtins)
+	{
+//		if (!strncmp(all->cmd[i].name, "echo", 4))
+//			while (all->cmd[i].args)
+//				ft_echo(all->cmd[i].args++, 1 );	
+		if (!strncmp(all->cmd[i].name, "pwd", 3))
+			ft_pwd();
+		if (!strncmp(all->cmd[i].name, "cd", 2))
+			ft_cd(all->cmd[i].args[0], all);
+//		if (!strncmp(all->cmd[i].name, "unset", 5))
+//			while (all->cmd[i].args)
+//				ft_unset(all->cmd[i].args++, all);
+
+		if (!strncmp(all->cmd[i].name, "exit", 4))
+			ft_exit();
+	}
+	else if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
 		perror("command");
 	kill(getpid(), SIGTERM);
 }

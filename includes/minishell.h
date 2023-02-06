@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 13:16:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:03:27 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -31,6 +31,7 @@
 # include "libft.h"
 # include <stdbool.h>
 # include <signal.h>
+# include <limits.h>
 
 # define AMPERSAND '1'
 # define GREAT '2'
@@ -61,6 +62,7 @@ typedef struct	s_cmd
 	int		*token;
 	int		check;
 	int		n_tokens; /*number of tokens */
+	int		builtins;
 }	t_cmd;
 
 typedef struct	s_all
@@ -97,6 +99,11 @@ typedef struct	s_iterators
 }	t_i;
 
 static 	int		sig_mini;
+void	ft_echo(char *str, int flag);
+int	ft_cd(char *path, t_all *all);
+void	ft_pwd(void);
+void	ft_exit(void);
+void	ft_unset(char *st, t_all *all);
 void	leaks(void);
 void	ft_export(char *st, t_all *all);
 size_t	ft_get_size(char **arr);

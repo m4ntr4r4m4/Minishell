@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 13:33:49 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:38:31 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -471,12 +471,8 @@ void	check_expanser(char **str, t_all *all)
 		}
 		if (rd[i] == '$')
 		{
-			fprintf(stderr, "before rd inside check exp >>> %s\n", rd);
 			expander(str, all);
-			fprintf(stderr, "this rd inside check exp >>> %s\n", *str);
 			rd = *str;
-
-
 		}
 	}
 }

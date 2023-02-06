@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 13:28:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:23:53 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_merge(char **tab)
 	i = 0;
 	tmp2 = malloc(sizeof(char));
 	tmp1 = ft_strjoin(tab[0], " ");
-	if (tab[1] == NULL)
+	if (tab[1] == NULL || tab[1][0] == '\0')
 	{
 		free(tmp2);
 		return (tmp1);
@@ -57,12 +57,16 @@ void	expander(char **st, t_all *all)
 		{
 			sst = ft_strtrim(tmp[i], s);
 			s = ft_mygetenv(s, all);
+			fprintf(stderr, "this is s %s\n", s);
 			free(tmp[i]);
 			tmp[i] = ft_strjoin(sst, s);
 			free(sst);
 		}
 	}
+	fprintf(stderr, "this is tmp\n");
+	ft_print_table(tmp, 2);
 	s = ft_merge(tmp);
+	fprintf(stderr, "this is s after nerge %s\n", s);
 	freetable(tmp);
 	free(*st);
 	*st = s;
