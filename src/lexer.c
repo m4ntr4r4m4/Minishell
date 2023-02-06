@@ -25,28 +25,51 @@ static int	word(char *str, char c)
 	while (str[i])
 	{
 		if (str[i] == '"')
-			quote++;
-		if (str[i + 1] && str[i] == c && (str[i + 1] != c) && quote % 2 == 0)
+		{
+			i++;
+			while (str[i] != '"')
+				i++;
+		}
+		if (str[i] == 39)
+		{
+			i++;
+			while (str[i] != 39)
+				i++;
+		}
+		if (str[i + 1] && str[i] == c && (str[i + 1] != c))
+		{
 			wc++;
+		}
 		i++;
 	}
 	return (wc);
 }
 
-static	int	ft_tr(const char *s, int c, int *quote, int *i)
+static	int	ft_tr(const char *s, int c, char quote, int *i)
 {
 	int	len;
+	int	vol;
+	int	cq;
+	int	sq;
 
 	len = 0;
-	while (((s[*i] != c || (*quote % 2) != 0) && s[*i] != '\0'))
+	cq = 0;
+	vol = 0;
+	sq = 0;
+	if (quote == ' ')
+		vol = 1;
+	while ((s[*i] != '\0'))
 	{
-		(*i)++;
-		if (s[*i] == '"')
-		{
-			len++;
-			*quote+=1;
-		}
+		if (s[*i] == quote && vol)
+			return (len);
+		if (sq && s[*i] == 32 || (s[*i] == 32 && cq == 2))
+			return (len);
+		if (cq == 1 && s[*i] == quote && s[*i + 1] != 32)
+			sq = 1;
+		else if (s[*i] == quote)
+			cq++;
 		len++;
+		(*i)++;
 	}
 	return (len);
 }
@@ -112,7 +135,7 @@ static char *delete_quotes(char *str)
 	if (!new)
 		return (NULL);
 	new[count] = '\0';
-	new = fill_str(str,new);
+	new = fill_str(str, new);
 	return new;
 }
 
@@ -123,7 +146,7 @@ static char	**cpy(char **mots, char *s, int wc, char c)
 	int			j;
 	int			len;
 	int			start;
-	static int	quote;
+	char		quote;
 
 	i = 0;
 	j = 0;
@@ -132,9 +155,13 @@ static char	**cpy(char **mots, char *s, int wc, char c)
 		while (s[i] == c)
 			i++;
 		if (s[i] == '"')
-			quote++;
+			quote = '"';
+		else if (s[i] == 39)
+			quote = 39;
+		else
+			quote = ' ';
 		start = i;
-		len = ft_tr(s, c, &quote, &i);
+		len = ft_tr(s, c, quote, &i);
 		mots[j] = ft_substr(s, start, len);
 		mots[j] = delete_quotes(mots[j]);
 		j++;
