@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 16:04:49 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:03:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -59,7 +59,6 @@ void	minishell(char **envp)
 {
 	t_all	all;
 	char	*rd;
-	char	**new;
 
 	all.exit_var = 0;
 	while (1)
@@ -77,7 +76,13 @@ void	minishell(char **envp)
 				if (parser(&rd, &all))
 				{
 //					print_all(&all);
+					all.cmd[0].builtins = 0;
 					prexec(&all, all.myenv);
+				}
+				else
+				{
+					freetable(all.myenv);
+					freetable(all.path);
 				}
 
 			}
@@ -88,7 +93,7 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-//	atexit(leaks);
+	atexit(leaks);
 	mysignal();
 	minishell(envp);
 	return (0);

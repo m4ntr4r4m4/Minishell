@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 15:37:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:24:43 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,9 @@ char	*ft_mygetenv(char *str, t_all *all)
 	}
 	free(st);
 	free(str);
-	return (ft_strdup(""));
+	return ("");
 }
+
 /*
 int	main(int ac, char **av, char **envp)
 {
