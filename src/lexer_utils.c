@@ -41,7 +41,6 @@ void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
 	all->cmd[i->c].args[i->a++] = ft_strdup(all->cmd[i->c].path);
 }
 
-/* READ DE COMMAND AND FILL THE STRUCT */
 char	lexer(char **str, t_all *all)
 {
 	char	token;

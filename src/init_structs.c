@@ -39,6 +39,7 @@ int	init_fill(int x, char **str, t_all *all, int s)
 	if (!all->cmd[x].infile)
 		return (0);
 	all->cmd[x].infile[all->s_i] = NULL;
+	all->cmd[x].builtins = 0;
 	return (1);
 }
 
