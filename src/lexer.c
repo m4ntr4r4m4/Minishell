@@ -21,6 +21,7 @@ int	parser(char **rd, t_all *all)
 		str = ft_split_parse(*rd, ' ');
 		init_structs(all, str);
 		lexer(str, all);
+		print_all(all);
 		freetable(str);
 		return (1);
 	}

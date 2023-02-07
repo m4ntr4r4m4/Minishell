@@ -24,6 +24,8 @@ char	tokens(char *token)
 		return (LESSLESS);
 	else if (!strcmp(token, ">>"))
 		return (GREATGREAT);
+	else if (!strcmp(token, "<>"))
+		return (LESS);
 	else if (!strcmp(token, ">&"))
 		return (GREATAMPERSAND);
 	else if (!strcmp(token, "|"))

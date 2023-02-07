@@ -62,7 +62,14 @@ int	check_token(char token, char prev, char str, int count)
 	if (prev != CONTINUE)
 	{
 		if (token != prev || str != CONTINUE)
+		{
+			if (prev == LESS && token == GREAT)
+			{
+				printf("es el caso\n");
+				return (1);
+			}
 			return (0);
+		}
 	}
 	else if (!count)
 		return (0);
