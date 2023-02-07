@@ -16,7 +16,10 @@ void	lexer_check(char token, t_all *all, t_i *i, char **str)
 	else if (token == GREAT || token == GREATGREAT)
 	{
 		i->c_o = 1;
-		all->cmd[i->c].token[1] = token;
+		if (token == GREAT)
+			all->cmd[i->c].token[1] = token;
+		else
+			all->cmd[i->c].token[3] = token;
 		all->cmd[i->c].outfile[i->o++] = ft_strdup(str[++i->s]);
 	}
 	else if (token == CONTINUE)
