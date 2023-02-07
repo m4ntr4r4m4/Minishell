@@ -139,6 +139,7 @@ void	lexer_check(char token, t_all *all, t_i *i, char **str);
 void	check_expanser(char **str, t_all *all);
 int		add_space(char **str, int *y);
 int		word(char *str, char c);
+void	word_iterate(char *str, int *i, char c, int *wc);
 char	**cpy(char **mots, char *s, int wc, char c);
 int		ft_tr(const char *s, int c, char quote, int *i);
 char	*delete_quotes(char *str);
