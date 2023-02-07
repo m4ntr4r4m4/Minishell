@@ -6,13 +6,13 @@
 /*   By: ahammoud <ahammoud@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:47:23 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 13:00:42 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:00:09 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	word(char *str, char c)
+static int	word_delete(char *str, char c)
 {
 	int	i;
 	int	wc;
@@ -34,7 +34,7 @@ static int	word(char *str, char c)
 	return (wc);
 }
 
-static	int	ft_tr(const char *s, int c, int *quote, int *i)
+static	int	ft_tr_delete(const char *s, int c, int *quote, int *i)
 {
 	int	len;
 
@@ -49,7 +49,7 @@ static	int	ft_tr(const char *s, int c, int *quote, int *i)
 	return (len);
 }
 
-static char *delete_quotes(char *str)
+static char *delete_quotes_delete(char *str)
 {
 	int	i;
 	int	count;
@@ -76,7 +76,7 @@ static char *delete_quotes(char *str)
 }
 
 
-static char	**cpy(char **mots, char const *s, int wc, char c)
+static char	**cpy_delete(char **mots, char const *s, int wc, char c)
 {
 	int			i;
 	int			j;
@@ -96,7 +96,7 @@ static char	**cpy(char **mots, char const *s, int wc, char c)
 			i++;
 		}
 		start = i;
-		len = ft_tr(s, c, &quote, &i);
+		len = ft_tr_delete(s, c, &quote, &i);
 		mots[j] = ft_substr(s, start, len);
 		j++;
 	}
@@ -111,10 +111,10 @@ char	**ft_split_delete(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	wc = word((char *)s, c);
+	wc = word_delete((char *)s, c);
 	mots = malloc(sizeof(char *) * (wc + 1));
 	if (!mots)
 		return (0);
-	mots = cpy(mots, s, wc, c);
+	mots = cpy_delete(mots, s, wc, c);
 	return (mots);
 }
