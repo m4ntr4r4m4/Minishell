@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 18:23:48 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:22:25 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,6 @@ char	*ft_merge(char **tab)
 	return (str);
 }
 
-char	*expanderchild(char *st, t_all *all)
-{
-	char **tmp;
-	int	i;
-	char	*s;
-
-	tmp = ft_split_parse(st, ' ');
-	i = -1;
-	fprintf(stderr, " |||||||| this is tab \n");
-	ft_print_table(tmp, 2);
-	fprintf(stderr, " |||||||| end is tab \n");
-	while (tmp[++i] != NULL)
-	{
-		s = ft_strrchr(tmp[i], '$');
-		if (s)
-		{
-			fprintf(stderr, " (((((((((  i am here\n");
-			s = ft_mygetenv(s, all);
-			free(tmp[i]);
-			tmp[i] = ft_strdup(s);
-		}
-	}
-	free(st);
-	s = ft_merge(tmp);
-	freetable(tmp);
-	fprintf(stderr, " ******* %s\n", s);
-	return (s);
-}
-
 void	expander(char **st, t_all *all)
 {
 	char	**tmp;
@@ -77,25 +48,23 @@ void	expander(char **st, t_all *all)
 	char	*s;
 	char	*sst;
 
-	tmp = ft_split_parse(*st, ' ');
+	tmp = ft_split_delete(*st, ' ');
 	i = -1;
-	fprintf(stderr, " ____________ this is RD \n");
-	ft_print_table(tmp, 2);
-	fprintf(stderr, " ____________ end is RD \n");
+	fprintf(stderr, " ______ PARENT ______ end is RD \n");
 	while (tmp[++i])
 	{
-		tmp[i] = expanderchild(tmp[i], all);
-
-//		s = ft_strrchr(tmp[i], '$');
-//		if (s)
-//		{
-//			sst = ft_strtrim(tmp[i], s);
-//			s = ft_mygetenv(s, all);
-//			ft_print_table(tmp, 2);
-//			free(tmp[i]);
-//			tmp[i] = ft_strjoin(sst, s);
-//			free(sst);
-//		}
+		s = ft_strchr(tmp[i], '$');
+		if (s)
+		{
+			sst = ft_strtrim(tmp[i], s);
+			fprintf(stderr, " ______ PARENT ______  sst: %s s: %s \n",sst, s);
+			s = ft_mygetenv(ft_strdup(s), all);
+			ft_print_table(tmp, 2);
+			free(tmp[i]);
+			tmp[i] = ft_strjoin(sst, s);
+			if (sst)
+				free(sst);
+		}
 	}
 	ft_print_table(tmp, 2);
 	s = ft_merge(tmp);

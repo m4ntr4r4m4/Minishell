@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 16:58:46 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 12:49:22 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -98,6 +98,7 @@ typedef struct	s_iterators
 	int	c_o; /* lexer checker outf */
 }	t_i;
 
+char    **ft_split_delete(char const *s, char c);
 static 	int		sig_mini;
 char	*ft_merge(char **tab);
 void	ft_echo(char *str, int flag);
