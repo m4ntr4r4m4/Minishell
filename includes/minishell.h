@@ -103,7 +103,7 @@ void	ft_export(char *st, t_all *all);
 size_t	ft_get_size(char **arr);
 char	*ft_mygetenv(char *str, t_all *all);
 void	ft_env_init(char **envp, t_all *all);
-char	*expander(char *str, t_all *all);
+char	*expander(char **str, t_all *all);
 void	freecmd(t_all *all);
 void	freetable(char **str);
 void	dupfd(t_all *all, int id, size_t size);

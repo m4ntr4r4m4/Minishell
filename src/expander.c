@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 15:32:01 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:46:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ char	*ft_merge(char **tab)
 	i = 0;
 	tmp2 = malloc(sizeof(char));
 	tmp1 = ft_strjoin(tab[0], " ");
-	if (tab[1] == NULL)
-	{
-		free(tmp2);
-		return (tmp1);
-	}
 	while (tab[++i])
 	{
 		if (*tab[i] == '\0')
@@ -41,14 +36,15 @@ char	*ft_merge(char **tab)
 	return (str);
 }
 
-char	*expander(char *st, t_all *all)
+char	*expander(char **st, t_all *all)
 {
 	char	**tmp;
 	int		i;
 	char	*s;
 	char	*sst;
 
-	tmp = ft_split_parse(st, ' ');
+	fprintf(stderr, "aqui\n");
+	tmp = ft_split_parse(*st, ' ');
 	i = -1;
 	while (tmp[++i])
 	{

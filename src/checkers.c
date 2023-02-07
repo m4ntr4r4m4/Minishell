@@ -41,7 +41,7 @@ void	check_expanser(char **str, t_all *all)
 
 	rd = *str;
 	i = -1;
-	while (rd[++i] == '\0')
+	while (rd[++i] != '\0')
 	{
 		if (rd[i] == 39)
 		{
@@ -51,8 +51,8 @@ void	check_expanser(char **str, t_all *all)
 		}
 		if (rd[i] == '$')
 		{
-			expander(rd, all);
-			*str = rd;
+			expander(str, all);
+			rd = *str;
 		}
 	}
 }
