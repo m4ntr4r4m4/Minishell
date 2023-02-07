@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/06 16:34:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:45:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -499,6 +499,7 @@ void	check_expanser(char **str, t_all *all)
 		{
 			expander(str, all);
 			rd = *str;
+			return ;
 		}
 	}
 }

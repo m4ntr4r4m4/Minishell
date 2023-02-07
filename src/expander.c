@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 13:22:25 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:15:26 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ char	*ft_merge(char **tab)
 
 	i = 0;
 	tmp2 = malloc(sizeof(char));
+	if (!tmp2)
+		return (0);
 	tmp1 = ft_strjoin(tab[0], " ");
 	if (tab[1] == NULL || tab[1][0] == '\0')
 	{
 		free(tmp2);
 		return (tmp1);
 	}
-	while (tab[++i])
+	while (tab[++i] != NULL)
 	{
 		if (*tab[i] == '\0')
 			continue ;
@@ -50,15 +52,14 @@ void	expander(char **st, t_all *all)
 
 	tmp = ft_split_delete(*st, ' ');
 	i = -1;
-	fprintf(stderr, " ______ PARENT ______ end is RD \n");
+	ft_print_table(tmp, 2);
 	while (tmp[++i])
 	{
-		s = ft_strchr(tmp[i], '$');
+		s = ft_strrchr(tmp[i], '$');
 		if (s)
 		{
-			sst = ft_strtrim(tmp[i], s);
-			fprintf(stderr, " ______ PARENT ______  sst: %s s: %s \n",sst, s);
-			s = ft_mygetenv(ft_strdup(s), all);
+			sst = ft_strtrimtail(tmp[i], s);
+			s = ft_mygetenv(s, all);
 			ft_print_table(tmp, 2);
 			free(tmp[i]);
 			tmp[i] = ft_strjoin(sst, s);
