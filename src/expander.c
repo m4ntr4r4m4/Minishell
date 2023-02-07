@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 15:15:26 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:25:05 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,26 @@ void	expander(char **st, t_all *all)
 
 	tmp = ft_split_delete(*st, ' ');
 	i = -1;
-	ft_print_table(tmp, 2);
 	while (tmp[++i])
 	{
 		s = ft_strrchr(tmp[i], '$');
+		
 		if (s)
 		{
+			if (!ft_strncmp(s, "$?", 2))
+			{
+				free(tmp[i]);
+				tmp[i] = ft_itoa(WEXITSTATUS(all->exit_var));
+				break ;
+			}
 			sst = ft_strtrimtail(tmp[i], s);
 			s = ft_mygetenv(s, all);
-			ft_print_table(tmp, 2);
 			free(tmp[i]);
 			tmp[i] = ft_strjoin(sst, s);
 			if (sst)
 				free(sst);
 		}
 	}
-	ft_print_table(tmp, 2);
 	s = ft_merge(tmp);
 	freetable(tmp);
 	free(*st);

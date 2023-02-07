@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/01/26 18:52:22 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:12:01 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	print_all(t_all *all)
 		while (all->cmd[y].outfile[++x])
 			fprintf(stderr,"outfile[%zu] %zu %s\n", y, x, all->cmd[y].outfile[x]);
 		x = 0;
+		fprintf(stderr,"buitins [%d]\n", all->cmd[y].builtins);
 		y++;
 		fprintf(stderr, "//////////**************//////////////\n");
 	}

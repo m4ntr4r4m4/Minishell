@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:04:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:36:53 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -45,27 +45,6 @@ void	ft_open_out(t_all *all, int *i)
 	}
 }
 
-void	ft_builtins(t_all *all, int *j)
-{
-	int	i;
-	int	x;
-
-	i = *j;
-	x = 0;
-	if (!strncmp(all->cmd[i].name, "echo", 4))
-		while (all->cmd[i].args[x])
-			ft_echo(all->cmd[i].args[x++], 1);	
-	if (!strncmp(all->cmd[i].name, "pwd", 3))
-		ft_pwd();
-	if (!strncmp(all->cmd[i].name, "cd", 2))
-		ft_cd(all->cmd[i].args[0], all);
-	x = 0;
-	if (!strncmp(all->cmd[i].name, "unset", 5))
-		while (all->cmd[i].args[x])
-			ft_unset(all->cmd[i].args[x++], all);
-	if (!strncmp(all->cmd[i].name, "exit", 4))
-		ft_exit();
-}
 
 void	child1(t_all *all, char **envp, int i, size_t size)
 {
