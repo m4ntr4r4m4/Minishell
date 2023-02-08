@@ -6,19 +6,11 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:59:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 13:18:33 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	ft_echo(char *str, int flag)
-{
-	if (!flag)
-		printf("%s", str);
-	else
-		printf("%s\n", str);
-}
 
 int	ft_cd(char *path, t_all *all)
 {
@@ -63,7 +55,7 @@ void	ft_pwd(void)
 	buff = malloc(sizeof(char) * PATH_MAX);
 	if (getcwd(buff, PATH_MAX) == NULL)
 		perror("getcwd() error");
-	ft_echo(buff, 1);
+	printf("%s\n", buff);
 	free(buff);
 }
 
@@ -101,6 +93,26 @@ void	ft_exit(void)
 	exit(0);
 }
 
+void	ft_echo(int *i,  t_all *all)
+{
+	int		j;
+	char	*str;
+
+	j = 1;
+
+	while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) && ft_strlen(all->cmd[*i].args[j]) == 2)
+		j++;
+	str = ft_merge(&(all->cmd[*i].args[j]));
+	if (j > 1)
+		ft_putstr_fd(str, 1);
+	else
+	{
+		ft_putstr_fd(str, 1);
+		ft_putstr_fd("\n", 1);
+	}
+}
+
+
 void	ft_builtins(t_all *all, int *j)
 {
 	int	i;
@@ -108,10 +120,8 @@ void	ft_builtins(t_all *all, int *j)
 
 	i = *j;
 	x = 1;
-	fprintf(stderr,"inside buitins\n");
 	if (!strncmp(all->cmd[i].name, "echo", 4))
-		while (all->cmd[i].args[x])
-			ft_echo(all->cmd[i].args[x++], 1);	
+			ft_echo(&i, all);
 	if (!strncmp(all->cmd[i].name, "pwd", 3))
 		ft_pwd();
 	if (!strncmp(all->cmd[i].name, "cd", 2))

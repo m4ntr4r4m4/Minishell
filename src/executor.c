@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:36:53 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 13:18:24 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -104,7 +104,6 @@ void	executor(t_all *all, char **envp)
 		i++;
 	}
 	i = -1;
-	fprintf(stderr, "beforeexit value: %d\n", WEXITSTATUS(all->exit_var));
 	while (++i < (int)all->size)
 		waitpid(pid[i], &all->exit_var, 0);
 	fprintf(stderr, "after exit value: %d\n", WEXITSTATUS(all->exit_var));

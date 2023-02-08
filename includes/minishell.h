@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:39:47 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 13:02:35 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -103,7 +103,7 @@ char	*ft_strtrimtail(char const *s1, char const *set);
 char    **ft_split_delete(char const *s, char c);
 static 	int		sig_mini;
 char	*ft_merge(char **tab);
-void	ft_echo(char *str, int flag);
+void	ft_echo(int *i, t_all *all);
 int	ft_cd(char *path, t_all *all);
 void	ft_pwd(void);
 void	ft_exit(void);

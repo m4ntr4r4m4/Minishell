@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:31:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 12:44:48 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -89,7 +89,7 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	atexit(leaks);
+//	atexit(leaks);
 	mysignal();
 	minishell(envp);
 	return (0);
