@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 17:32:17 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:48:07 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,11 @@ void	ft_builtins(t_all *all, int i)
 			ft_unset(all->cmd[i].args[x++], all);
 	if (!strncmp(all->cmd[i].name, "exit", 4))
 		ft_exit();
+	if (!strncmp(all->cmd[i].name, "env", 3))
+		ft_print_table(all->myenv, 1);
+	if (!strncmp(all->cmd[i].name, "export", 6))
+		ft_export(all->cmd[i].args[1], all);
+
 }
 /*
 int	main(int ac, char **av, char **envp)
