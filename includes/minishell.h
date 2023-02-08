@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 13:02:35 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:32:38 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -98,13 +98,14 @@ typedef struct	s_iterators
 	int	c_o; /* lexer checker outf */
 }	t_i;
 
-void	ft_builtins(t_all *all, int *j);
+char	**myenv;
+void	ft_builtins(t_all *all, int i);
 char	*ft_strtrimtail(char const *s1, char const *set);
 char    **ft_split_delete(char const *s, char c);
 static 	int		sig_mini;
 char	*ft_merge(char **tab);
 void	ft_echo(int *i, t_all *all);
-int	ft_cd(char *path, t_all *all);
+int		ft_cd(char *path, t_all *all);
 void	ft_pwd(void);
 void	ft_exit(void);
 void	ft_unset(char *st, t_all *all);
@@ -121,9 +122,9 @@ void	closefiledes(t_pipe *var, size_t size);
 char	*get_line(int fd);
 void	ft_here_doc(t_all *all);
 void	print_all(t_all *all);
-void		executor(t_all *all, char **envp);
-int		prexec(t_all *all, char **envp);
-void	child1(t_all *all, char **envp, int i, size_t size);
+void	executor(t_all *all);
+int		prexec(t_all *all);
+void	child1(t_all *all, int i, size_t size);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);

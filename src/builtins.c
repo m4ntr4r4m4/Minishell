@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 13:18:33 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:32:17 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,30 @@ int	ft_cd(char *path, t_all *all)
 
 	i = 0;
 	fprintf(stderr,"____________ inside cd func %s\n", path);
-	chdir(path);
-	printf("%s\n", getcwd(path, 100));
-	buff = malloc(sizeof(char) * PATH_MAX);
-	if (getcwd(buff, PATH_MAX) == NULL)
-		perror("getcwd() error");
-	pwd = ft_strdup(ft_mygetenv("PWD", all));
-
-	fprintf(stderr,"____________ inside cd func pwd %s\n", pwd);
-	oldpwd = ft_mygetenv("OLDPWD", all);
-	fprintf(stderr,"____________ inside cd func oldpwd %s\n", oldpwd);
-	fprintf(stderr,"***********888888 inside cd func env pwd %s\n", all->myenv[i]);
-	while (ft_strncmp(all->myenv[i], "PWD", 3))
-		i++;
-	fprintf(stderr,"***********888888 inside cd func env pwd %s\n", all->myenv[i]);
-	free(all->myenv[i]);
-	all->myenv[i] = ft_strjoin("PWD=", buff);
-	fprintf(stderr,"***********888888 inside cd func env pwd %s\n", all->myenv[i]);
-	i = 0;
-	while (ft_strncmp(all->myenv[i], oldpwd, ft_strlen(oldpwd)))
-		i++;
-	free(all->myenv[i]);
-	all->myenv[i] = ft_strjoin("OLD", pwd);
-	free(pwd);
-	free(buff);
-	return (0);
+	fprintf(stderr,"____________ inside cd func all address %p\n", all);
+	if (!chdir(path))
+	{
+		fprintf(stderr,"____________ SUCCESS\n");
+		buff = malloc(sizeof(char) * PATH_MAX);
+		if (getcwd(buff, PATH_MAX) == NULL)
+			perror("getcwd() error");
+		pwd = ft_strdup(ft_mygetenv("PWD", all));
+		oldpwd = ft_mygetenv("OLDPWD", all);
+		i = 0;
+		while (ft_strncmp(all->myenv[i], "PWD", 3))
+			i++;
+		free(all->myenv[i]);
+		all->myenv[i] = ft_strjoin("PWD=", buff);
+		i = 0;
+		while (ft_strncmp(all->myenv[i], "OLDPWD", 6))
+			i++;
+		free(all->myenv[i]);
+		all->myenv[i] = ft_strjoin("OLDPWD=", pwd);
+		free(pwd);
+		free(buff);
+		return (0);
+	}
+	return (1);
 }
 
 void	ft_pwd(void)
@@ -113,12 +112,10 @@ void	ft_echo(int *i,  t_all *all)
 }
 
 
-void	ft_builtins(t_all *all, int *j)
+void	ft_builtins(t_all *all, int i)
 {
-	int	i;
 	int	x;
 
-	i = *j;
 	x = 1;
 	if (!strncmp(all->cmd[i].name, "echo", 4))
 			ft_echo(&i, all);
@@ -126,7 +123,7 @@ void	ft_builtins(t_all *all, int *j)
 		ft_pwd();
 	if (!strncmp(all->cmd[i].name, "cd", 2))
 		ft_cd(all->cmd[i].args[1], all);
-	x = 0;
+	x = 1;
 	if (!strncmp(all->cmd[i].name, "unset", 5))
 		while (all->cmd[i].args[x])
 			ft_unset(all->cmd[i].args[x++], all);

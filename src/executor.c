@@ -6,14 +6,13 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 13:18:24 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:39:57 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 void	ft_open_in(t_all *all, int *i, int *j)
 {
-	fprintf(stderr, "************//// %d  %d    ///////////********\n", *i, *j);
 	all->pipes[*i].fdin = open(all->cmd[*i].infile[0], O_RDONLY);
 	if (all->pipes[*i].fdin < 0)
 	{
@@ -46,7 +45,7 @@ void	ft_open_out(t_all *all, int *i)
 }
 
 
-void	child1(t_all *all, char **envp, int i, size_t size)
+void	child1(t_all *all, int i, size_t size)
 {
 	int	j;
 
@@ -60,14 +59,21 @@ void	child1(t_all *all, char **envp, int i, size_t size)
 		ft_open_out(all, &i);
 	dupfd(all, i, size - 1);
 	closefiledes(all->pipes, size - 1);
+
+	int k = 0;
+	while (ft_strncmp(all->myenv[k], "PWD", 3))
+		k++;
 	if (all->cmd[i].builtins)
-		ft_builtins(all, &i);
-	else if (execve(all->cmd[i].path, all->cmd[i].args, envp) < 0)
+	{
+		if (all->size > 1)
+			ft_builtins(all, i);
+	}
+	else if (execve(all->cmd[i].path, all->cmd[i].args, all->myenv) < 0)
 		perror("command");
-	kill(getpid(), SIGTERM);
+	exit(errno);
 }
 
-void	executor(t_all *all, char **envp)
+void	executor(t_all *all)
 {
 	int	*pid;
 	int	i;
@@ -94,7 +100,7 @@ void	executor(t_all *all, char **envp)
 		pid[i] = -1;
 		pid[i] = fork();
 		if (pid[i] == 0)
-			child1(all, envp, i, all->size);
+			child1(all, i, all->size);
 	}
 	i = 0;
 	while (i < (int)all->size - 1)
@@ -106,11 +112,11 @@ void	executor(t_all *all, char **envp)
 	i = -1;
 	while (++i < (int)all->size)
 		waitpid(pid[i], &all->exit_var, 0);
-	fprintf(stderr, "after exit value: %d\n", WEXITSTATUS(all->exit_var));
+//	fprintf(stderr, "after exit value: %d\n", WEXITSTATUS(all->exit_var));
 	free(pid);
 }
 
-int	prexec(t_all *all, char **envp)
+int	prexec(t_all *all)
 {
 	size_t	x;
 
@@ -128,8 +134,10 @@ int	prexec(t_all *all, char **envp)
 				break ;
 			}
 		}
+		if (all->cmd[0].builtins && all->size < 2)
+			ft_builtins(all, 0);
 	//	print_all(all);
-		executor(all, envp);
+		executor(all);
 		freecmd(all);
 	}
 	return (0);
