@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 17:48:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 12:00:49 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_unset(char *st, t_all *all)
 	tmp[x - 1] = NULL;
 	while (++i < x - 1)
 	{
-		if (all->myenv[j] == st)
+		if (!ft_strncmp(all->myenv[j], st, ft_strlen(st)))
 		{
 			printf("free unset\n");
 			free(all->myenv[j++]);
@@ -82,7 +82,7 @@ void	ft_unset(char *st, t_all *all)
 		tmp[i] = all->myenv[j++];
 	}
 	if (all->myenv[i])
-		free(all->myenv[j++]);
+		free(all->myenv[i]);
 	free(all->myenv);
 	all->myenv = tmp;
 }
@@ -106,8 +106,8 @@ void	ft_echo(int *i,  t_all *all)
 		ft_putstr_fd(str, 1);
 	else
 	{
-		ft_putstr_fd(str, 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd(str, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 }
 
@@ -134,6 +134,7 @@ void	ft_builtins(t_all *all, int i)
 	if (!strncmp(all->cmd[i].name, "export", 6))
 		ft_export(all->cmd[i].args[1], all);
 
+	fprintf(stderr, "out builtins\n");
 }
 /*
 int	main(int ac, char **av, char **envp)

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/01 15:51:36 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 11:58:16 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,25 @@ void	dupfd(t_all *all, int id, size_t size)
 	t_pipe	*pipes;
 
 	pipes = all->pipes;
-	//if ((id == 0 && pipes[id].fdin != -1))
 	if (all->cmd[id].token[2] == 54 || all->cmd[id].token[0] == LESS) 
 	{
-		dup2(pipes[id].fdin, 0);
-//		close(pipes[id].fd[0]);
+		dup2(pipes[id].fdin, STDIN_FILENO);
 		close(pipes[id].fdin);
 	}
-//	if (id > 0)
 	if (id != 0 && all->cmd[id].token[2] == 0 && all->cmd[id].token[0] == 0) 
 	{
 
-			dup2(pipes[id - 1].fd[0], 0);
-			close(pipes[id - 1].fd[0]);
+		dup2(pipes[id - 1].fd[0], STDIN_FILENO);
+		close(pipes[id - 1].fd[0]);
 	}
 	if ((size_t) id < size)
 	{
-		dup2(pipes[id].fd[1], 1);
+		dup2(pipes[id].fd[1], STDOUT_FILENO);
 		close(pipes[id].fd[1]);
 	}
-	if ((size_t) id == size && pipes[id].fdout != -1)
+	if (pipes[id].fdout != -1)
 	{
-		dup2(pipes[id].fdout, 1);
+		dup2(pipes[id].fdout, STDOUT_FILENO);
 		close(pipes[id].fdout);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 17:22:24 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/08 18:36:28 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,20 @@ void	ft_env_init(char **envp, t_all *all)
 void	ft_export(char *st, t_all *all)
 {
 	char	**tmp;
+	char	*var;
 	int		x;	
 	int		i;
 
 	i = -1;
+	var = ft_strchr(st, '=');
+	if (!var)
+		return;
+	x = -1;
+	while (all->myenv[++x])
+	{
+		if (!ft_strncmp(st, all->myenv[x], ft_strlen(st)))
+			break;
+	}
 	x = ft_get_size(all->myenv);
 	tmp = malloc(sizeof(char *) * (x + 1));
 	if (!tmp)
