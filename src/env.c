@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 18:36:28 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:27:31 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,32 +42,56 @@ char	*ft_shell_level(char *str)
 	return (str);
 }
 
-void	ft_env_init(char **envp, t_all *all)
+void	ft_env_cpy(char **envp, t_all *all)
 {
-	int		i;
 	int		x;
+	int		i;
 
 	i = -1;
-	if (envp)
+	x = ft_get_size(envp);
+	all->myenv = malloc(sizeof(char *) * (x + 1));
+	if (!all->myenv)
+		return ;
+	all->myenv[x] = NULL;
+	while (++i < x)
 	{
-		x = ft_get_size(envp);
-		all->myenv = malloc(sizeof(char *) * (x + 1));
-		if (!all->myenv)
-			return ;
-		all->myenv[x] = NULL;
-		while (++i < x)
-		{
-			if (!ft_strncmp(envp[i], "SHLVL", 4))
-				all->myenv[i] = ft_shell_level(envp[i]);
-			else
-				all->myenv[i] = ft_strdup(envp[i]);
-		}
+		if (!ft_strncmp(envp[i], "SHLVL", 4))
+			all->myenv[i] = ft_shell_level(envp[i]);
+		else
+			all->myenv[i] = ft_strdup(envp[i]);
 	}
+}
+
+void	ft_env_init(char **envp, t_all *all)
+{
+	if (envp[0])
+		ft_env_cpy(envp, all);
 	else
 	{
-		all->myenv = malloc(sizeof(char *) * 1);
-		all->myenv = NULL;
+		all->myenv = malloc(sizeof(char *) * 2);
+		if (!all->myenv)
+			exit(-1);
+		all->myenv[0] = ft_strdup("PATH=/:./");
+		all->myenv[1] = NULL;
 	}
+}
+
+int	ft_export_cpy(char *st, char *var, t_all *all)
+{
+	int	x;
+
+	x = -1;
+	while (all->myenv[++x])
+	{
+		if (!ft_strncmp(st, all->myenv[x], ft_strlen(var) + 1))
+		{
+			free(all->myenv[x]);
+			all->myenv[x] = ft_strdup(st);
+			free(var);
+			return (0);
+		}
+	}
+	return (1);
 }
 
 void	ft_export(char *st, t_all *all)
@@ -77,25 +101,23 @@ void	ft_export(char *st, t_all *all)
 	int		x;	
 	int		i;
 
-	i = -1;
 	var = ft_strchr(st, '=');
 	if (!var)
-		return;
-	x = -1;
-	while (all->myenv[++x])
-	{
-		if (!ft_strncmp(st, all->myenv[x], ft_strlen(st)))
-			break;
-	}
+		return ;
+	var = ft_strtrimtail(st, var);
+	if (ft_export_cpy(st, var, all))
+		return ;
+	free(var);
 	x = ft_get_size(all->myenv);
-	tmp = malloc(sizeof(char *) * (x + 1));
+	tmp = malloc(sizeof(char *) * (x + 2));
 	if (!tmp)
 		return ;
-	tmp[x] = NULL;
+	tmp[x + 1] = NULL;
+	i = -1;
 	while (++i < x)
-		tmp[i] = all->myenv[i];
+		tmp[i] = ft_strdup(all->myenv[i]);
 	tmp[i] = ft_strdup(st);
-	free(all->myenv);
+	freetable(all->myenv);
 	all->myenv = tmp;
 }
 
@@ -103,7 +125,6 @@ char	*ft_mygetenv(char *str, t_all *all)
 {
 	int		i;
 	int		j;
-	int		len;
 	char	*st;
 	char	*tmp;
 

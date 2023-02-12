@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	check_error(char **rd, t_all *all)
+int	check_error(char **rd)
 {
 	if (!check_tokens(*rd))
 		return (0);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_tr(const char *s, int c, char quote, int *i)
+int	ft_tr(const char *s, char quote, int *i)
 {
 	int	len;
 	int	vol;
@@ -17,7 +17,7 @@ int	ft_tr(const char *s, int c, char quote, int *i)
 	{
 		if (s[*i] == quote && vol)
 			return (len);
-		if (sq && s[*i] == 32 || (s[*i] == 32 && cq == 2))
+		if ((sq && s[*i] == 32) || (s[*i] == 32 && cq == 2))
 			return (len);
 		if (cq == 1 && s[*i] == quote && s[*i + 1] != 32)
 			sq = 1;

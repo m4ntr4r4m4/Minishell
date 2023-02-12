@@ -72,7 +72,7 @@ void	check_builtins(t_all *all)
 	int	y;
 
 	y = 0;
-	while (y < all->size)
+	while (y < (int)all->size)
 	{
 		if (!strcmp(all->cmd[y].name, "echo")
 				|| !strcmp(all->cmd[y].name, "unset")

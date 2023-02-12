@@ -6,7 +6,7 @@
 /*   By: ahammoud <ahammoud@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:47:23 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:00:09 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:49:57 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,6 @@ static	int	ft_tr_delete(const char *s, int c, int *quote, int *i)
 	}
 	return (len);
 }
-
-static char *delete_quotes_delete(char *str)
-{
-	int	i;
-	int	count;
-	char	*new;
-	int	x;
-
-	count = 0;
-	i = -1;
-	while(str[++i])
-	{
-		if (str[i] != '"')
-			count++;
-	}
-	new = malloc(count + 1);
-	i = -1;
-	x = 0;
-	new[count] = '\0';
-	while (str[++i])
-	{
-		if (str[i] != '"')
-			new[x++] = str[i];
-	}
-	return new;
-}
-
 
 static char	**cpy_delete(char **mots, char const *s, int wc, char c)
 {

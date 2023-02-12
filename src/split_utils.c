@@ -56,7 +56,7 @@ char	**cpy(char **mots, char *s, int wc, char c)
 		else
 			quote = ' ';
 		start = i;
-		len = ft_tr(s, c, quote, &i);
+		len = ft_tr(s, quote, &i);
 		mots[j] = ft_substr(s, start, len);
 		mots[j] = delete_quotes(mots[j]);
 	}

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 10:14:10 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:55:19 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -143,7 +143,7 @@ int		search_token(t_all *all,char **str);
 int		check_spaces(char **str);
 char	token_l(char token);
 char	**ft_split_parse(char *s, char c);
-int		check_error(char	**rd, t_all	*all);
+int		check_error(char	**rd);
 int		check_tokens(char *str);
 int		check_quotes(char *str);
 int		cpy_str(char **str, int y);
@@ -156,6 +156,6 @@ int		add_space(char **str, int *y);
 int		word(char *str, char c);
 void	word_iterate(char *str, int *i, char c, int *wc);
 char	**cpy(char **mots, char *s, int wc, char c);
-int		ft_tr(const char *s, int c, char quote, int *i);
+int		ft_tr(const char *s, char quote, int *i);
 char	*delete_quotes(char *str);
 void	check_builtins(t_all *all);

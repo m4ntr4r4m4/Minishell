@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 12:01:10 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 12:04:35 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -141,14 +141,7 @@ int	prexec(t_all *all)
 			}
 		}
 		if (all->cmd[0].builtins && all->size < 2 && !all->cmd[0].token[1])
-		{
-			ft_open_fd(all, 0);
 			ft_builtins(all, 0);
-			close(all->pipes[0].fdout);
-
-		fprintf(stderr,"closing pipes builtins\n");
-
-		}
 		else
 			executor(all);
 		freecmd(all);

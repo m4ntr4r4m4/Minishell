@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 10:35:57 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:54:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,7 +15,7 @@ int	parser(char **rd, t_all *all)
 {
 	char	**str;
 
-	if (check_error(rd, all))
+	if (check_error(rd))
 	{
 //		printf("rd => %s\n", *rd);
 		check_expanser(rd, all);

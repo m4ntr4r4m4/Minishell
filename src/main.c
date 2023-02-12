@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/08 18:09:41 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:52:10 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,14 +39,16 @@
 
 void	handlerint(int x)
 {
-	ioctl(0, TIOCSTI, "\n");
+	if (x)
+		ioctl(0, TIOCSTI, "\n");
 //	rl_replace_line("", 0);
-	rl_on_new_line();
+		rl_on_new_line();
 }
 
 void	handlerquit(int x)
 {
-	rl_on_new_line();
+	if (x)
+		rl_on_new_line();
 }
 
 void	mysignal(void)
@@ -90,7 +92,8 @@ void	minishell(char **envp)
 int	main(int ac, char **av, char **envp)
 {
 //	atexit(leaks);
-	mysignal();
-	minishell(envp);
+	if (ac > 1 && av[0])
+		mysignal();
+		minishell(envp);
 	return (0);
 }
