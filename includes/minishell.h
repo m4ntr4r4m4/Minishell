@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 15:55:19 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 18:09:11 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -98,13 +98,18 @@ typedef struct	s_iterators
 	int	c_o; /* lexer checker outf */
 }	t_i;
 
-
+void	handlerint(int x);
+void	handlerquit(int x);
+void	mysignal(void);
+void	ft_close_parent(t_all *all);
+void	ft_pipes(t_all *all, int *pid);
+void	ft_open_fd(t_all *all, int i);
+void	ft_close_fd(t_all *all, int i);
 void	ft_open_in(t_all *all, int *i);
 void	ft_open_out(t_all *all, int *i);
 void	ft_builtins(t_all *all, int i);
 char	*ft_strtrimtail(char const *s1, char const *set);
 char    **ft_split_delete(char const *s, char c);
-static 	int		sig_mini;
 char	*ft_merge(char **tab);
 void	ft_echo(int *i, t_all *all);
 int		ft_cd(char *path, t_all *all);
@@ -150,7 +155,6 @@ int		cpy_str(char **str, int y);
 int		count_quotes(char *str);
 void	lexer_pipe(char token, t_all *all, t_i *i, char **str);
 void	lexer_check(char token, t_all *all, t_i *i, char **str);
-#endif
 void	check_expanser(char **str, t_all *all);
 int		add_space(char **str, int *y);
 int		word(char *str, char c);
@@ -159,3 +163,4 @@ char	**cpy(char **mots, char *s, int wc, char c);
 int		ft_tr(const char *s, char quote, int *i);
 char	*delete_quotes(char *str);
 void	check_builtins(t_all *all);
+#endif

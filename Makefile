@@ -6,11 +6,11 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2023/02/12 16:58:46 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/02/12 18:09:00 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	./src/trim.c ./src/builtins.c ./src/ft_split_delete.c ./src/env.c ./src/fd.c ./src/free.c ./src/utils.c ./src/lexer.c ./src/main.c ./src/expander.c ./src/executor.c ./src/checkers.c ./src/split_parse.c ./src/search.c ./src/lexer_utils.c ./src/init_structs.c ./src/tokens.c ./src/split_utils.c ./src/parser_utils.c
+SRCS	=	./src/signals.c ./src/trim.c ./src/builtins2.c ./src/executor2.c ./src/env2.c ./src/builtins.c ./src/ft_split_delete.c ./src/env.c ./src/fd.c ./src/free.c ./src/utils.c ./src/lexer.c ./src/main.c ./src/expander.c ./src/executor.c ./src/checkers.c ./src/split_parse.c ./src/search.c ./src/lexer_utils.c ./src/init_structs.c ./src/tokens.c ./src/split_utils.c ./src/parser_utils.c
 
 OBJS	=	${SRCS:.c=.o}
 

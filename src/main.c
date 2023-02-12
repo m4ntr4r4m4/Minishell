@@ -6,31 +6,10 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:26:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 18:09:41 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
-void	handlerint(int x)
-{
-	if (x)
-	{
-		ioctl(0, TIOCSTI, "\n");
-		rl_on_new_line();
-	}
-}
-
-void	handlerquit(int x)
-{
-	if (x)
-		rl_on_new_line();
-}
-
-void	mysignal(void)
-{
-	signal(SIGINT, handlerint);
-	signal(SIGQUIT, handlerquit);
-}
 
 void	ft_init_exec(t_all *all, char **rd)
 {
@@ -70,7 +49,7 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-//	atexit(leaks);
+	atexit(leaks);
 	if (ac > 0 && av[0])
 	{
 		mysignal();

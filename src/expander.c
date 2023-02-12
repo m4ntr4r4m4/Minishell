@@ -6,11 +6,23 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:29:01 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:54:59 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*ft_merge_utils(char **tmp1, char **tmp2, char **tab, int *i)
+{
+	char	*str;
+
+	free(*tmp2);
+	*tmp2 = ft_strjoin(*tmp1, tab[*i]);
+	free(*tmp1);
+	str = *tmp2;
+	*tmp1 = ft_strjoin(*tmp2, " ");
+	return (str);
+}
 
 char	*ft_merge(char **tab)
 {
@@ -33,24 +45,17 @@ char	*ft_merge(char **tab)
 	{
 		if (*tab[i] == '\0')
 			continue ;
-		free(tmp2);
-		tmp2 = ft_strjoin(tmp1, tab[i]);
-		free(tmp1);
-		str = tmp2;
-		tmp1 = ft_strjoin(tmp2, " ");
+		str = ft_merge_utils(&tmp1, &tmp2, tab, &i);
 	}
 	free(tmp1);
 	return (str);
 }
 
-void	expander(char **st, t_all *all)
+char	*ft_exp_utils(char **tmp, char *sst, t_all *all)
 {
-	char	**tmp;
 	int		i;
 	char	*s;
-	char	*sst;
 
-	tmp = ft_split_delete(*st, ' ');
 	i = -1;
 	while (tmp[++i])
 	{
@@ -71,6 +76,18 @@ void	expander(char **st, t_all *all)
 				free(sst);
 		}
 	}
+	return (sst);
+}
+
+void	expander(char **st, t_all *all)
+{
+	char	**tmp;
+	int		i;
+	char	*s;
+	char	*sst;
+
+	tmp = ft_split_delete(*st, ' ');
+	sst = ft_exp_utils(tmp, sst, all);
 	s = ft_merge(tmp);
 	freetable(tmp);
 	free(*st);
