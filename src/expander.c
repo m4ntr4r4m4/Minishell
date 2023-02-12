@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 17:25:05 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:29:01 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	expander(char **st, t_all *all)
 	while (tmp[++i])
 	{
 		s = ft_strrchr(tmp[i], '$');
-		
 		if (s)
 		{
 			if (!ft_strncmp(s, "$?", 2))
@@ -80,32 +79,5 @@ void	expander(char **st, t_all *all)
 
 void	leaks(void)
 {
-//	system("leaks a.out");
 	system("leaks minishell");
 }
-/*
-int	main(int ac, char **av, char **envp)
-{
-	int i = -1;
-	char *rd;
-	rd = strdup("echo hola$PWD $CONDA $PWD $1PWD");
-	t_all all;
-	atexit(leaks);
-	
-	printf("this envp size: %zu\n", ft_get_size(envp));
-	ft_env_init(envp, &all);
-
-	rd = expander(rd, &all);
-
-	printf("this rd: %s\n", rd);
-	free(rd);
-
-//	printf("this env var: %s\n", ft_mygetenv("$PWD", &all));
-//	ft_export("hrllo I am Here!", &all);
-	size_t	x = ft_get_size(all.myenv);
-//	printf("this myenvp size: %zu\n", x);
-	while(++i < x)
-		free(all.myenv[i]);
-	free(all.myenv);
-}
-*/

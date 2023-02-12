@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/12 16:40:25 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/12 16:49:34 by ahammoud         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_quotes(char *str)
@@ -74,13 +86,13 @@ void	check_builtins(t_all *all)
 	y = 0;
 	while (y < (int)all->size)
 	{
-		if (!strcmp(all->cmd[y].name, "echo")
-				|| !strcmp(all->cmd[y].name, "unset")
-				|| !strcmp(all->cmd[y].name, "export")
-				|| !strcmp(all->cmd[y].name, "pwd")
-				|| !strcmp(all->cmd[y].name, "env")
-				|| !strcmp(all->cmd[y].name, "cd")
-				|| !strcmp(all->cmd[y].name, "exit"))
+		if (!strcmp(all->cmd[y].name, "echo") \
+	|| !strcmp(all->cmd[y].name, "unset") \
+	|| !strcmp(all->cmd[y].name, "export") \
+	|| !strcmp(all->cmd[y].name, "pwd") \
+	|| !strcmp(all->cmd[y].name, "env") \
+	|| !strcmp(all->cmd[y].name, "cd") \
+	|| !strcmp(all->cmd[y].name, "exit"))
 			all->cmd[y].builtins = 1;
 		y++;
 	}
