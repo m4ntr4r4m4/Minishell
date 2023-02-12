@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 18:01:01 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 19:45:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -30,8 +30,8 @@ void	ft_open_out(t_all *all, int *i)
 	int	j;
 
 	j = 0;
-	while (all->cmd[*i].outfile[j])
-		j++;
+	while (all->cmd[*i].outfile[j + 1])
+		open(all->cmd[*i].outfile[j++], O_RDWR | O_TRUNC | O_CREAT, 0666);
 	if (all->cmd[*i].token[1])
 	{
 		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
@@ -39,7 +39,7 @@ void	ft_open_out(t_all *all, int *i)
 	}	
 	if (all->cmd[*i].token[3])
 		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
-	O_RDWR | O_APPEND, 0666);
+	O_RDWR | O_APPEND | O_CREAT, 0666);
 	if (all->pipes[*i].fdout < 0)
 	{
 		perror("file desc");

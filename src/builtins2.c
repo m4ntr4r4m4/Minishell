@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:56:54 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 20:49:22 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ char	**ft_unset_utils(t_all *all, char *st, int x)
 	if (!tmp)
 		exit(-1);
 	tmp[x - 1] = NULL;
-	while (all->myenv[++i + 1])
+	while (all->myenv[++i])
 	{
 		if (!ft_strncmp(all->myenv[i], st, ft_strlen(st)))
 			i++;
 		if (all->myenv[i])
 			tmp[j++] = ft_strdup(all->myenv[i]);
 	}
+	tmp[j] = NULL;
 	return (tmp);
 }
 
@@ -47,6 +48,7 @@ void	ft_unset(char *st, t_all *all)
 			break ;
 	}
 	x = ft_get_size(all->myenv);
+	fprintf(stderr,"i %d x %zu\n", i ,x );
 	if (i != (int)x)
 	{
 		tmp = ft_unset_utils(all, st, x);
@@ -101,6 +103,14 @@ void	ft_builtins(t_all *all, int i)
 		ft_print_table(all->myenv, 1);
 	x = 1;
 	if (!strncmp(all->cmd[i].name, "export", 6))
-		while (all->cmd[i].args[x])
-			ft_export(all->cmd[i].args[x++], all);
+	{
+		if (ft_get_size(all->cmd[i].args) == 2)
+		{
+			while (all->cmd[i].args[x])
+				ft_export(all->cmd[i].args[x++], all);
+		}
+		else
+			ft_print_table(all->myenv, 1);
+	}
+	all->exit_var = 0;
 }

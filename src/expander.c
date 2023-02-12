@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:54:59 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 21:02:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*ft_merge_utils(char **tmp1, char **tmp2, char **tab, int *i)
 	free(*tmp1);
 	str = *tmp2;
 	*tmp1 = ft_strjoin(*tmp2, " ");
+	fprintf(stderr, "str -%s-\n", str);
 	return (str);
 }
 
@@ -32,23 +33,28 @@ char	*ft_merge(char **tab)
 	char	*tmp2;
 
 	i = 0;
-	tmp2 = malloc(sizeof(char));
-	if (!tmp2)
-		return (0);
-	tmp1 = ft_strjoin(tab[0], " ");
-	if (tab[1] == NULL || tab[1][0] == '\0')
+	if (tab[1][0] != '\0')
 	{
-		free(tmp2);
-		return (tmp1);
+		tmp2 = malloc(sizeof(char));
+		if (!tmp2)
+			return (0);
+		tmp1 = ft_strjoin(tab[0], " ");
+		if (tab[1] == NULL || *tab[1] == '\0')
+		{
+			free(tmp2);
+			return (tmp1);
+		}
+		while (tab[++i] != NULL)
+		{
+			if (*tab[i] == '\0')
+				continue ;
+			str = ft_merge_utils(&tmp1, &tmp2, tab, &i);
+		}
+		free(tmp1);
+	fprintf(stderr, "str -%s-\n", str);
+		return (str);
 	}
-	while (tab[++i] != NULL)
-	{
-		if (*tab[i] == '\0')
-			continue ;
-		str = ft_merge_utils(&tmp1, &tmp2, tab, &i);
-	}
-	free(tmp1);
-	return (str);
+	return (0);
 }
 
 char	*ft_exp_utils(char **tmp, char *sst, t_all *all)
@@ -70,8 +76,11 @@ char	*ft_exp_utils(char **tmp, char *sst, t_all *all)
 			}
 			sst = ft_strtrimtail(tmp[i], s);
 			s = ft_mygetenv(s, all);
-			free(tmp[i]);
-			tmp[i] = ft_strjoin(sst, s);
+			if (s[0] != '\0' && s)
+			{
+				free(tmp[i]);
+				tmp[i] = ft_strjoin(sst, s);
+			}
 			if (sst)
 				free(sst);
 		}
@@ -88,10 +97,12 @@ void	expander(char **st, t_all *all)
 
 	tmp = ft_split_delete(*st, ' ');
 	sst = ft_exp_utils(tmp, sst, all);
+	ft_print_table(tmp, 2);
 	s = ft_merge(tmp);
 	freetable(tmp);
 	free(*st);
 	*st = s;
+	fprintf(stderr, "*st -%s-\n", *st);
 }
 
 void	leaks(void)

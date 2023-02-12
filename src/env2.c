@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:59:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/12 20:44:17 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_export(char *st, t_all *all)
 	if (!var)
 		return ;
 	var = ft_strtrimtail(st, var);
-	if (ft_export_cpy(st, var, all))
+	if (!ft_export_cpy(st, var, all))
 		return ;
 	free(var);
 	x = ft_get_size(all->myenv);
@@ -64,23 +64,26 @@ char	*ft_mygetenv(char *str, t_all *all)
 	char	*st;
 	char	*tmp;
 
-	st = ft_strjoin(str, "=");
-	tmp = ft_strtrim(st, "$");
-	free(st);
-	st = tmp;
-	i = -1;
-	while (all->myenv[++i])
+	if (str[0] == '\0')
 	{
-		if (!ft_strncmp(st, all->myenv[i], ft_strlen(st)))
+		st = ft_strjoin(str, "=");
+		tmp = ft_strtrim(st, "$");
+		free(st);
+		st = tmp;
+		i = -1;
+		while (all->myenv[++i])
 		{
-			j = 0;
-			while (st[j] == all->myenv[i][j])
-				j++;
-			free(st);
-			return (&all->myenv[i][j]);
+			if (!ft_strncmp(st, all->myenv[i], ft_strlen(st)))
+			{
+				j = 0;
+				while (st[j] == all->myenv[i][j])
+					j++;
+				free(st);
+				return (&all->myenv[i][j]);
+			}
 		}
+		free(st);
+		free(str);
 	}
-	free(st);
-	free(str);
 	return ("");
 }
