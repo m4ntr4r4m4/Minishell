@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 16:39:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:09:07 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	check_expanser(char **str, t_all *all)
 		{
 			expander(str, all);
 			rd = *str;
+			break ;
 		}
 	}
 }

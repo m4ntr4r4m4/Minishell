@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:07:42 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:22:45 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void	ft_here_doc_utils(t_all *all, size_t *x)
 
 void	ft_here_doc(t_all *all)
 {
-	int		fd;
 	char	**infile;
 	size_t	x;
 	int		i;

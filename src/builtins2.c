@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 20:49:22 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:34:20 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**ft_unset_utils(t_all *all, char *st, int x)
 	if (!tmp)
 		exit(-1);
 	tmp[x - 1] = NULL;
-	while (all->myenv[++i])
+	while (++i < x)
 	{
 		if (!ft_strncmp(all->myenv[i], st, ft_strlen(st)))
 			i++;
@@ -40,21 +40,21 @@ void	ft_unset(char *st, t_all *all)
 	char	**tmp;
 	size_t	x;
 	int		i;
+	char	*str;
 
 	i = -1;
+	str = ft_strjoin(st, "=");
 	while (all->myenv[++i])
-	{
-		if (!ft_strncmp(all->myenv[i], st, ft_strlen(st)))
+		if (!ft_strncmp(all->myenv[i], str, ft_strlen(str)))
 			break ;
-	}
 	x = ft_get_size(all->myenv);
-	fprintf(stderr,"i %d x %zu\n", i ,x );
 	if (i != (int)x)
 	{
-		tmp = ft_unset_utils(all, st, x);
+		tmp = ft_unset_utils(all, str, x);
 		freetable(all->myenv);
 		all->myenv = tmp;
 	}
+	free(str);
 }
 
 void	ft_exit(void)
@@ -68,6 +68,8 @@ void	ft_echo(int *i, t_all *all)
 	char	*str;
 
 	j = 1;
+	if (!all->cmd[*i].args[j])
+		return ;
 	while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) \
 			&& ft_strlen(all->cmd[*i].args[j]) == 2)
 		j++;
@@ -104,11 +106,9 @@ void	ft_builtins(t_all *all, int i)
 	x = 1;
 	if (!strncmp(all->cmd[i].name, "export", 6))
 	{
-		if (ft_get_size(all->cmd[i].args) == 2)
-		{
+		if (ft_get_size(all->cmd[i].args) >= 2)
 			while (all->cmd[i].args[x])
 				ft_export(all->cmd[i].args[x++], all);
-		}
 		else
 			ft_print_table(all->myenv, 1);
 	}

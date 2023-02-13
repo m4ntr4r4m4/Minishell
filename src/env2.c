@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 12:33:46 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 20:44:17 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 14:37:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_export(char *st, t_all *all)
 	all->myenv = tmp;
 }
 
+
 char	*ft_mygetenv(char *str, t_all *all)
 {
 	int		i;
@@ -64,26 +65,54 @@ char	*ft_mygetenv(char *str, t_all *all)
 	char	*st;
 	char	*tmp;
 
-	if (str[0] == '\0')
+	st = ft_strjoin(str, "=");
+	tmp = ft_strtrim(st, "$");
+	free(st);
+	st = tmp;
+	i = -1;
+	while (all->myenv[++i])
 	{
-		st = ft_strjoin(str, "=");
-		tmp = ft_strtrim(st, "$");
-		free(st);
-		st = tmp;
-		i = -1;
-		while (all->myenv[++i])
+		if (!ft_strncmp(st, all->myenv[i], ft_strlen(st)))
 		{
-			if (!ft_strncmp(st, all->myenv[i], ft_strlen(st)))
-			{
-				j = 0;
-				while (st[j] == all->myenv[i][j])
-					j++;
-				free(st);
-				return (&all->myenv[i][j]);
-			}
+			j = 0;
+			while (st[j] == all->myenv[i][j])
+				j++;
+			free(st);
+			return (&all->myenv[i][j]);
 		}
-		free(st);
-		free(str);
 	}
+	free(st);
 	return ("");
 }
+
+//char	*ft_mygetenv(char *str, t_all *all)
+//{
+//	int		i;
+//	int		j;
+//	char	*st;
+//	char	*tmp;
+//
+//	if (str[0] == '\0')
+//	{
+//		st = ft_strjoin(str, "=");
+//		tmp = ft_strtrim(st, "$");
+//		free(st);
+//		st = tmp;
+//		i = -1;
+//		while (all->myenv[++i])
+//		{
+//			if (!ft_strncmp(st, all->myenv[i], ft_strlen(st)))
+//			{
+//				j = 0;
+//				while (st[j] == all->myenv[i][j])
+//					j++;
+//				free(st);
+//				return (&all->myenv[i][j]);
+//			}
+//		}
+//		free(st);
+//		free(str);
+//	}
+//	return ("");
+//}
+
