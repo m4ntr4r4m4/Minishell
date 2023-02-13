@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 19:52:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:17:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	ft_here_doc_utils(t_all *all, size_t *x)
 		while (ft_strncmp(input, all->cmd[*x].eof[i], \
 			ft_strlen(all->cmd[*x].eof[i])))
 		{
-		fprintf(stderr,"this is input: -%s- -%s-\n", input, all->cmd[*x].eof[i]);
 			ft_putendl_fd(input, fd);
 			free(input);
 			input = get_line(0);

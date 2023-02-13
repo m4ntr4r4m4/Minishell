@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:40:14 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 19:32:27 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:18:50 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	lexer_heredoc(char token, t_all *all, t_i *i, char **str)
 {
 	all->cmd[i->c].token[2] = token;
 	all->cmd[i->c].eof[i->eof++] = ft_strdup(str[++i->s]);
-
 }
 
 void	lexer_check(char token, t_all *all, t_i *i, char **str)

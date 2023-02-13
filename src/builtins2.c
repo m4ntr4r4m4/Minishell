@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:36:29 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:54:49 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,20 @@ void	ft_unset(char *st, t_all *all)
 	free(str);
 }
 
+int	check_echo_n(int j, char *str)
+{
+	int	i;
+	int	len;
+
+	len = ft_strlen(str);
+	i = 1;
+	while(str[i] && str[i] == 'n')
+		++i;
+	if (i == len)
+		j += 1;
+	return (j);
+}
+
 void	ft_echo(int *i, t_all *all)
 {
 	int		j;
@@ -66,20 +80,48 @@ void	ft_echo(int *i, t_all *all)
 	j = 1;
 	if (!all->cmd[*i].args[j])
 		return ;
-	while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) \
-			&& ft_strlen(all->cmd[*i].args[j]) == 2)
-		j++;
-	str = ft_merge(&(all->cmd[*i].args[j]));
-	if (j > 1)
-		ft_putstr_fd(str, 1);
-	else
+	if (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) && all->cmd[*i].args[j + 1])
 	{
-		ft_putstr_fd(str, STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2))
+		{
+			j = check_echo_n(j, all->cmd[*i].args[j]);
+			if (ft_strlen(all->cmd[*i].args[j]) == 2)
+				j++;
+		}
+		str = ft_merge(&(all->cmd[*i].args[j]));
+		if (j > 1)
+			ft_putstr_fd(str, 1);
+		else
+		{
+			ft_putstr_fd(str, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		all->exit_var = 0;
+		free(str);
 	}
-	all->exit_var = 0;
-	free(str);
 }
+//void	ft_echo(int *i, t_all *all)
+//{
+//	int		j;
+//	char	*str;
+//
+//	j = 1;
+//	if (!all->cmd[*i].args[j])
+//		return ;
+//	while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) \
+//			&& ft_strlen(all->cmd[*i].args[j]) == 2)
+//		j++;
+//	str = ft_merge(&(all->cmd[*i].args[j]));
+//	if (j > 1)
+//		ft_putstr_fd(str, 1);
+//	else
+//	{
+//		ft_putstr_fd(str, STDOUT_FILENO);
+//		ft_putstr_fd("\n", STDOUT_FILENO);
+//	}
+//	all->exit_var = 0;
+//	free(str);
+//}
 
 void	ft_export_init(t_all *all, int i)
 {
