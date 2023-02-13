@@ -37,7 +37,7 @@ void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
 		i->eof = 0;
 		++i->c;
 		++i->s;
-		all->token_l[i->T++] = token;
+		all->token_l[i->t2++] = token;
 	}
 	else
 		i->a--;

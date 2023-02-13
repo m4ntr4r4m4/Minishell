@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:56:56 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:50:48 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -49,7 +49,7 @@ typedef struct s_pipe {
 	int		fdout;
 }	t_pipe;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	int		num_args;
 	char	*name;
@@ -61,50 +61,55 @@ typedef struct	s_cmd
 	char	**eof;
 	int		*token;
 	int		check;
-	int		n_tokens; /*number of tokens */
+	int		n_tokens;
 	int		builtins;
 }	t_cmd;
 
-typedef struct	s_all
+typedef struct s_all
 {
 	t_cmd	*cmd;
-	int 	*token_l; /* tokens for split cmds */
-	size_t	size; /* size cmd for init */
+	int		*token_l;
+	size_t	size;
 	t_pipe	*pipes;
 	char	**path;
 	char	*pwd;
-	int		s_t; /* size token for init */
-	int		s_i; /* size inf for init */
-	int		s_o; /* size outf for init */
-	int		i_a; /* iterator args for init */
-	int		i_t; /* iterator token for init */
-	int		i_f; /* iterator file for init */
-	int		s_eof; /* iterator file for init */
+	int		s_t;
+	int		s_i;
+	int		s_o;
+	int		i_a;
+	int		i_t;
+	int		i_f;
+	int		s_eof;
 	char	**myenv;
 	int		exit_var;
 }	t_all;
 
-typedef struct	s_iterators
+typedef struct s_iterators
 {
-	int	s; /* lexer iterator string */
-	int	c; /* lexer iterator cmd */
-	int	t; /* lexer iterator all->cmd.token_l*/
-	int	T; /* lexer iterator all->token_l */
-	int	a; /* lexer iterator arg */
-	int	i; /* lexer iterator inf */
-	int	o; /* lexer iterator outf */
-	int	c_i; /* lexer checker inf */
-	int	eof; /* lexer checker lessless */
-	int	c_o; /* lexer checker outf */
+	int	s;
+	int	c;
+	int	t;
+	int	t2;
+	int	a;
+	int	i;
+	int	o;
+	int	c_i;
+	int	eof;
+	int	c_o;
 }	t_i;
 
-
+void	handlerint(int x);
+void	handlerquit(int x);
+void	mysignal(void);
+void	ft_close_parent(t_all *all);
+void	ft_pipes(t_all *all, int *pid);
+void	ft_open_fd(t_all *all, int i);
+void	ft_close_fd(t_all *all, int i);
 void	ft_open_in(t_all *all, int *i);
 void	ft_open_out(t_all *all, int *i);
 void	ft_builtins(t_all *all, int i);
 char	*ft_strtrimtail(char const *s1, char const *set);
-char    **ft_split_delete(char const *s, char c);
-static 	int		sig_mini;
+char	**ft_split_delete(char const *s, char c);
 char	*ft_merge(char **tab);
 void	ft_echo(int *i, t_all *all);
 int		ft_cd(char *path, t_all *all);
@@ -130,16 +135,15 @@ void	child1(t_all *all, int i);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
-	/* lexer.c */
 char	tokens(char *token);
 int		parser(char **rd, t_all *all);
 void	search_cmd(t_all *all, char **str);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
 void	init_iterators(t_i *i);
-void	search_files(t_all *all,char **str);
-int		search_arg(t_all *all,char **str);
-int		search_token(t_all *all,char **str);
+void	search_files(t_all *all, char **str);
+int		search_arg(t_all *all, char **str);
+int		search_token(t_all *all, char **str);
 int		check_spaces(char **str);
 char	token_l(char token);
 char	**ft_split_parse(char *s, char c);
@@ -150,7 +154,6 @@ int		cpy_str(char **str, int y);
 int		count_quotes(char *str);
 void	lexer_pipe(char token, t_all *all, t_i *i, char **str);
 void	lexer_check(char token, t_all *all, t_i *i, char **str);
-#endif
 void	check_expanser(char **str, t_all *all);
 int		add_space(char **str, int *y);
 int		word(char *str, char c);
@@ -159,3 +162,4 @@ char	**cpy(char **mots, char *s, int wc, char c);
 int		ft_tr(const char *s, char quote, int *i);
 char	*delete_quotes(char *str);
 void	check_builtins(t_all *all);
+#endif

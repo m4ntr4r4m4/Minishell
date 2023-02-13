@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checkers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/13 20:58:31 by ahammoud         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_error(char **rd)
@@ -34,69 +46,42 @@ int	check_spaces(char **temp)
 	return (1);
 }
 
-void	check_expanser(char **str, t_all *all)
+void	check_exp_utils(char **rd, char **str, t_all *all)
 {
-	int		i;
-	char	*rd;
+	int	i;
 
-	rd = *str;
 	i = -1;
-	while (rd[++i] != '\0')
+	while ((*rd)[++i] != '\0')
 	{
-		if (rd[i] == 39)
+		if ((*rd)[i] == 39)
 		{
 			i++;
-			while (rd[i] != 39)
+			while ((*rd)[i] != 39)
 				i++;
 		}
-		if (rd[i] == '$')
+		if ((*rd)[i] == '$')
 		{
 			expander(str, all);
-			rd = *str;
+			*rd = *str;
+			break ;
 		}
 	}
 }
 
-/* int	check_token(char token, char prev, char str, int count) */
-/* { */
-/* 	3 simbols */
-/* 	< < */ 
-
-/* 	if (prev == token && token == str) */
-/* 		return (0); */
-/* 	if (!count) */
-/* 		return (0); */
-/* 	return (1); */
-/* } */
-
-
-int	check_tokens(char *str)
+void	check_expanser(char **str, t_all *all)
 {
-	int		i;
-	char	token;
-	char	prev;
-	int		count;
-	int		newcount;
+	char	*rd;
+	char	*tmp;
 
-	i = -1;
-	count = 1;
-	newcount = 0;
-	while (str[++i])
+	rd = *str;
+	tmp = ft_strdup(rd);
+	check_exp_utils(&rd, str, all);
+	if (ft_strlen(rd) < ft_strlen(tmp) && \
+			(ft_strchr(tmp, '<') || ft_strchr(tmp, '>')))
 	{
-		token = token_l(str[i]);
-		if (token != CONTINUE)
-		{
-			if (!count && !newcount) 
-				newcount = 1;
-			else if (!count)
-				return 0;
-			count = 0;
-			prev = token;
-		}
-		else if (str[i] != 32)
-			count = 1;
+		free (rd);
+		*str = tmp;
 	}
-	if (!count)
-		return (0);
-	return (1);
+	else
+		free(tmp);
 }

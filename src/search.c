@@ -58,7 +58,6 @@ int	search_arg(t_all *all, char **str)
 		i++;
 	}
 	all->i_a = i;
-	fprintf(stderr,"arg %d\n", all->s_t);
 	return (++all->s_t);
 }
 
@@ -88,6 +87,4 @@ void	search_files(t_all *all, char **str)
 		++i;
 	}
 	all->i_f = i;
-	fprintf(stderr,"if  %d\n", all->s_i);
-	fprintf(stderr,"if  %d\n", all->s_o);
 }

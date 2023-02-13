@@ -5,7 +5,7 @@ void	init_iterators(t_i *i)
 	i->s = 0;
 	i->c = 0;
 	i->t = 0;
-	i->T = 0;
+	i->t2 = 0;
 	i->a = 0;
 	i->i = 0;
 	i->o = 0;
