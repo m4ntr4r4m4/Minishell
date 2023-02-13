@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_trim.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 21:33:15 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/07 14:30:11 by ahammoud         ###   ########.fr       */
+/*   Created: 2023/02/07 14:32:41 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/12 16:28:42 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+#include "minishell.h"
+
+char	*ft_strtrimtail(char const *s1, char const *set)
 {
-	size_t	s;
 	size_t	e;
 	char	*str1;
 
 	if (!s1)
 		return (NULL);
-	s = 0;
-	while (s1[s] && ft_strchr(set, s1[s]))
-		s++;
-	e = ft_strlen((char *)s1 + s);
+	e = ft_strlen((char *)s1);
+	if ((int)e == ft_strlen((char *)set) \
+			&& !ft_strncmp((char *)set, (char *)s1, e))
+		return (ft_strdup(""));
 	if (e)
-		while (ft_strchr(set, s1[s + e - 1]) != 0)
+		while (ft_strchr(set, s1[e - 1]) != 0)
 			e--;
 	str1 = malloc(sizeof(char) * e + 1);
 	if (!str1)
 		return (NULL);
-	ft_strlcpy(str1, (char *)&s1[s], e + 1);
+	ft_strlcpy(str1, (char *)s1, e + 1);
 	return (str1);
 }

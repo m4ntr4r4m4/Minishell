@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:56:56 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:35:25 by ahammoud         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -98,16 +98,12 @@ typedef struct	s_iterators
 	int	c_o; /* lexer checker outf */
 }	t_i;
 
-
-void	ft_open_in(t_all *all, int *i);
-void	ft_open_out(t_all *all, int *i);
-void	ft_builtins(t_all *all, int i);
 char	*ft_strtrimtail(char const *s1, char const *set);
 char    **ft_split_delete(char const *s, char c);
 static 	int		sig_mini;
 char	*ft_merge(char **tab);
-void	ft_echo(int *i, t_all *all);
-int		ft_cd(char *path, t_all *all);
+void	ft_echo(char *str, int flag);
+int	ft_cd(char *path, t_all *all);
 void	ft_pwd(void);
 void	ft_exit(void);
 void	ft_unset(char *st, t_all *all);
@@ -124,9 +120,9 @@ void	closefiledes(t_pipe *var, size_t size);
 char	*get_line(int fd);
 void	ft_here_doc(t_all *all);
 void	print_all(t_all *all);
-void	executor(t_all *all);
-int		prexec(t_all *all);
-void	child1(t_all *all, int i);
+void		executor(t_all *all, char **envp);
+int		prexec(t_all *all, char **envp);
+void	child1(t_all *all, char **envp, int i, size_t size);
 char	*get_path(char **pathvar, char *cmd, int code);
 char	*check_bin(char *binary, char *path, int ac);
 char	**path_var(char **envp);
@@ -143,7 +139,7 @@ int		search_token(t_all *all,char **str);
 int		check_spaces(char **str);
 char	token_l(char token);
 char	**ft_split_parse(char *s, char c);
-int		check_error(char	**rd);
+int		check_error(char	**rd, t_all	*all);
 int		check_tokens(char *str);
 int		check_quotes(char *str);
 int		cpy_str(char **str, int y);
@@ -151,11 +147,3 @@ int		count_quotes(char *str);
 void	lexer_pipe(char token, t_all *all, t_i *i, char **str);
 void	lexer_check(char token, t_all *all, t_i *i, char **str);
 #endif
-void	check_expanser(char **str, t_all *all);
-int		add_space(char **str, int *y);
-int		word(char *str, char c);
-void	word_iterate(char *str, int *i, char c, int *wc);
-char	**cpy(char **mots, char *s, int wc, char c);
-int		ft_tr(const char *s, char quote, int *i);
-char	*delete_quotes(char *str);
-void	check_builtins(t_all *all);

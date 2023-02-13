@@ -6,22 +6,25 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2022/11/08 16:47:35 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/02/13 20:09:55 by jvelasco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	./src/utils.c ./src/lexer.c ./src/main.c ./src/expander.c ./src/executor.c
+SRCS	=	./src/trim.c ./src/builtins.c ./src/ft_split_delete.c ./src/env.c ./src/fd.c ./src/free.c ./src/utils.c ./src/lexer.c ./src/main.c ./src/expander.c ./src/executor.c ./src/checkers.c ./src/split_parse.c ./src/search.c ./src/lexer_utils.c ./src/init_structs.c ./src/tokens.c ./src/split_utils.c ./src/parser_utils.c
 
 OBJS	=	${SRCS:.c=.o}
 
 .c.o	:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes/
+			${CC} ${CFLAGS}  -c $< -o ${<:.c=.o} -I includes/
 
-NAME	=	 executor
+NAME	=	 minishell
 
-#CFLAGS	=	 -Wall -Wextra -Werror -lreadline
-CFLAGS	=	 -lreadline -g -fsanitize=address
-#CFLAGS	=	 -lreadline 
+LIB		=		-lreadline -L ~/.brew/Cellar/readline/8.2.1/lib/
+#LIB		=	 -lreadline -L /usr/local/Cellar/readline/8.1/lib/ -I /usr/local/Cellar/readline/8.1/include/readline/
+
+# CFLAGS	=	 -Wall -Wextra -Werror
+CFLAGS	=	 -g -fsanitize=address
+#CFLAGS	=	 -g
 
 
 CC	=	gcc
@@ -29,7 +32,7 @@ CC	=	gcc
 
 ${NAME}	:	${OBJS} 
 			cd ./src/libft/ && make bonus
-			${CC} ${CFLAGS} ${OBJS} ./src/libft/libft.a -o ${NAME}
+			${CC} ${CFLAGS} ${LIB} ${OBJS} ./src/libft/libft.a -o ${NAME}
 
 all	:	${NAME}
 
