@@ -6,11 +6,16 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 17:57:30 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:36:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_exit(void)
+{
+	exit(0);
+}
 
 void	ft_newpwd(t_all *all, char *buff)
 {

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:40:14 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 16:40:16 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:51:29 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
 	i->i = 0;
 	i->t = 0;
 	i->eof = 0;
-	all->token_l[i->T++] = token;
+	all->token_l[i->t2++] = token;
 	all->cmd[++i->c].name = ft_strdup(str[++i->s]);
 	all->cmd[i->c].path = get_path(all->path, str[i->s], 3);
 	if (!all->cmd[i->c].path)

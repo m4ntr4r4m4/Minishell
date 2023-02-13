@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 15:48:10 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:18:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -22,7 +22,6 @@ int	parser(char **rd, t_all *all)
 		init_structs(all, str);
 		lexer(str, all);
 		check_builtins(all);
-		print_all(all);
 		freetable(str);
 		return (1);
 	}

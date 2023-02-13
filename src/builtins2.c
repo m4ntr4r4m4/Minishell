@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 15:34:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:36:29 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,8 @@ void	ft_unset(char *st, t_all *all)
 		freetable(all->myenv);
 		all->myenv = tmp;
 	}
+	all->exit_var = 0;
 	free(str);
-}
-
-void	ft_exit(void)
-{
-	exit(0);
 }
 
 void	ft_echo(int *i, t_all *all)
@@ -81,7 +77,20 @@ void	ft_echo(int *i, t_all *all)
 		ft_putstr_fd(str, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
+	all->exit_var = 0;
 	free(str);
+}
+
+void	ft_export_init(t_all *all, int i)
+{
+	int	x;
+
+	x = 1;
+	if (ft_get_size(all->cmd[i].args) >= 2)
+		while (all->cmd[i].args[x])
+			ft_export(all->cmd[i].args[x++], all);
+	else
+		ft_print_table(all->myenv, 1);
 }
 
 void	ft_builtins(t_all *all, int i)
@@ -101,16 +110,9 @@ void	ft_builtins(t_all *all, int i)
 			ft_unset(all->cmd[i].args[x++], all);
 	if (!strncmp(all->cmd[i].name, "exit", 4))
 		ft_exit();
-	if (!strncmp(all->cmd[i].name, "env", 3))
+	if (!strncmp(all->cmd[i].name, "env", 3) && !all->cmd[i].args[1])
 		ft_print_table(all->myenv, 1);
-	x = 1;
 	if (!strncmp(all->cmd[i].name, "export", 6))
-	{
-		if (ft_get_size(all->cmd[i].args) >= 2)
-			while (all->cmd[i].args[x])
-				ft_export(all->cmd[i].args[x++], all);
-		else
-			ft_print_table(all->myenv, 1);
-	}
-	all->exit_var = 0;
+		ft_export_init(all, i);
+	all->exit_var = 1;
 }

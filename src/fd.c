@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 15:44:57 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:03:09 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	ft_here_doc_utils(t_all *all, size_t *x)
 	{
 		input = get_line(0);
 		check_expanser(&input, all);
-
 		while (ft_strncmp(input, all->cmd[*x].eof[i], \
 			ft_strlen(all->cmd[*x].eof[i])))
 		{
