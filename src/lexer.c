@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 21:36:02 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:52:50 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -17,9 +17,7 @@ int	parser(char **rd, t_all *all)
 
 	if (check_error(rd))
 	{
-		printf("rd => %s\n", *rd);
 		check_expanser(rd, all);
-		printf("rd => %s\n", *rd);
 		str = ft_split_parse(*rd, ' ');
 		init_structs(all, str);
 		lexer(str, all);
