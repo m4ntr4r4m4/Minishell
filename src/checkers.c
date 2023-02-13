@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 15:09:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:00:28 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ void	check_expanser(char **str, t_all *all)
 {
 	int		i;
 	char	*rd;
+	char	*tmp;
 
 	rd = *str;
+	tmp = ft_strdup(rd);
 	i = -1;
 	while (rd[++i] != '\0')
 	{
@@ -68,6 +70,13 @@ void	check_expanser(char **str, t_all *all)
 			break ;
 		}
 	}
+	if (ft_strlen(rd) < ft_strlen(tmp) && (ft_strchr(tmp, '<') || ft_strchr(tmp, '>')))
+	{
+		free (rd);
+		*str = tmp;
+	}
+	else
+		free(tmp);
 }
 
 int	check_token(char token, char prev, char str, int count)

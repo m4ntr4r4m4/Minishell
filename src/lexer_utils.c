@@ -6,11 +6,18 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:40:14 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:51:29 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:32:27 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	lexer_heredoc(char token, t_all *all, t_i *i, char **str)
+{
+	all->cmd[i->c].token[2] = token;
+	all->cmd[i->c].eof[i->eof++] = ft_strdup(str[++i->s]);
+
+}
 
 void	lexer_check(char token, t_all *all, t_i *i, char **str)
 {
@@ -21,10 +28,7 @@ void	lexer_check(char token, t_all *all, t_i *i, char **str)
 		i->s++;
 	}
 	else if (token == LESSLESS)
-	{
-		all->cmd[i->c].token[2] = token;
-		all->cmd[i->c].eof[i->eof++] = ft_strdup(str[++i->s]);
-	}
+		lexer_heredoc(token, all, i, str);
 	else if (token == GREAT || token == GREATGREAT)
 	{
 		i->c_o = 1;
@@ -71,7 +75,9 @@ char	lexer(char **str, t_all *all)
 		if (token == PIPE || token == AMPERSAND)
 			lexer_pipe(token, all, &i, str);
 		else
+		{
 			lexer_check(token, all, &i, str);
+		}
 		i.s++;
 	}
 	return (CONTINUE);
