@@ -1,102 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/13 20:59:46 by ahammoud         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "minishell.h"
 
-
-
-int	main(int ac,char **av,  char **envp)
+void	ft_init_exec(t_all *all, char **rd)
 {
-	t_all	all;
-	char *rd;
-	char **new;
-	int count;
-
-	all.path = path_var(envp);
-	atexit(leaks);
-	while(1)
+	if (ft_strncmp(*rd, "\0", 1))
 	{
-		rd = readline("$:");
-		count = word_c(rd, ' ');
-		new = ft_split(rd,' ');
-		ft_print_table(new, 1);
-		parser(new, count, &all);
-		ft_print_table(new, 1);
-		///////
-		// EXECUTER
-	
-		//prexec(&all, envp);
-				
-		///////
-		free(rd);
-		freecmd(&all);
-		freetable(new);
+		add_history(*rd);
+		all->path = path_var(all->myenv);
+		if (parser(rd, all))
+			prexec(all);
+		else
+		{
+			freetable(all->path);
+		}
 	}
-	return 0;
 }
 
-//
-//
-////	atexit(leaks);
-//	t_cmd	cmd1;
-//	t_cmd	cmd2;
-//	t_cmd	cmd3;
-//	char	**at;
-//	char	**at2;
-//	t_all	all;
-//	int	i;	
-//
-//	i = 0;
-//	av = NULL;
-//	if (ac)
-//	{
-//		cmd1.pathvar = path_var(envp);
-//		cmd2.pathvar = cmd1.pathvar;
-//	//	cmd3.pathvar = cmd1.pathvar;
-//		char *rd = NULL;
-//		while(1)
-//		{
-//			////////    PArser        //////////
-//			rd = readline("$_MINI-SHELL_$: ");
-////			rd = "cat a";
-////			printf("---%s\n", rd);
-//			if(rd && word_c(rd, ' ') >= 1)
-//			{
-////				printf("begin\n");
-//				at = ft_split(rd, ' ');
-//				cmd_init(&cmd1, word_c(rd, ' '), at,  envp);
-//				freetable(at);
-//				free(rd);
-////				rd = "grep my";
-//				rd = readline("PIPE: ");
-//				at2 = ft_split(rd, ' ');
-//				cmd_init(&cmd2, word_c(rd, ' '), at2,  envp);
-//	//			rd = readline("PIPE: ");
-//	//			at = ft_split(rd, ' ');
-//				freetable(at2);
-//	//			cmd_init(&cmd3, word_c(rd, ' '), at,  envp);
-//				free(rd);
-//	//			freetable(at);
-//			
-////			printf("cmd1 : %s cmd2 : %s\n", cmd1.name, cmd2.name);
-////			printf("---EROROR\n");
-//			////////    EXECUTOR        //////////
-//				all.size = 2;
-//				all.cmd = malloc(sizeof(t_cmd) * all.size);
-//				all.pipes = malloc(sizeof(t_pipe) * (all.size - 1));
-//				if(!all.cmd)
-//					return (0);
-//				prexec(&all, envp);
-//				all.cmd[0] = cmd1;
-//				all.cmd[1] = cmd2;
-//	//			all.cmd[2] = cmd3;
-//	//			all.token = '|';
-//
-//				
-////				printf(" before freeed*******\n");
-//				freecmd(&all);
-////				printf("freeed*******\n");
-//				i = -1;
-//
-//			}
-//		}
-//	}
-//
+void	minishell(char **envp)
+{
+	t_all	all;
+	char	*rd;
 
+	all.exit_var = 0;
+	ft_env_init(envp, &all);
+	while (1)
+	{
+		rd = readline("$_MINI_SHELL_$:");
+		if (!rd)
+			exit(0);
+		if (rd)
+		{
+			ft_init_exec(&all, &rd);
+			free(rd);
+		}
+	}
+	freetable(all.myenv);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	//atexit(leaks);
+	if (ac > 0 && av[0])
+	{
+		mysignal();
+		minishell(envp);
+	}
+	return (0);
+}

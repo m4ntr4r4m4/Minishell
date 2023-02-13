@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 21:36:02 by ahammoud         ###   ########.fr       */
+/*   Created: 2023/02/12 18:07:37 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/12 18:07:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-int	parser(char **rd, t_all *all)
+void	handlerint(int x)
 {
-	char	**str;
-
-	if (check_error(rd))
+	if (x)
 	{
-		printf("rd => %s\n", *rd);
-		check_expanser(rd, all);
-		printf("rd => %s\n", *rd);
-		str = ft_split_parse(*rd, ' ');
-		init_structs(all, str);
-		lexer(str, all);
-		check_builtins(all);
-		print_all(all);
-		freetable(str);
-		return (1);
+		ioctl(0, TIOCSTI, "\n");
+		rl_on_new_line();
 	}
-	return (0);
+}
+
+void	handlerquit(int x)
+{
+	if (x)
+		rl_on_new_line();
+}
+
+void	mysignal(void)
+{
+	signal(SIGINT, handlerint);
+	signal(SIGQUIT, handlerquit);
 }

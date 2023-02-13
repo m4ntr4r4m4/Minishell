@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   ft_trim.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 21:36:02 by ahammoud         ###   ########.fr       */
+/*   Created: 2023/02/07 14:32:41 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/12 16:28:42 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-int	parser(char **rd, t_all *all)
+char	*ft_strtrimtail(char const *s1, char const *set)
 {
-	char	**str;
+	size_t	e;
+	char	*str1;
 
-	if (check_error(rd))
-	{
-		printf("rd => %s\n", *rd);
-		check_expanser(rd, all);
-		printf("rd => %s\n", *rd);
-		str = ft_split_parse(*rd, ' ');
-		init_structs(all, str);
-		lexer(str, all);
-		check_builtins(all);
-		print_all(all);
-		freetable(str);
-		return (1);
-	}
-	return (0);
+	if (!s1)
+		return (NULL);
+	e = ft_strlen((char *)s1);
+	if ((int)e == ft_strlen((char *)set) \
+			&& !ft_strncmp((char *)set, (char *)s1, e))
+		return (ft_strdup(""));
+	if (e)
+		while (ft_strchr(set, s1[e - 1]) != 0)
+			e--;
+	str1 = malloc(sizeof(char) * e + 1);
+	if (!str1)
+		return (NULL);
+	ft_strlcpy(str1, (char *)s1, e + 1);
+	return (str1);
 }
