@@ -64,6 +64,7 @@ char	*delete_quotes(char *str)
 	int		count;
 	char	*new;
 
+	fprintf(stderr, "-> %s\n", str);
 	count = count_quotes(str);
 	new = malloc(count + 1);
 	if (!new)

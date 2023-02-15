@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:21:34 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:26:54 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_fandr(char **s, char **st, char **tmp, char **origin)
 
 	i = -1;
 	*s = ft_strdup(*st);
-	while (origin[++i])
+	while (origin[++i + 1])
 	{
 		sst = replaceWord(*s, origin[i], tmp[i]);
 		free(*s);
@@ -98,8 +98,10 @@ void	expander(char **st, t_all *all)
 	char	*sst;
 
 	origin = ft_split_delete(*st, ' ');
+//	ft_print_table(origin, 2);
 	tmp = ft_split_delete(*st, ' ');
 	ft_exp_utils(tmp, &s, &sst, all);
+//	ft_print_table(tmp, 2);
 	ft_fandr(&s, st, tmp, origin);
 	freetable(tmp);
 	freetable(origin);
