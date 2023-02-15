@@ -2,47 +2,10 @@
 
 int	ft_tr(const char *s, char quote, int *i)
 {
-	int	len;
-	int	vol;
-	int	cq;
-	int	sq;
-	int	exit;
-
-	len = 0;
-	cq = 0;
-	vol = 0;
-	sq = 0;
-	exit = 0;
 	if (quote == ' ')
-		vol = 1;
-	while ((s[*i] != '\0'))
-	{
-		if (vol)
-		{
-			if (s[*i] == 32 && (exit || (!sq && !cq)))
-				return (len);
-			else if (s[*i] == '"')
-				sq++;
-			else if (s[*i] == 39)
-				cq++;
-			else if (sq == 2 || cq == 2)
-				exit = 1;
-		}
-		else
-		{
-			if (s[*i] == quote && vol && !cq)
-				return (len);
-			if ((sq && s[*i] == 32) || (s[*i] == 32 && cq == 2))
-				return (len);
-			if (cq == 1 && s[*i] == quote && s[*i + 1] != 32)
-				sq = 1;
-			else if (s[*i] == quote)
-				cq++;
-		}
-		len++;
-		(*i)++;
-	}
-	return (len);
+		return (case_vol(s, i));
+	else
+		return (case_two(s, i, quote));
 }
 
 int	count_quotes(char *str)

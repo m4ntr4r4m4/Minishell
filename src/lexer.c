@@ -6,7 +6,8 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:32:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:01:08 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:08:03 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,7 +38,7 @@ int	parser(char **rd, t_all *all)
 		lexer(str, all);
 		check_builtins(all);
 		fix_behavior(all);
-	//	print_all(all);
+		/* print_all(all); */
 		freetable(str);
 		return (1);
 	}

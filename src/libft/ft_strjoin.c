@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 01:30:36 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:22:14 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:05:56 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"libft.h"
@@ -32,12 +32,13 @@ char	*ft_strjoin(char *s1, char *s2)
 		dest = malloc((j + i + 1) * sizeof(char));
 		if (!dest)
 		{
-			free((char *)s1);
+			free((s1);
 			return (NULL);
 		}
 		ft_memcpy(dest, s1, i);
 		ft_memcpy(&dest[i], s2, j);
 		dest[i + j] = '\0';
 	}
+	free(s2);
 	return (dest);
 }

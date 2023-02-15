@@ -3,6 +3,7 @@
 void	init_iterators(t_i *i)
 {
 	i->s = 0;
+	i->r = 0;
 	i->c = 0;
 	i->t = 0;
 	i->t2 = 0;

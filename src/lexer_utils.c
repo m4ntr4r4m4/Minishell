@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/15 21:01:50 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/02/15 21:04:41 by ahammoud         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	lexer_check(char token, t_all *all, t_i *i, char **str)
@@ -48,47 +60,44 @@ void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
 	all->cmd[i->c].args[i->a++] = ft_strdup(all->cmd[i->c].path);
 }
 
+void	fill_struct(char **str, t_all *all, t_i *i, int *path)
+{
+	all->cmd[i->c].name = ft_strdup(str[i->s]);
+	all->cmd[i->c].path = get_path(all->path, str[i->s], 3);
+	if (!all->cmd[i->c].path)
+	{
+		if (!ft_strncmp(str[i->s], "<", 1)
+			|| !ft_strncmp(str[i->s], ">", 1))
+			*path = 0;
+		all->cmd[i->c].path = ft_strdup(str[i->s]);
+	}
+	all->cmd[i->c].args[i->a++] = ft_strdup(all->cmd[i->c].path);
+	if (i->r == CONTINUE)
+		i->s++;
+}
+
 char	lexer(char **str, t_all *all)
 {
 	char	token;
+	int		path;
 	t_i		i;
 
-	int path, nextpipe;
 	path = 1;
-	nextpipe = 1;
 	init_iterators(&i);
-	all->cmd[i.c].name = ft_strdup("");
+	i.r = tokens(str[i.s]);
+	fill_struct(str, all, &i, &path);
 	while (str[i.s])
 	{
 		token = tokens(str[i.s]);
-		if (nextpipe)
+		if (token == PIPE || token == AMPERSAND
+			|| (!path && token == CONTINUE))
 		{
-			if(all->cmd[i.c].name)
-				free(all->cmd[i.c].name);
-			all->cmd[i.c].name = ft_strdup(str[i.s]);
-			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
-			if (!all->cmd[i.c].path)
-			{
-				if  (!ft_strncmp(str[i.s], "<", 1) || !ft_strncmp(str[i.s], ">", 1))
-					path = 0;
-				all->cmd[i.c].path = ft_strdup(str[i.s]);
-			}
-			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
-			nextpipe = 0;
-			if (token == CONTINUE)
-				i.s++;
+			lexer_pipe(token, all, &i, str);
+			path = 1;
 		}
 		else
-		{
-			if (token == PIPE || token == AMPERSAND || (!path && token == CONTINUE)) 
-			{
-				lexer_pipe(token, all, &i, str);
-				path = 1;
-			}
-			else
-				lexer_check(token, all, &i, str);
-			i.s++;
-		}
+			lexer_check(token, all, &i, str);
+		i.s++;
 	}
 	return (CONTINUE);
 }

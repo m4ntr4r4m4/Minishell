@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 void	search_cmd(t_all *all, char **str)
 {
 	int		x;
@@ -24,37 +23,42 @@ void	search_cmd(t_all *all, char **str)
 	}
 }
 
+int	search_util(char token, t_all *all, int *rol, int *i)
+{
+	if (token == CONTINUE)
+	{
+		if (*rol == 0)
+			*rol = 1;
+		else
+			all->s_t++;
+	}
+	else if (token == PIPE || token == AMPERSAND)
+	{
+		(*i)++;
+		return (0);
+	}
+	else
+	{
+		(*i)++;
+		*rol = 0;
+	}
+	return (1);
+}
+
 int	search_arg(t_all *all, char **str)
 {
 	int			i;
 	char		token;
-	int			bol;
 	int			rol;
 
 	all->s_t = 0;
-	bol = 0;
 	rol = 0;
 	i = all->i_a;
 	while (str[i])
 	{
 		token = tokens(str[i]);
-		if (token == CONTINUE)
-		{
-			if (!rol)
-				rol = 1;
-			else
-				all->s_t++;
-		}
-		else if (token == PIPE || token == AMPERSAND)
-		{
-			i++;
+		if (!search_util(token, all, &rol, &i))
 			break ;
-		}
-		else
-		{
-			i++;
-			rol = 0;
-		}
 		i++;
 	}
 	all->i_a = i;
