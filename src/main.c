@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 17:26:52 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:33:48 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 16:02:45 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -50,7 +50,7 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	//atexit(leaks);
+	atexit(leaks);
 	if (ac > 0 && av[0])
 	{
 		mysignal();

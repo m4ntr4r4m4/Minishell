@@ -63,6 +63,8 @@ char	lexer(char **str, t_all *all)
 		token = tokens(str[i.s]);
 		if (nextpipe)
 		{
+			if(all->cmd[i.c].name)
+				free(all->cmd[i.c].name);
 			all->cmd[i.c].name = ft_strdup(str[i.s]);
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
 			if (!all->cmd[i.c].path)

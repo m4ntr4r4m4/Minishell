@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 15:01:52 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:47:22 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print_all(t_all *all)
 
 char	**path_var(char **envp)
 {
-	int		i;
+	size_t		i;
 	char	**pathvar;
 	char	*str;
 	char	*tmp;

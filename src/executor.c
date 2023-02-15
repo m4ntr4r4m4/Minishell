@@ -6,14 +6,14 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 13:18:17 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:48:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 void	ft_open_in(t_all *all, int *i)
 {
-	int	j;
+	size_t	j;
 
 	j = -1;
 	while (++j < ft_get_size(all->cmd[*i].infile))

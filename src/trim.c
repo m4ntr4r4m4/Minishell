@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 14:32:41 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 16:28:42 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:50:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strtrimtail(char const *s1, char const *set)
 			&& !ft_strncmp((char *)set, (char *)s1, e))
 		return (ft_strdup(""));
 	if (e)
-		while (ft_strchr(set, s1[e - 1]) != 0)
+		while (e > 0 && ft_strchr(set, s1[e - 1]) != 0)
 			e--;
 	str1 = malloc(sizeof(char) * e + 1);
 	if (!str1)

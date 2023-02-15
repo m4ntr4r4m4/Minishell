@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 13:04:11 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:34:27 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	check_exp_utils(char **rd, char **str, t_all *all)
 		if ((*rd)[i] == '$')
 		{
 			expander(str, all);
-			fprintf(stderr, "%s\n", *str);
 			*rd = *str;
 			break ;
 		}
