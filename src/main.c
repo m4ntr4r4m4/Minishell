@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:33:48 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:06:30 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 16:02:45 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -27,6 +27,19 @@ void	ft_init_exec(t_all *all, char **rd)
 	}
 }
 
+void	ft_check_space(char **rd)
+{
+	int	i;
+	char	*s;
+
+	i = 0;
+	while ((*rd)[i] < 33 && (*rd)[i] != '\0')
+		++i;
+	s = ft_strdup(&(*rd)[i]);
+	free(*rd);
+	*rd = s;
+}
+
 void	minishell(char **envp)
 {
 	t_all	all;
@@ -39,6 +52,7 @@ void	minishell(char **envp)
 		rd = readline("$_MINI_SHELL_$:");
 		if (!rd)
 			exit(0);
+		ft_check_space(&rd);
 		if (rd)
 		{
 			ft_init_exec(&all, &rd);
@@ -50,7 +64,6 @@ void	minishell(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	atexit(leaks);
 	if (ac > 0 && av[0])
 	{
 		mysignal();

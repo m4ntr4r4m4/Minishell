@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:02:42 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:04:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:32:31 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*replaceWord(const char* s, const char* oldW, const char* newW)
 	char	*result;
 	int		i;
 	int		cnt;
-	int newWlen;
-	int oldWlen;
+	int		newWlen;
+	int		oldWlen;
 
 	newWlen = strlen(newW); 
 	oldWlen = strlen(oldW); 

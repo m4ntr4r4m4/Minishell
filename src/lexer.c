@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 21:15:58 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:59:20 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 19:08:03 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -38,7 +38,6 @@ int	parser(char **rd, t_all *all)
 		lexer(str, all);
 		check_builtins(all);
 		fix_behavior(all);
-		print_all(all);
 		freetable(str);
 		return (1);
 	}

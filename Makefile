@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2023/02/15 21:14:11 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/02/15 22:44:57 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,16 @@ SRCS	=	./src/find_replace.c ./src/checkers2.c ./src/signals.c ./src/trim.c ./src
 OBJS	=	${SRCS:.c=.o}
 
 .c.o	:
-			${CC} ${CFLAGS}  -c $< -o ${<:.c=.o} -I includes/
+			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes/ -I /Users/ahammoud/.brew/opt/readline/include
 
 NAME	=	 minishell
 
-LIB		=		-lreadline -L ~/.brew/Cellar/readline/8.2.1/lib/
+LIB		=		 -lreadline -L /Users/ahammoud/.brew/opt/readline/lib/
 #LIB		=	 -lreadline -L /usr/local/Cellar/readline/8.1/lib/ -I /usr/local/Cellar/readline/8.1/include/readline/
 
 #CFLAGS	=	 -g
-#CFLAGS	=	 -g -Wall -Wextra -Werror
-CFLAGS	=	 -g -fsanitize=address
+CFLAGS	=	 -g -Wall -Wextra -Werror
+#CFLAGS	=	 -g -fsanitize=address
 
 
 CC	=	gcc
@@ -32,7 +32,7 @@ CC	=	gcc
 
 ${NAME}	:	${OBJS} 
 			cd ./src/libft/ && make bonus
-			${CC} ${CFLAGS} ${LIB} ${OBJS} ./src/libft/libft.a -o ${NAME}
+			${CC} ${CFLAGS} ${OBJS} ./src/libft/libft.a -o ${NAME} ${LIB} -I includes/ -I /Users/ahammoud/.brew/opt/readline/include
 
 all	:	${NAME}
 

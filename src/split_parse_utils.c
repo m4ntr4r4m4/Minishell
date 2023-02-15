@@ -9,7 +9,6 @@ int	case_two(const char *s, int *i, char quote)
 	sq = 0;
 	while ((s[*i] != '\0'))
 	{
-		fprintf(stderr, "%c %d \n", s[*i], sq % 2);
 		if (s[*i] == 32 && sq % 2 == 0)
 			return (len);
 		else if (s[*i] == quote)

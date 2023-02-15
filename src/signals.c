@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:07:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:50:15 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:47:45 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	handlerint(int x)
 {
 	if (x)
 	{
-		ioctl(0, TIOCSTI, "\n");
+		rl_replace_line("", 0);
 		rl_on_new_line();
+		ioctl(0, TIOCSTI, "\n");
 	}
 }
 
