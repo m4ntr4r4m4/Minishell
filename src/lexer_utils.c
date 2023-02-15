@@ -77,7 +77,7 @@ char	lexer(char **str, t_all *all)
 		}
 		else
 		{
-			if (token == PIPE || token == AMPERSAND || (!path && token == CONTINUE))
+			if (token == PIPE || token == AMPERSAND || (!path && token == CONTINUE && (!ft_strncmp(str[i.s],"unset", 5))))
 			{
 				lexer_pipe(token, all, &i, str);
 				path = 1;

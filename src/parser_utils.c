@@ -74,13 +74,13 @@ void	check_builtins(t_all *all)
 	y = 0;
 	while (y < (int)all->size)
 	{
-		if (!strcmp(all->cmd[y].name, "echo")
-				|| !strcmp(all->cmd[y].name, "unset")
-				|| !strcmp(all->cmd[y].name, "export")
-				|| !strcmp(all->cmd[y].name, "pwd")
-				|| !strcmp(all->cmd[y].name, "env")
-				|| !strcmp(all->cmd[y].name, "cd")
-				|| !strcmp(all->cmd[y].name, "exit"))
+		if (!strcmp(all->cmd[y].name, "echo") \
+	|| !strcmp(all->cmd[y].name, "unset") \
+	|| !strcmp(all->cmd[y].name, "export") \
+	|| !strcmp(all->cmd[y].name, "pwd") \
+	|| !strcmp(all->cmd[y].name, "env") \
+	|| !strcmp(all->cmd[y].name, "cd") \
+	|| !strcmp(all->cmd[y].name, "exit"))
 			all->cmd[y].builtins = 1;
 		y++;
 	}
