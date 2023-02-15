@@ -67,7 +67,8 @@ char	lexer(char **str, t_all *all)
 			all->cmd[i.c].path = get_path(all->path, str[i.s], 3);
 			if (!all->cmd[i.c].path)
 			{
-				path = 0;
+				if  (!ft_strncmp(str[i.s], "<", 1) || !ft_strncmp(str[i.s], ">", 1))
+					path = 0;
 				all->cmd[i.c].path = ft_strdup(str[i.s]);
 			}
 			all->cmd[i.c].args[i.a++] = ft_strdup(all->cmd[i.c].path);
@@ -77,7 +78,7 @@ char	lexer(char **str, t_all *all)
 		}
 		else
 		{
-			if (token == PIPE || token == AMPERSAND || (!path && token == CONTINUE))
+			if (token == PIPE || token == AMPERSAND || (!path && token == CONTINUE)) 
 			{
 				lexer_pipe(token, all, &i, str);
 				path = 1;
