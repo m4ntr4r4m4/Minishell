@@ -6,28 +6,22 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 12:23:38 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:14:19 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 void	fix_behavior(t_all *all)
 {
-	int	i;
-
-	i = -1;
-	while (++i < all->size)
+	if (ft_strchr(all->cmd[0].name, '>') || ft_strchr(all->cmd[0].name, '<'))
 	{
-		if (ft_strchr(all->cmd[i].name, '>') || ft_strchr(all->cmd[i].name, '<'))
-		{
-			free(all->cmd[i].name);
-			free(all->cmd[i].path);
-			free(all->cmd[i].args[0]);
-			all->cmd[i].name = ft_strdup("echo");
-			all->cmd[i].path = ft_strdup("echo");
-			all->cmd[i].args[0] = ft_strdup("echo");
-			all->cmd[i].builtins = 1;
-		}
+		free(all->cmd[0].name);
+		free(all->cmd[0].path);
+		free(all->cmd[0].args[0]);
+		all->cmd[0].name = ft_strdup("echo");
+		all->cmd[0].path = ft_strdup("echo");
+		all->cmd[0].args[0] = ft_strdup("echo");
+		all->cmd[0].builtins = 1;
 	}
 }
 
