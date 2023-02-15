@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 19:45:47 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:18:17 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -16,12 +16,14 @@ void	ft_open_in(t_all *all, int *i)
 	int	j;
 
 	j = -1;
-	while (all->cmd[*i].infile[++j])
-	all->pipes[*i].fdin = open(all->cmd[*i].infile[0], O_RDONLY);
-	if (all->pipes[*i].fdin < 0)
+	while (++j < ft_get_size(all->cmd[*i].infile))
 	{
-		perror("file desc");
-		exit(1);
+		all->pipes[*i].fdin = open(all->cmd[*i].infile[j], O_RDONLY);
+		if (all->pipes[*i].fdin < 0)
+		{
+			perror(all->cmd[*i].infile[0]);
+			exit(errno);
+		}
 	}
 }
 
@@ -42,7 +44,7 @@ void	ft_open_out(t_all *all, int *i)
 	O_RDWR | O_APPEND | O_CREAT, 0666);
 	if (all->pipes[*i].fdout < 0)
 	{
-		perror("file desc");
+		perror(all->cmd[*i].outfile[j]);
 		exit(1);
 	}
 }

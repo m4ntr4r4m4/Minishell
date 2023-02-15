@@ -6,7 +6,8 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 17:10:57 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:25:43 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:48:59 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +65,13 @@ char	*get_line(int fd)
 	str[0] = '\0';
 	buff[1] = '\0';
 	i = read(fd, buff, 1);
-	if (i == -1)
+	if (i <= 0)
 	{
 		free(buff);
 		free(str);
 		return (NULL);
 	}
-	while (buff[0] != '\n' && i != 0)
+	while (buff[0] != '\n' && i != 0 && buff[0] != '\4')
 	{
 		tmp = ft_strjoin(str, buff);
 		free(str);
@@ -94,13 +95,17 @@ void	ft_here_doc_utils(t_all *all, size_t *x)
 	while (all->cmd[*x].eof[++i])
 	{
 		input = get_line(0);
+		if (!input)
+			break;
 		check_expanser(&input, all);
 		while (ft_strncmp(input, all->cmd[*x].eof[i], \
-			ft_strlen(all->cmd[*x].eof[i])))
+			ft_strlen(input)))
 		{
 			ft_putendl_fd(input, fd);
 			free(input);
 			input = get_line(0);
+			if (!input)
+				break;
 			check_expanser(&input, all);
 		}
 	}

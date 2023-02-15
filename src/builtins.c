@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:36:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:40:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_cd(char *path, t_all *all)
 	{
 		buff = malloc(sizeof(char) * PATH_MAX);
 		if (getcwd(buff, PATH_MAX) == NULL)
-			perror("getcwd() error");
+			perror("Working Directory");
 		pwd = ft_strdup(ft_mygetenv("PWD", all));
 		oldpwd = ft_mygetenv("OLDPWD", all);
 		ft_newpwd(all, buff);
@@ -67,7 +67,7 @@ void	ft_pwd(void)
 
 	buff = malloc(sizeof(char) * PATH_MAX);
 	if (getcwd(buff, PATH_MAX) == NULL)
-		perror("getcwd() error");
+		perror("Working Directory");
 	printf("%s\n", buff);
 	free(buff);
 }

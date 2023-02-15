@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/12 18:03:00 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:27:29 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,7 +20,7 @@ void	child1(t_all *all, int i)
 			ft_builtins(all, i);
 	}
 	else if (execve(all->cmd[i].path, all->cmd[i].args, all->myenv) < 0)
-		perror("command");
+		perror(all->cmd[i].name);
 	exit(errno);
 }
 
@@ -47,25 +47,34 @@ void	executor(t_all *all)
 	free(pid);
 }
 
-int	prexec(t_all *all)
+void	ft_pre_here_doc(t_all *all)
 {
 	size_t	x;
 
 	x = -1;
+	while (++x < all->size)
+	{
+		if (all->cmd[x].token[2] == LESSLESS)
+		{
+			ft_here_doc(all);
+			break ;
+		}
+	}
+}
+
+int	prexec(t_all *all)
+{
+
+	int	i;
+
+	i = 0;
 	if (all->size >= 1)
 	{
 		all->pipes = malloc(sizeof(t_pipe) * (all->size));
 		if (!all->pipes)
 			return (0);
-		while (++x < all->size)
-		{
-			if (all->cmd[x].token[2] == LESSLESS)
-			{
-				ft_here_doc(all);
-				break ;
-			}
-		}
-		if (all->cmd[0].builtins && all->size < 2 && !all->cmd[0].token[1])
+		ft_pre_here_doc(all);
+		if (all->cmd[0].builtins && all->size < 2 && !all->cmd[0].token[1] && !all->cmd[0].token[0])
 			ft_builtins(all, 0);
 		else
 			executor(all);

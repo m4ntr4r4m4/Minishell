@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:22:13 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:01:52 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,21 @@ char	**path_var(char **envp)
 	{
 		while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
 			i++;
-		tmp = ft_strtrim(envp[i], "PATH=");
-		pathvar = ft_split(tmp, ':');
-		i = 0;
-		while (pathvar[i])
+		if (i < ft_get_size(envp))
 		{
-			str = ft_strjoin(pathvar[i], "/");
-			free(pathvar[i]);
-			pathvar[i] = str;
-			i++;
-		}
+			tmp = ft_strtrim(envp[i], "PATH=");
+			pathvar = ft_split(tmp, ':');
+			i = 0;
+			while (pathvar[i])
+			{
+				str = ft_strjoin(pathvar[i], "/");
+				free(pathvar[i]);
+				pathvar[i] = str;
+				i++;
+			}
 		if (tmp)
 			free(tmp);
+		}
 	}
 	return (pathvar);
 }
@@ -107,6 +110,8 @@ char	*get_path(char **pathvar, char *cmd, int code)
 
 	i = 0;
 	path = NULL;
+	if (!pathvar)
+		return (0);
 	while (pathvar[i])
 	{
 		path = check_bin(cmd, pathvar[i++], code);
