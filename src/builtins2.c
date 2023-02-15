@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 12:54:35 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:53:54 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_echo_n(int j, char *str)
 
 	len = ft_strlen(str);
 	i = 1;
-	while(str[i] && str[i] == 'n')
+	while (str[i] && str[i] == 'n')
 		++i;
 	if (i == len)
 		j += 1;
@@ -92,39 +92,17 @@ void	ft_echo(int *i, t_all *all)
 				j++;
 		}
 	}
-		str = ft_merge(&(all->cmd[*i].args[j]));
-		if (j > 1)
-			ft_putstr_fd(str, 1);
-		else
-		{
-			ft_putstr_fd(str, STDOUT_FILENO);
-			ft_putstr_fd("\n", STDOUT_FILENO);
-		}
-		all->exit_var = 0;
-		free(str);
+	str = ft_merge(&(all->cmd[*i].args[j]));
+	if (j > 1)
+		ft_putstr_fd(str, 1);
+	else
+	{
+		ft_putstr_fd(str, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	}
+	all->exit_var = 0;
+	free(str);
 }
-//void	ft_echo(int *i, t_all *all)
-//{
-//	int		j;
-//	char	*str;
-//
-//	j = 1;
-//	if (!all->cmd[*i].args[j])
-//		return ;
-//	while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) \
-//			&& ft_strlen(all->cmd[*i].args[j]) == 2)
-//		j++;
-//	str = ft_merge(&(all->cmd[*i].args[j]));
-//	if (j > 1)
-//		ft_putstr_fd(str, 1);
-//	else
-//	{
-//		ft_putstr_fd(str, STDOUT_FILENO);
-//		ft_putstr_fd("\n", STDOUT_FILENO);
-//	}
-//	all->exit_var = 0;
-//	free(str);
-//}
 
 void	ft_export_init(t_all *all, int i)
 {

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/13 17:50:48 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -87,6 +87,7 @@ typedef struct s_all
 typedef struct s_iterators
 {
 	int	s;
+	int	r;
 	int	c;
 	int	t;
 	int	t2;
@@ -162,4 +163,6 @@ char	**cpy(char **mots, char *s, int wc, char c);
 int		ft_tr(const char *s, char quote, int *i);
 char	*delete_quotes(char *str);
 void	check_builtins(t_all *all);
+int		case_two(const char *s, int *i, char quote);
+int		case_vol(const char *s, int *i);
 #endif
