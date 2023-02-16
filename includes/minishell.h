@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:31:28 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:42:56 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
@@ -167,4 +167,5 @@ char	*delete_quotes(char *str);
 void	check_builtins(t_all *all);
 int		case_two(const char *s, int *i, char quote);
 int		case_vol(const char *s, int *i);
+void	ft_export_init(t_all *all, int i);
 #endif
