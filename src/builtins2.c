@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 14:42:46 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:40:35 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,10 @@ void	ft_echo(int *i, t_all *all)
 	}
 	j = check_echo_n(j, all->cmd[*i].args);
 	if (j == -1)
-		return;
+		return ;
 	str = ft_merge(&(all->cmd[*i].args[j]));
 	if (j > 1)
 		ft_putstr_fd(str, 1);
-
 	else
 	{
 		ft_putstr_fd(str, STDOUT_FILENO);
@@ -122,28 +121,4 @@ void	ft_export_init(t_all *all, int i)
 			ft_export(all->cmd[i].args[x++], all);
 	else
 		ft_print_table(all->myenv, 1);
-}
-
-void	ft_builtins(t_all *all, int i)
-{
-	int	x;
-
-	x = 1;
-	if (!strncmp(all->cmd[i].name, "echo", 4))
-		ft_echo(&i, all);
-	if (!strncmp(all->cmd[i].name, "pwd", 3))
-		ft_pwd();
-	if (!strncmp(all->cmd[i].name, "cd", 2))
-		ft_cd(all->cmd[i].args[1], all);
-	x = 1;
-	if (!strncmp(all->cmd[i].name, "unset", 5))
-		while (all->cmd[i].args[x])
-			ft_unset(all->cmd[i].args[x++], all);
-	if (!strncmp(all->cmd[i].name, "exit", 4))
-		ft_exit();
-	if (!strncmp(all->cmd[i].name, "env", 3) && !all->cmd[i].args[1])
-		ft_print_table(all->myenv, 1);
-	if (!strncmp(all->cmd[i].name, "export", 6))
-		ft_export_init(all, i);
-	all->exit_var = 1;
 }

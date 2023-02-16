@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 15:02:35 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:41:08 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	check_error(char **rd)
 {
-
 	if (!check_tokens(*rd))
 		return (0);
 	if (!check_spaces(rd))
