@@ -6,46 +6,56 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:02:42 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 22:32:31 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:31:56 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*replaceWord(const char* s, const char* oldW, const char* newW)
+int	ft_replace(const char *s, const char *oldw)
 {
-	char	*result;
-	int		i;
-	int		cnt;
-	int		newWlen;
-	int		oldWlen;
+	int	i;
+	int	cnt;
+	int	oldwlen;
 
-	newWlen = strlen(newW); 
-	oldWlen = strlen(oldW); 
-    cnt = 0; 
 	i = 0;
+	oldwlen = strlen(oldw);
+	cnt = 0;
 	while (s[i] != '\0')
 	{
-        if (strstr(&s[i], oldW) == &s[i])
+		if (strstr(&s[i], oldw) == &s[i])
 		{
 			cnt++;
-			i += oldWlen - 1;
+			i += oldwlen - 1;
 		}
 		i++;
 	}
-    result = malloc(sizeof(char) * ( i + cnt * (newWlen - oldWlen) + 1));
-    i = 0;
-    while (*s)
+	return (i + cnt);
+}
+
+char	*replaceword(const char	*s, const char	*oldw, const char *neww)
+{
+	char	*result;
+	int		i;
+	int		newwlen;
+	int		oldwlen;
+
+	newwlen = strlen(neww);
+	oldwlen = strlen(oldw);
+	i = ft_replace(s, oldw);
+	result = malloc(sizeof(char) * (i * (newwlen - oldwlen) + 1));
+	i = 0;
+	while (*s)
 	{
-		if (strstr(s, oldW) == s)
+		if (strstr(s, oldw) == s)
 		{
-			strcpy(&result[i], newW);
-			i += newWlen;
-			s += oldWlen;
+			strcpy(&result[i], neww);
+			i += newwlen;
+			s += oldwlen;
 		}
 		else
 			result[i++] = *s++;
 	}
 	result[i] = '\0';
-	return result;
+	return (result);
 }

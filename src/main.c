@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:48:30 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 14:57:06 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:03:36 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 16:02:45 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ void	ft_init_exec(t_all *all, char **rd)
 
 void	ft_check_space(char **rd)
 {
-	int	i;
+	int		i;
 	char	*s;
 
 	i = 0;

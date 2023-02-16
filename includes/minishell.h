@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:59:41 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:31:28 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
@@ -100,7 +100,7 @@ typedef struct s_iterators
 	int	c_o;
 }	t_i;
 
-char	*replaceWord(const char* s, const char* oldW, const char* newW);
+char	*replaceword(const char	*s, const char	*oldw, const char *neww);
 void	handlerint(int x);
 void	handlerquit(int x);
 void	mysignal(void);

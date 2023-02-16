@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 18:52:43 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:14:20 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 16:48:59 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -88,12 +88,12 @@ void	ft_here_doc_utils(t_all *all, size_t *x)
 	int		fd;
 	char	*input;
 
-	fd = open("file.tmp", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-	if (fd < 0)
-		exit(0);
 	i = -1;
 	while (all->cmd[*x].eof[++i])
 	{
+		fd = open("file.tmp", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		if (fd < 0)
+			exit(0);
 		input = get_line(0);
 		if (!input)
 			break ;

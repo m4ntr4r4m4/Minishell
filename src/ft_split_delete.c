@@ -6,7 +6,7 @@
 /*   By: ahammoud <ahammoud@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:47:23 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 14:20:55 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:05:21 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static	int	ft_tr_delete(const char *s, int c, int *quote, int *i)
 			*quote += 1;
 		len++;
 		if (s[*i] == '$')
-			break;
+			break ;
 	}
 	return (len);
 }
