@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:01 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 17:14:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:47:35 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 16:48:59 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -98,16 +98,7 @@ void	ft_here_doc_utils(t_all *all, size_t *x)
 		if (!input)
 			break ;
 		check_expanser(&input, all);
-		while (ft_strncmp(input, all->cmd[*x].eof[i], \
-			ft_strlen(input)))
-		{
-			ft_putendl_fd(input, fd);
-			free(input);
-			input = get_line(0);
-			if (!input)
-				break ;
-			check_expanser(&input, all);
-		}
+		ft_put_endfile(all->cmd[*x], &input, &i);
 	}
 	close(fd);
 	if (input)

@@ -6,11 +6,25 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:01:26 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:48:24 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_put_endfile(t_cmd cmd, char **input, int *i)
+{
+	while (ft_strncmp(*input, cmd.eof[*i], \
+		ft_strlen(*input)))
+	{
+		ft_putendl_fd(*input, fd);
+		free(*input);
+		*input = get_line(0);
+		if (!(*input))
+			break ;
+		check_expanser(input, all);
+	}
+}
 
 char	**ft_path_var(char **envp, char **tmp)
 {

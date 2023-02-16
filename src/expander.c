@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:32:18 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:36:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_exp_utils(char **tmp, char **s, char **sst, t_all *all)
 
 void	ft_fandr(char **s, char **st, char **tmp, char **origin)
 {
-	int	i;
+	int		i;
 	char	*sst;
 
 	i = -1;
@@ -104,19 +104,11 @@ void	expander(char **st, t_all *all)
 	char	*sst;
 
 	origin = ft_split_delete(*st, ' ');
-//	ft_print_table(origin, 2);
 	tmp = ft_split_delete(*st, ' ');
 	ft_exp_utils(tmp, &s, &sst, all);
-//	ft_print_table(tmp, 2);
 	ft_fandr(&s, st, tmp, origin);
 	freetable(tmp);
 	freetable(origin);
 	free(*st);
 	*st = s;
-
-}
-
-void	leaks(void)
-{
-	system("leaks minishell");
 }
