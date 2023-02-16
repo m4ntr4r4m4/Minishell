@@ -6,16 +6,15 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:48:24 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:55:52 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_put_endfile(t_cmd cmd, char **input, int *i)
+void	ft_put_endfile(char *eof, char **input, t_all *all, int fd)
 {
-	while (ft_strncmp(*input, cmd.eof[*i], \
-		ft_strlen(*input)))
+	while (ft_strncmp(*input, eof, ft_strlen(*input)))
 	{
 		ft_putendl_fd(*input, fd);
 		free(*input);

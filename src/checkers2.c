@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 15:01:58 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:42:32 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,26 @@ int	check_tokens(char *str)
 	return (1);
 }
 
-//int	check_tokens(char *str)
-//{
-//	int		i;
-//	char	token;
-//	int		count;
-//	int		newcount;
-//
-//	i = -1;
-//	count = 1;
-//	newcount = 0;
-//	while (str[++i])
-//	{
-//		token = token_l(str[i]);
-//		if (token != CONTINUE)
-//		{
-//			if (!count && !newcount)
-//				newcount = 1;
-//			else if (!count)
-//				return (0);
-//			count = 0;
-//		}
-//		else if (str[i] != 32)
-//			count = 1;
-//	}
-//	if (!count)
-//		return (0);
-//	return (1);
-//}
+void	ft_builtins(t_all *all, int i)
+{
+	int	x;
+
+	x = 1;
+	if (!strncmp(all->cmd[i].name, "echo", 4))
+		ft_echo(&i, all);
+	if (!strncmp(all->cmd[i].name, "pwd", 3))
+		ft_pwd();
+	if (!strncmp(all->cmd[i].name, "cd", 2))
+		ft_cd(all->cmd[i].args[1], all);
+	x = 1;
+	if (!strncmp(all->cmd[i].name, "unset", 5))
+		while (all->cmd[i].args[x])
+			ft_unset(all->cmd[i].args[x++], all);
+	if (!strncmp(all->cmd[i].name, "exit", 4))
+		ft_exit();
+	if (!strncmp(all->cmd[i].name, "env", 3) && !all->cmd[i].args[1])
+		ft_print_table(all->myenv, 1);
+	if (!strncmp(all->cmd[i].name, "export", 6))
+		ft_export_init(all, i);
+	all->exit_var = 1;
+}

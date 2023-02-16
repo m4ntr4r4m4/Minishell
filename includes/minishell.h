@@ -6,7 +6,8 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:49:17 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:56:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:42:56 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
@@ -100,7 +101,7 @@ typedef struct s_iterators
 	int	c_o;
 }	t_i;
 
-void	ft_put_endfile(t_cmd cmd, char **input, int *i);
+void	ft_put_endfile(char *eof, char **input, t_all *all, int fd);
 char	*replaceword(const char	*s, const char	*oldw, const char *neww);
 void	handlerint(int x);
 void	handlerquit(int x);
@@ -168,4 +169,5 @@ char	*delete_quotes(char *str);
 void	check_builtins(t_all *all);
 int		case_two(const char *s, int *i, char quote);
 int		case_vol(const char *s, int *i);
+void	ft_export_init(t_all *all, int i);
 #endif
