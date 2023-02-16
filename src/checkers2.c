@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:42:32 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:55:08 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ int	check_token(char token, char prev, char str, int count)
 	return (1);
 }
 
+int	pass(char *s, int i)
+{
+	char	quote;
+
+	quote = s[i];
+	i++;
+	while (s[i] != quote)
+		i++;
+	return (i);
+}
+
 int	check_tokens(char *str)
 {
 	int		i;
@@ -39,7 +50,9 @@ int	check_tokens(char *str)
 	while (str[++i])
 	{
 		token = token_l(str[i]);
-		if (token != CONTINUE)
+		if (str[i] == '"' || str[i] == 39)
+			i = pass(str, i);
+		else if (token != CONTINUE)
 		{
 			if (!check_token(token, token_l(str[i - 1]),
 					token_l(str[i + 1]), count))
