@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 18:45:44 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:50:24 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ int	ft_cd(char *path, t_all *all)
 	char	*pwd;
 	char	*oldpwd;
 
+	if (!path)
+		path = ft_mygetenv("HOME", all);
 	if (!chdir(path))
 	{
 		buff = malloc(sizeof(char) * PATH_MAX);
 		if (getcwd(buff, PATH_MAX) == NULL)
-			perror("Working Directory");
+			perror(path);
 		pwd = ft_strdup(ft_mygetenv("PWD", all));
 		oldpwd = ft_mygetenv("OLDPWD", all);
 		ft_newpwd(all, buff);
@@ -58,6 +60,9 @@ int	ft_cd(char *path, t_all *all)
 		free(buff);
 		return (0);
 	}
+	else
+		perror("cd");
+
 	return (1);
 }
 

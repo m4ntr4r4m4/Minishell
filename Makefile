@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2023/02/15 22:44:57 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/02/16 14:41:00 by ahammoud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIB		=		 -lreadline -L /Users/ahammoud/.brew/opt/readline/lib/
 
 #CFLAGS	=	 -g
 CFLAGS	=	 -g -Wall -Wextra -Werror
-#CFLAGS	=	 -g -fsanitize=address
+3CFLAGS	=	 -g -fsanitize=address
 
 
 CC	=	gcc

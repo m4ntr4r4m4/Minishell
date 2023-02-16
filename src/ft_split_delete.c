@@ -6,7 +6,7 @@
 /*   By: ahammoud <ahammoud@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:47:23 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 19:48:30 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:20:55 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	word_delete(char *str, char c)
 		}
 		if (str[i + 1] && str[i] == c && (str[i + 1] != c))
 			wc++;
-		if (str[i + 1] && str[i] == '$' && (str[i - 1] != c))
+		if (str[i + 1] && str[i] == '$' && i > 1 && (str[i - 1] != c))
 			wc++;
 		i++;
 	}

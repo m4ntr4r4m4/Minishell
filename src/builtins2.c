@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:53:54 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:42:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,30 @@ void	ft_unset(char *st, t_all *all)
 	free(str);
 }
 
-int	check_echo_n(int j, char *str)
+int	check_echo_n(size_t j, char **str)
 {
-	int	i;
-	int	len;
+	size_t	i;
+	size_t	len;
 
-	len = ft_strlen(str);
-	i = 1;
-	while (str[i] && str[i] == 'n')
-		++i;
-	if (i == len)
-		j += 1;
+	if (!ft_strncmp(str[j], "-n", 2))
+	{
+		while (j < ft_get_size(str) && !ft_strncmp(str[j], "-n", 2))
+		{
+			len = ft_strlen(str[j]);
+			i = 1;
+			while (str[j][i] && str[j][i] == 'n')
+				++i;
+			if (i == len)
+				j += 1;
+			if (j >= ft_get_size(str) || ft_strncmp(&str[j][i], "n", 1))
+				break ;
+		}
+		if (!str[j])
+		{
+			ft_putstr_fd("", STDOUT_FILENO);
+			return (-1);
+		}
+	}
 	return (j);
 }
 
@@ -83,18 +96,13 @@ void	ft_echo(int *i, t_all *all)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		return ;
 	}
-	if (!ft_strncmp(all->cmd[*i].args[j], "-n", 2) && all->cmd[*i].args[j + 1])
-	{
-		while (!ft_strncmp(all->cmd[*i].args[j], "-n", 2))
-		{
-			j = check_echo_n(j, all->cmd[*i].args[j]);
-			if (ft_strlen(all->cmd[*i].args[j]) == 2)
-				j++;
-		}
-	}
+	j = check_echo_n(j, all->cmd[*i].args);
+	if (j == -1)
+		return;
 	str = ft_merge(&(all->cmd[*i].args[j]));
 	if (j > 1)
 		ft_putstr_fd(str, 1);
+
 	else
 	{
 		ft_putstr_fd(str, STDOUT_FILENO);

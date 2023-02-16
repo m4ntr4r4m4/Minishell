@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 21:01:50 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 21:04:41 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:27:32 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,11 @@ char	lexer(char **str, t_all *all)
 
 	path = 1;
 	init_iterators(&i);
-	i.r = tokens(str[i.s]);
-	fill_struct(str, all, &i, &path);
+	if (str[i.s])
+	{
+		i.r = tokens(str[i.s]);
+		fill_struct(str, all, &i, &path);
+	
 	while (str[i.s])
 	{
 		token = tokens(str[i.s]);
@@ -98,6 +101,7 @@ char	lexer(char **str, t_all *all)
 		else
 			lexer_check(token, all, &i, str);
 		i.s++;
+	}
 	}
 	return (CONTINUE);
 }

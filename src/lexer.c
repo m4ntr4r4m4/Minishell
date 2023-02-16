@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 21:41:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 21:59:20 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:02:20 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 19:08:03 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -33,6 +33,8 @@ int	parser(char **rd, t_all *all)
 	if (check_error(rd))
 	{
 		check_expanser(rd, all);
+		if (**rd == '\0')
+			return (0);
 		str = ft_split_parse(*rd, ' ');
 		init_structs(all, str);
 		lexer(str, all);
