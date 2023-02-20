@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   executor2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 15:04:29 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:40:27 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -62,6 +62,16 @@ void	ft_pre_here_doc(t_all *all)
 	}
 }
 
+int	ft_check_token(int *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 int	prexec(t_all *all)
 {
 	int	i;
@@ -73,8 +83,8 @@ int	prexec(t_all *all)
 		if (!all->pipes)
 			return (0);
 		ft_pre_here_doc(all);
-		if (all->cmd[0].builtins && all->size < 2
-			&& !all->cmd[0].token[1] && !all->cmd[0].token[0])
+		if (all->cmd[0].builtins && all->size < 2 \
+			&& !all->cmd[0].token[1] && ft_check_token(all->cmd[0].token))
 			ft_builtins(all, 0);
 		else
 			executor(all);
