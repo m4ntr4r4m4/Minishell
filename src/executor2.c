@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/20 15:40:27 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:13:03 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,10 +66,12 @@ int	ft_check_token(int *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	i = -1;
+	while (++i < 4)
+		if (str[i])
+			return (1);
+
+	return (0);
 }
 
 int	prexec(t_all *all)
@@ -84,7 +86,7 @@ int	prexec(t_all *all)
 			return (0);
 		ft_pre_here_doc(all);
 		if (all->cmd[0].builtins && all->size < 2 \
-			&& !all->cmd[0].token[1] && ft_check_token(all->cmd[0].token))
+			&& !ft_check_token(all->cmd[0].token))
 			ft_builtins(all, 0);
 		else
 			executor(all);

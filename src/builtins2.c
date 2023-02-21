@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/21 21:44:05 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:03:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ void	ft_unset(char *st, t_all *all)
 int	check_echo_n(size_t j, char **str)
 {
 	size_t	i;
+	size_t	x;
 
-
-	while (!ft_strncmp(str[j], "-n", 2))
+	x = ft_get_size(str);
+	while (j < x && !ft_strncmp(str[j], "-n", 2))
 	{
 		if(ft_strlen(str[j])!= 2)
 		{
