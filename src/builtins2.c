@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:42:44 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:44:05 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,22 @@ void	ft_unset(char *st, t_all *all)
 	free(str);
 }
 
+
 int	check_echo_n(size_t j, char **str)
 {
 	size_t	i;
-	size_t	len;
 
-	if (!ft_strncmp(str[j], "-n", 2))
+
+	while (!ft_strncmp(str[j], "-n", 2))
 	{
-		while (j < ft_get_size(str) && !ft_strncmp(str[j], "-n", 2))
+		if(ft_strlen(str[j])!= 2)
 		{
-			len = ft_strlen(str[j]);
-			i = 1;
-			while (str[j][i] && str[j][i] == 'n')
-				++i;
-			if (i == len)
-				j += 1;
-			if (j >= ft_get_size(str) || ft_strncmp(&str[j][i], "n", 1))
-				break ;
+			i = 0;
+			while (str[j][++i])
+				if (str[j][i] != 'n')
+					return (j);
 		}
-		if (!str[j])
-		{
-			ft_putstr_fd("", STDOUT_FILENO);
-			return (-1);
-		}
+		j++;
 	}
 	return (j);
 }
