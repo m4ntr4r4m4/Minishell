@@ -49,16 +49,20 @@ int	check_spaces(char **temp)
 void	check_exp_utils(char **rd, char **str, t_all *all)
 {
 	int	i;
+	int	count;
 
 	i = -1;
+	count = 0;
 	while ((*rd)[++i] != '\0')
 	{
-		if ((*rd)[i] == 39)
+		if ((*rd)[i] == 39 && count % 2 == 0)
 		{
 			i++;
 			while ((*rd)[i] != 39)
 				i++;
 		}
+		if ((*rd)[i] == '"')
+			count++;
 		if ((*rd)[i] == '$')
 		{
 			expander(str, all);

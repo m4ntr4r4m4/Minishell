@@ -34,7 +34,7 @@ int	pass(char *s, int i)
 
 	quote = s[i];
 	i++;
-	while (s[i] != quote)
+	while (s[i] && s[i] != quote)
 		i++;
 	return (i);
 }
@@ -51,10 +51,14 @@ int	check_tokens(char *str)
 	{
 		token = token_l(str[i]);
 		if (str[i] == '"' || str[i] == 39)
+		{
 			i = pass(str, i);
+			if (!str[i])
+				return (0);
+		}
 		else if (token != CONTINUE)
 		{
-			if (!check_token(token, token_l(str[i - 1]),
+			if (i != 0 && !check_token(token, token_l(str[i - 1]),
 					token_l(str[i + 1]), count))
 				return (0);
 			count = 0;
