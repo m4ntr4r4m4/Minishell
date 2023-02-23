@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:41:08 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:36:02 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,12 @@ void	check_expanser(char **str, t_all *all)
 	rd = *str;
 	tmp = ft_strdup(rd);
 	check_exp_utils(&rd, str, all);
-	free(tmp);
+	if (ft_strlen(rd) < ft_strlen(tmp) && \
+			(ft_strchr(tmp, '<') || ft_strchr(tmp, '>')))
+	{
+		free (rd);
+		*str = tmp;
+	}
+	else
+		free(tmp);
 }
