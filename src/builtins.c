@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 13:56:54 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 14:09:40 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ void	ft_exit(char **str)
 	int	i;
 
 	x = 0;
-	i = -1;
+	i = 0;
 	while (str[++i])
 	{
 		if (!ft_strisnum(str[i]))
-		{
-			ft_putstr_fd("args ofr exit should be numeric\n", 2);
 			return ;
-		}
 		x = ft_atoi(str[i]);
 	}
 	exit(x);
