@@ -6,7 +6,7 @@
 /*   By: ahammoud <ahammoud@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:47:23 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 11:23:36 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:29:31 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static int	word_delete(char *str, char c)
 		wc++;
 	while (str[i])
 	{
-		if (str[i] == '"')
-		{
-			str[i] = c;
-		}
+	//	if (str[i] == '"')
+	//	{
+	//		str[i] = c;
+	//	}
 		if (str[i + 1] && str[i] == c && (str[i + 1] != c))
 			wc++;
 		if (str[i + 1] && str[i] == '$' && i > 1 && (str[i - 1] != c))
 			wc++;
-		if ( i > 1 && str[i] == 39)
+		if ( i > 1 && (str[i] == 39 || str[i] == '"'))
 			wc++;
 		i++;
 	}
@@ -52,7 +52,7 @@ static	int	ft_tr_delete(const char *s, int c, int *quote, int *i)
 		len++;
 		if (s[*i] == '$')
 			break ;
-		if (s[*i] == 39)
+		if (s[*i] == 39 || s[*i] == '"')
 			break ;
 	}
 	return (len);
@@ -72,11 +72,11 @@ static char	**cpy_delete(char **mots, char const *s, int wc, char c)
 	{
 		while (s[i] == c)
 			i++;
-		if (s[i] == '"')
-		{
-			quote++;
-			i++;
-		}
+	//	if (s[i] == '"')
+	//	{
+	//		quote++;
+	//		i++;
+	//	}
 		start = i;
 		len = ft_tr_delete(s, c, &quote, &i);
 		mots[j] = ft_substr(s, start, len);
