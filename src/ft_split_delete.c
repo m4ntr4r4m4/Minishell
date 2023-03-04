@@ -6,7 +6,7 @@
 /*   By: ahammoud <ahammoud@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:47:23 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:05:21 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:23:36 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ static int	word_delete(char *str, char c)
 			wc++;
 		if (str[i + 1] && str[i] == '$' && i > 1 && (str[i - 1] != c))
 			wc++;
+		if ( i > 1 && str[i] == 39)
+			wc++;
 		i++;
 	}
+	fprintf(stderr, "this is wc %d.\n", wc);
 	return (wc);
 }
 
@@ -48,6 +51,8 @@ static	int	ft_tr_delete(const char *s, int c, int *quote, int *i)
 			*quote += 1;
 		len++;
 		if (s[*i] == '$')
+			break ;
+		if (s[*i] == 39)
 			break ;
 	}
 	return (len);

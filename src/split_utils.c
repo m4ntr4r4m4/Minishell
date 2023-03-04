@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:02:11 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:02:12 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 10:12:13 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ void	word_iterate(char *str, int *i, char c, int *wc)
 	if (str[*i] == 39)
 	{
 		(*i)++;
-		while (str[*i] != 39)
+		while (str[*i] && str[*i] != 39)
 			(*i)++;
 	}
-	if (str[*i + 1] && str[*i] == c && (str[*i + 1] != c))
-		(*wc)++;
+	if (str[*i])
+	{
+		if (str[*i + 1] && str[*i] == c && (str[*i + 1] != c))
+			(*wc)++;
+	}
 	(*i)++;
 }
 
@@ -36,13 +39,15 @@ int	word(char *str, char c)
 	int	i;
 	int	wc;
 	int	quote;
+	int	size;
 
+	size = ft_strlen(str);
 	i = 0;
 	quote = 0;
 	wc = 0;
 	if (str[i] != c && str[i] != '\0')
 		wc++;
-	while (str[i])
+	while (i < size)
 		word_iterate(str, &i, c, &wc);
 	return (wc);
 }

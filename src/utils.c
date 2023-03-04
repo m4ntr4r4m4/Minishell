@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/23 13:57:49 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 10:28:54 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_all(t_all *all)
 		if (all->cmd[y].path)
 			fprintf(stderr,"path[%zu] %s\n", y, all->cmd[y].path);
 		while (all->cmd[y].args[++x])
-			fprintf(stderr,"arg[%zu] %zu %s\n", y,x, all->cmd[y].args[x]);
+			fprintf(stderr,"arg[%zu] %zu %s.\n", y,x, all->cmd[y].args[x]);
 		x = -1;
 		fprintf(stderr,"a %d\n", all->cmd[y].n_tokens);
 		while (++x < (size_t) all->cmd[y].n_tokens)

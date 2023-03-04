@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:01:49 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:01:51 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:50:47 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,34 @@ int	count_quotes(char *str)
 	int	i;
 	int	count;
 
-	i = -1;
+	i = 0;
 	count = 0;
-	while (str[++i])
+	while (str[i])
 	{
 		if (str[i] == '"')
 		{
-			while (str[++i] != '"')
+			while (str[i] && str[i] != '"')
+			{
 				count++;
+				i++;
+			}
 		}
 		else if (str[i] == 39)
 		{
-			while (str[++i] != 39)
+			while (str[i] && str[i] != 39)
+			{
 				count++;
+				i++;
+			}
+			if (i == strlen(str) - 1 && str[i] == 39)
+			{
+				count++;
+				break;
+			}
 		}
 		else
 			count++;
+		i++;
 	}
 	return (count);
 }
@@ -51,21 +63,29 @@ char	*fill_str(char *str, char *new)
 	int		i;
 
 	x = 0;
-	i = -1;
-	while (str[++i])
+	i = 0;
+	while (i < ft_strlen(str))
 	{	
 		if (str[i] == 39)
 		{
-			while (str[++i] != 39)
-				new[x++] = str[i];
+		//	i++;
+			//while (str[i] && str[i]i != 39)
+			
+			while (i < ft_strlen(str))
+			{
+				fprintf(stderr, "%d %d\n", i , ft_strlen(str));
+				new[x++] = str[i++];
+			}
 		}
 		else if (str[i] == '"')
 		{
-			while (str[++i] != '"')
-				new[x++] = str[i];
+			i++;
+			while (str[i] && str[i] != '"')
+				new[x++] = str[i++];
 		}
 		else
 			new[x++] = str[i];
+		i++;
 	}
 	free(str);
 	return (new);
