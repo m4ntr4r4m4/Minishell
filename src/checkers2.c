@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 12:54:02 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:41:10 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	check_tokens(char *str)
 	char	token;
 	int		count;
 
+	count = 0;
+	token = 0;
 	i = -1;
 	count = check_tokens_splited(token, count, i, str);
 	return (count);
@@ -90,7 +92,7 @@ void	ft_builtins(t_all *all, int i)
 		while (all->cmd[i].args[x])
 			ft_unset(all->cmd[i].args[x++], all);
 	if (!strncmp(all->cmd[i].name, "exit", 4))
-		ft_exit();
+		ft_exit(all->cmd[i].args);
 	if (!strncmp(all->cmd[i].name, "env", 3) && !all->cmd[i].args[1])
 		ft_print_table(all->myenv, 1);
 	if (!strncmp(all->cmd[i].name, "export", 6))

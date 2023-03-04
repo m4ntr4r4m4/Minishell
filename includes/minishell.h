@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:56:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:41:39 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/16 18:42:56 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
@@ -119,7 +119,7 @@ char	*ft_merge(char **tab);
 void	ft_echo(int *i, t_all *all);
 int		ft_cd(char *path, t_all *all);
 void	ft_pwd(void);
-void	ft_exit(void);
+void	ft_exit(char **str);
 void	ft_unset(char *st, t_all *all);
 void	leaks(void);
 void	ft_export(char *st, t_all *all);

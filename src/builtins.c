@@ -6,15 +6,29 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:36:30 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:56:54 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_exit(void)
+void	ft_exit(char **str)
 {
-	exit(0);
+	int	x;
+	int	i;
+
+	x = 0;
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_strisnum(str[i]))
+		{
+			ft_putstr_fd("args ofr exit should be numeric\n", 2);
+			return ;
+		}
+		x = ft_atoi(str[i]);
+	}
+	exit(x);
 }
 
 void	ft_newpwd(t_all *all, char *buff)

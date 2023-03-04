@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 13:34:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 20:23:12 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:55:42 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ int				ft_strlen(char *str);
 void			ft_swap(int *a, int *b);
 char			*ft_strrev(char *str);
 void			ft_print_table(char **tab, int fd);
+int				ft_strisnum(char *str);
 #endif
