@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 14:32:41 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 17:50:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:32:00 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,15 @@ char	*ft_strtrimtail(char const *s1, char const *set)
 		return (NULL);
 	ft_strlcpy(str1, (char *)s1, e + 1);
 	return (str1);
+}
+
+void	ft_pwd(void)
+{
+	char	*buff;
+
+	buff = malloc(sizeof(char) * PATH_MAX);
+	if (getcwd(buff, PATH_MAX) == NULL)
+		perror("Working Directory");
+	printf("%s\n", buff);
+	free(buff);
 }

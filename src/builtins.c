@@ -6,24 +6,53 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 14:09:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:32:04 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	exit_ut(char **str, int i, int z)
+{
+	int	x;
+
+	x = 0;
+	if (!ft_strisnum(str[i]))
+	{
+		if (z)
+		{
+			ft_putstr_fd("too many arguments\n", 2);
+			return (-1);
+		}
+		x = 255 ;
+	}
+	else
+	{
+		if (z)
+		{
+			ft_putstr_fd("too many arguments\n", 2);
+			return (-1);
+		}
+	}
+	return (x);
+}
+
 void	ft_exit(char **str)
 {
 	int	x;
 	int	i;
+	int	z;
 
 	x = 0;
 	i = 0;
+	z = 0;
 	while (str[++i])
 	{
-		if (!ft_strisnum(str[i]))
+		x = exit_ut(str, i, z);
+		if (x == -1)
 			return ;
 		x = ft_atoi(str[i]);
+		z = x;
 	}
 	exit(x);
 }
@@ -74,15 +103,4 @@ int	ft_cd(char *path, t_all *all)
 	else
 		perror("cd");
 	return (1);
-}
-
-void	ft_pwd(void)
-{
-	char	*buff;
-
-	buff = malloc(sizeof(char) * PATH_MAX);
-	if (getcwd(buff, PATH_MAX) == NULL)
-		perror("Working Directory");
-	printf("%s\n", buff);
-	free(buff);
 }
