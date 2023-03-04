@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 19:55:08 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/04 09:31:19 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,15 @@ int	check_tokens(char *str)
 		}
 		else if (token != CONTINUE)
 		{
-			if (i != 0 && !check_token(token, token_l(str[i - 1]),
-					token_l(str[i + 1]), count))
+			if (i != 0 && !check_token(token, token_l(str[i - 1]), \
+						token_l(str[i + 1]), count))
 				return (0);
 			count = 0;
 		}
 		else if (str[i] != 32)
 			count = 1;
 	}
-	if (!count)
-		return (0);
-	return (1);
+	return (count);
 }
 
 void	ft_builtins(t_all *all, int i)

@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/21 22:13:03 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 09:26:46 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -70,7 +70,6 @@ int	ft_check_token(int *str)
 	while (++i < 4)
 		if (str[i])
 			return (1);
-
 	return (0);
 }
 

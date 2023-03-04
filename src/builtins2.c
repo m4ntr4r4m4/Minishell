@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/21 22:03:23 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 09:44:43 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	ft_echo(int *i, t_all *all)
 	char	*str;
 
 	j = 1;
+	ft_print_table(all->cmd[*i].args, 2);
 	if (!all->cmd[*i].args[j])
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
