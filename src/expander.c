@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 13:30:00 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:46:25 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ void	ft_fandr(char **s, char **st, char **tmp, char **origin)
 
 	i = -1;
 	*s = ft_strdup(*st);
-	while (tmp[++i + 1])
+	while (origin[++i + 1])
 	{
 		sst = replaceword(*s, origin[i], tmp[i]);
 		free(*s);
 		*s = sst;
 	}
-	if (tmp[i][0] != 0)
+	if (origin[i][0] != 0)
 	{
 		sst = replaceword(*s, origin[i], tmp[i]);
 		free(*s);
