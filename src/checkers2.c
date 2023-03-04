@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 13:41:10 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:59:56 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	pass(char *s, int i)
 
 int	check_tokens_splited(char token, int count, int i, char *str)
 {
+	count = 1;
 	while (str[++i])
 	{
 		token = token_l(str[i]);

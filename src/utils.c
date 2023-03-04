@@ -6,12 +6,50 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:58:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 13:29:11 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:38:42 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	print_all(t_all *all)
+{
+	size_t x ;
+	size_t y = 0;
+
+	fprintf(stderr,"comands %zu\n", all->size);
+	while (y < all->size)
+	{
+		x = -1;
+		if (all->cmd[y].name)
+			fprintf(stderr,"name[%zu] %s\n", y, all->cmd[y].name);
+		if (all->cmd[y].path)
+			fprintf(stderr,"path[%zu] %s\n", y, all->cmd[y].path);
+		while (all->cmd[y].args[++x])
+			fprintf(stderr,"arg[%zu] %zu %s\n", y,x, all->cmd[y].args[x]);
+		x = -1;
+		fprintf(stderr,"a %d\n", all->cmd[y].n_tokens);
+		while (++x < (size_t) all->cmd[y].n_tokens)
+			fprintf(stderr,"token[%zu] %d\n", x,all->cmd[y].token[x]);
+		fprintf(stderr,"hola\n");
+		x = -1;
+		while (all->cmd[y].eof[++x])
+			fprintf(stderr,"eof[%zu] %zu %s\n", y, x,all->cmd[y].eof[x]);
+		x = -1;
+		while (all->cmd[y].infile[++x])
+			fprintf(stderr,"infile[%zu] %zu %s\n", y, x,all->cmd[y].infile[x]);
+		x = -1;
+		while (all->cmd[y].outfile[++x])
+			fprintf(stderr,"outfile[%zu] %zu %s\n", y, x, all->cmd[y].outfile[x]);
+		x = 0;
+		fprintf(stderr,"built %d\n", all->cmd[y].builtins);
+		y++;
+		fprintf(stderr, "//////////**************//////////////\n");
+	}
+	x = -1;
+	while (++x < all->size - 1)
+		fprintf(stderr,"global tokens %d\n", all->token_l[x]);
+}
 void	ft_put_endfile(char *eof, char **input, t_all *all, int fd)
 {
 	while (ft_strncmp(*input, eof, ft_strlen(*input)))
