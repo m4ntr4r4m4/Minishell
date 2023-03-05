@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:17:24 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 17:46:25 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/05 15:34:07 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void	ft_merge_utils(char **str, char **tmp1, char **tmp2, char **tab)
 		free(*tmp1);
 		*str = *tmp2;
 		if (tab[i + 1] != NULL)
-		{
 			*tmp1 = ft_strjoin(*tmp2, " ");
-			free(*tmp1);
-		}
 	}
 }
 

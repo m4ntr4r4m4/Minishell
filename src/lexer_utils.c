@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 21:01:50 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:04:29 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:34:51 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@ void	lexer_check(char token, t_all *all, t_i *i, char **str)
 	{
 		i->c_o = 1;
 		if (token == GREAT)
+		{
 			all->cmd[i->c].token[1] = token;
+			all->cmd[i->c].out.token[i->o] = ft_strdup("GREAT");
+		}
 		else
+		{
 			all->cmd[i->c].token[3] = token;
+			all->cmd[i->c].out.token[i->o] = ft_strdup("GREATGREAT");
+		}
 		all->cmd[i->c].outfile[i->o++] = ft_strdup(str[++i->s]);
 	}
 	else if (token == CONTINUE)

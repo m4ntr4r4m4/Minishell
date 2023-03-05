@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:25:22 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 11:02:11 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/05 15:32:08 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void	ft_echo(int *i, t_all *all)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	all->exit_var = 0;
-	free(str);
+	if (str)
+		free(str);
 }
 
 void	ft_export_init(t_all *all, int i)

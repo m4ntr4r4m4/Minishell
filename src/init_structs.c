@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:04:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/16 18:04:46 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:29:22 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ int	init_fill(int x, char **str, t_all *all, int s)
 		return (0);
 	all->cmd[x].infile[all->s_i] = NULL;
 	all->cmd[x].builtins = 0;
+
+	all->cmd[x].out.outfile = all->cmd[x].outfile;
+	all->cmd[x].out.token = malloc(sizeof(char *) * (all->s_o + 1));
+	if (!all->cmd[x].out.token)
+		return (0);
+	all->cmd[x].out.token[all->s_o] = NULL;
 	return (1);
 }
 

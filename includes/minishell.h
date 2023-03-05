@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 13:41:39 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:22:49 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/16 18:42:56 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
@@ -51,6 +51,12 @@ typedef struct s_pipe {
 	int		fdout;
 }	t_pipe;
 
+typedef struct s_out
+{
+	char	**outfile;
+	char	**token;
+}	t_out;
+
 typedef struct s_cmd
 {
 	int		num_args;
@@ -60,6 +66,7 @@ typedef struct s_cmd
 	char	*path;
 	char	**infile;
 	char	**outfile;
+	t_out	out;
 	char	**eof;
 	int		*token;
 	int		check;
