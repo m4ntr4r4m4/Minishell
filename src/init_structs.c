@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:04:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/06 16:52:40 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:07:51 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/03/06 12:56:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -27,32 +27,6 @@ void	init_iterators(t_i *i)
 	i->eof = 0;
 	i->c_o = 0;
 }
-
-//int	init_fill(int x, char **str, t_all *all, int s)
-//{
-//	all->cmd[x].token = malloc(sizeof(int) * 4);
-//	all->cmd[x].args = malloc(sizeof(char *) * (search_arg(all, str) + 1));
-//	all->cmd[x].eof = malloc(sizeof(char *) * (all->s_eof + 1));
-//	all->cmd[x].outfile = malloc(sizeof(char *) * (all->s_o + 1));
-//	all->cmd[x].infile = malloc(sizeof(char *) * (all->s_i + 1));
-//	all->cmd[x].out.token = malloc(sizeof(char *) * (all->s_o + 1));
-//	if (!all->cmd[x].token || !all->cmd[x].args || !all->cmd[x].eof || \
-//			!all->cmd[x].outfile || !all->cmd[x].infile \
-//			|| !all->cmd[x].out.token)
-//		return (0);
-//	while (++s < 4)
-//		all->cmd[x].token[s] = 0;
-//	all->cmd[x].n_tokens = 4;
-//	all->cmd[x].args[all->s_t] = NULL;
-//	search_files(all, str);
-//	all->cmd[x].eof[all->s_eof] = NULL;
-//	all->cmd[x].outfile[all->s_o] = NULL;
-//	all->cmd[x].infile[all->s_i] = NULL;
-//	all->cmd[x].builtins = 0;
-//	all->cmd[x].out.outfile = all->cmd[x].outfile;
-//	all->cmd[x].out.token[all->s_o] = NULL;
-//	return (1);
-//}
 
 void	init_fill_2(t_all *all, int x, int s)
 {
