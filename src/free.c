@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:20:54 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/02/15 21:00:07 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:43:46 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/02/15 18:53:33 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -33,6 +33,7 @@ void	freecmd(t_all *all)
 	{
 		free(all->cmd[i].name);
 		freetable(all->cmd[i].args);
+		freetable(all->cmd[i].out.token);
 		free(all->cmd[i].path);
 		freetable(all->cmd[i].infile);
 		freetable(all->cmd[i].outfile);

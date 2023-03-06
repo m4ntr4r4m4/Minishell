@@ -6,7 +6,7 @@
 #    By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/07 13:14:42 by ahammoud          #+#    #+#              #
-#    Updated: 2023/03/04 17:40:55 by ahammoud         ###   ########.fr        #
+#    Updated: 2023/03/06 16:52:16 by ahammoud         ###   ########.fr        #
 #    Updated: 2023/02/16 19:05:10 by jvelasco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -24,8 +24,8 @@ LIB		=		 -lreadline -L /Users/${USER}/.brew/opt/readline/lib/
 #LIB		=	 -lreadline -L /usr/local/Cellar/readline/8.1/lib/ -I /usr/local/Cellar/readline/8.1/include/readline/
 
 #CFLAGS	=	 -g
-#CFLAGS	=	 -g -Wall -Wextra -Werror
-CFLAGS	=	 -g -fsanitize=address
+CFLAGS	=	 -g -Wall -Wextra -Werror
+#CFLAGS	=	 -g -fsanitize=address
 
 
 CC	=	gcc

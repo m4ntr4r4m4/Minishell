@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/05 16:37:08 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:39:58 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,7 +33,7 @@ void	ft_open_out(t_all *all, int *i)
 
 	j = 0;
 	while (all->cmd[*i].outfile[j + 1])
-		open(all->cmd[*i].outfile[j++], O_RDWR | O_APPEND | O_CREAT, 0666);
+		open(all->cmd[*i].outfile[j++], O_RDWR | O_CREAT, 0666);
 	if (!ft_strncmp(all->cmd[*i].out.token[j], "GREATGREAT", 8))
 		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
 	O_RDWR | O_APPEND | O_CREAT, 0666);
@@ -41,7 +41,6 @@ void	ft_open_out(t_all *all, int *i)
 	{
 		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
 		O_RDWR | O_TRUNC | O_CREAT, 0666);
-		fprintf(stderr,"\nhello \n");
 	}	
 	if (all->pipes[*i].fdout < 0)
 	{
@@ -49,27 +48,6 @@ void	ft_open_out(t_all *all, int *i)
 		exit(1);
 	}
 }
-//void	ft_open_out(t_all *all, int *i)
-//{
-//	int	j;
-//
-//	j = 0;
-//	while (all->cmd[*i].outfile[j + 1])
-//		open(all->cmd[*i].outfile[j++], O_RDWR | O_APPEND | O_CREAT, 0666);
-//	if (all->cmd[*i].token[3])
-//		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
-//	O_RDWR | O_APPEND | O_CREAT, 0666);
-//	else if (all->cmd[*i].token[1])
-//	{
-//		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
-//		O_RDWR | O_TRUNC | O_CREAT, 0666);
-//	}	
-//	if (all->pipes[*i].fdout < 0)
-//	{
-//		perror(all->cmd[*i].outfile[j]);
-//		exit(1);
-//	}
-//}
 
 void	ft_open_fd(t_all *all, int i)
 {
