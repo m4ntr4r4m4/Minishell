@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:07:37 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/05 15:05:36 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:02:29 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handlerint(int x)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-//		rl_replace_line("", 0);
+		rl_replace_line("", 0);
 	}
 }
 
