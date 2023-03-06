@@ -6,6 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:30:53 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/03/06 16:39:58 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/03/06 12:57:34 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -33,7 +34,7 @@ void	ft_open_out(t_all *all, int *i)
 
 	j = 0;
 	while (all->cmd[*i].outfile[j + 1])
-		open(all->cmd[*i].outfile[j++], O_RDWR | O_APPEND | O_CREAT, 0666);
+		open(all->cmd[*i].outfile[j++], O_RDWR | O_CREAT, 0666);
 	if (!ft_strncmp(all->cmd[*i].out.token[j], "GREATGREAT", 8))
 		all->pipes[*i].fdout = open(all->cmd[*i].outfile[j], \
 	O_RDWR | O_APPEND | O_CREAT, 0666);

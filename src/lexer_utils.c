@@ -6,6 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 21:01:50 by ahammoud          #+#    #+#             */
+/*   Updated: 2023/03/06 16:36:54 by ahammoud         ###   ########.fr       */
 /*   Updated: 2023/03/06 12:59:39 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -46,6 +47,38 @@ void	lexer_check(char token, t_all *all, t_i *i, char **str)
 	else if (token == CONTINUE)
 		all->cmd[i->c].args[i->a++] = ft_strdup(str[i->s]);
 }
+
+//void	lexer_check(char token, t_all *all, t_i *i, char **str)
+//{
+//	if (token == LESS)
+//	{
+//		all->cmd[i->c].infile[i->i++] = ft_strdup(str[i->s + 1]);
+//		all->cmd[i->c].token[0] = token;
+//		i->s++;
+//	}
+//	else if (token == LESSLESS)
+//	{
+//		all->cmd[i->c].token[2] = token;
+//		all->cmd[i->c].eof[i->eof++] = ft_strdup(str[++i->s]);
+//	}
+//	else if (token == GREAT || token == GREATGREAT)
+//	{
+//		i->c_o = 1;
+//		if (token == GREAT)
+//		{
+//			all->cmd[i->c].token[1] = token;
+//			all->cmd[i->c].out.token[i->o] = ft_strdup("GREAT");
+//		}
+//		else
+//		{
+//			all->cmd[i->c].token[3] = token;
+//			all->cmd[i->c].out.token[i->o] = ft_strdup("GREATGREAT");
+//		}
+//		all->cmd[i->c].outfile[i->o++] = ft_strdup(str[++i->s]);
+//	}
+//	else if (token == CONTINUE)
+//		all->cmd[i->c].args[i->a++] = ft_strdup(str[i->s]);
+//}
 
 void	lexer_pipe(char token, t_all *all, t_i *i, char **str)
 {
