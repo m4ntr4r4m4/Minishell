@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:23:07 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/06 13:01:19 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:13:36 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/02/16 18:42:56 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/02/15 20:47:58 by jvelasco         ###   ########.fr       */
 /*   Updated: 2022/11/04 11:00:46 by ahammoud         ###   ########.fr       */
@@ -152,7 +152,7 @@ int		parser(char **rd, t_all *all);
 void	search_cmd(t_all *all, char **str);
 void	init_structs(t_all *all, char **str);
 char	lexer(char **str, t_all *all);
-void	init_iterators(t_i *i);
+void	init_iterators(t_i *i, int *path);
 void	search_files(t_all *all, char **str);
 int		search_arg(t_all *all, char **str);
 int		search_token(t_all *all, char **str);

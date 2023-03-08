@@ -6,14 +6,14 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:04:45 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/06 17:07:51 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:13:18 by jvelasco         ###   ########.fr       */
 /*   Updated: 2023/03/06 12:56:23 by ahammoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_iterators(t_i *i)
+void	init_iterators(t_i *i, int *path)
 {
 	i->s = 0;
 	i->r = 0;
@@ -26,6 +26,7 @@ void	init_iterators(t_i *i)
 	i->c_i = 0;
 	i->eof = 0;
 	i->c_o = 0;
+	*path = 1;
 }
 
 void	init_fill_2(t_all *all, int x, int s)

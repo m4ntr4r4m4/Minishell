@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:02:11 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/08 15:23:16 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:08:50 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	**cpy(char **mots, char *s, int wc, char c)
 		start = i;
 		len = ft_tr(s, quote, &i);
 		mots[j] = ft_substr(s, start, len);
-		/* mots[j] = delete_quotes(mots[j]); */
 	}
 	mots[j] = 0;
 	return (mots);
