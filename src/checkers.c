@@ -6,7 +6,7 @@
 /*   By: ahammoud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:39:19 by ahammoud          #+#    #+#             */
-/*   Updated: 2023/03/04 17:00:13 by ahammoud         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:01:00 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,28 @@ int	check_error(char **rd)
 {
 	if (!check_tokens(*rd))
 		return (0);
-	if (!check_spaces(rd))
-		return (0);
 	if (!check_quotes(*rd))
 		return (0);
+	if (!check_spaces(rd))
+		return (0);
 	return (1);
+}
+
+int	s_quotes(char *str, int y)
+{
+	if (str[y] == '"')
+	{
+		y++;
+		while (str[y] != '"')
+			y++;
+	}
+	if (str[y] == 39)
+	{
+		y++;
+		while (str[y] != 39)
+			y++;
+	}
+	return (y);
 }
 
 int	check_spaces(char **temp)
@@ -34,6 +51,7 @@ int	check_spaces(char **temp)
 	while (str[++y] != '\0')
 	{
 		token = token_l(str[y]);
+		y = s_quotes(str, y);
 		if (token != CONTINUE)
 		{
 			if (!add_space(&str, &y))
