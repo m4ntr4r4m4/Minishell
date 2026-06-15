@@ -1,0 +1,17 @@
+# Build artifacts
+*.o
+*.a
+minishell
+
+# libft build output
+src/libft/libft.a
+
+# Editor / OS junk
+*.sw[nop]
+*~
+.DS_Store
+
+# Scratch / test output
+out
+out2
+ou2

@@ -93,12 +93,10 @@ char	**ft_path_var(char **envp, char **tmp)
 
 char	**path_var(char **envp)
 {
-	size_t		i;
 	char		**pathvar;
 	char		*tmp;
 
 	pathvar = NULL;
-	i = 0;
 	if (envp[0])
 		pathvar = ft_path_var(envp, &tmp);
 	return (pathvar);

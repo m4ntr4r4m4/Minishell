@@ -83,7 +83,6 @@ int	ft_cd(char *path, t_all *all)
 {
 	char	*buff;
 	char	*pwd;
-	char	*oldpwd;
 
 	if (!path)
 		path = ft_mygetenv("HOME", all);
@@ -93,7 +92,6 @@ int	ft_cd(char *path, t_all *all)
 		if (getcwd(buff, PATH_MAX) == NULL)
 			perror(path);
 		pwd = ft_strdup(ft_mygetenv("PWD", all));
-		oldpwd = ft_mygetenv("OLDPWD", all);
 		ft_newpwd(all, buff);
 		ft_oldpwd(all, pwd);
 		free(pwd);

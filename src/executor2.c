@@ -75,9 +75,6 @@ int	ft_check_token(int *str)
 
 int	prexec(t_all *all)
 {
-	int	i;
-
-	i = 0;
 	if (all->size >= 1)
 	{
 		all->pipes = malloc(sizeof(t_pipe) * (all->size));

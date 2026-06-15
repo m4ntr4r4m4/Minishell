@@ -16,13 +16,22 @@ SRCS	=	./src/find_replace.c ./src/checkers2.c ./src/signals.c ./src/trim.c ./src
 
 OBJS	=	${SRCS:.c=.o}
 
+# Readline lives in different places on macOS (Homebrew) and Linux (system).
+# Pick the right include/lib flags based on the host OS.
+UNAME	:=	$(shell uname)
+ifeq ($(UNAME), Darwin)
+RL_DIR	=	/Users/${USER}/.brew/opt/readline
+RL_INC	=	-I $(RL_DIR)/include
+LIB		=	-lreadline -L $(RL_DIR)/lib/
+else
+RL_INC	=
+LIB		=	-lreadline
+endif
+
 .c.o	:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes/ -I /Users/${USER}/.brew/opt/readline/include
+			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes/ $(RL_INC)
 
 NAME	=	 minishell
-
-LIB		=		 -lreadline -L /Users/${USER}/.brew/opt/readline/lib/
-#LIB		=	 -lreadline -L /usr/local/Cellar/readline/8.1/lib/ -I /usr/local/Cellar/readline/8.1/include/readline/
 
 #CFLAGS	=	 -g
 CFLAGS	=	 -g -Wall -Wextra -Werror
@@ -34,7 +43,7 @@ CC	=	gcc
 
 ${NAME}	:	${OBJS} 
 			cd ./src/libft/ && make bonus
-			${CC} ${CFLAGS} ${OBJS} ./src/libft/libft.a -o ${NAME} ${LIB} -I includes/ -I /Users/${USER}/.brew/opt/readline/include
+			${CC} ${CFLAGS} ${OBJS} ./src/libft/libft.a -o ${NAME} ${LIB} -I includes/ $(RL_INC)
 
 all	:	${NAME}
 

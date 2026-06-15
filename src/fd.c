@@ -109,16 +109,13 @@ void	ft_here_doc(t_all *all)
 {
 	char	**infile;
 	size_t	x;
-	int		i;
 
 	x = -1;
-	i = -1;
 	while (++x < all->size)
 	{
 		if (all->cmd[x].token[2] == LESSLESS)
 		{
 			ft_here_doc_utils(all, &x);
-			i = -1;
 			infile = malloc(sizeof(char *) * (2));
 			if (!infile)
 				exit(0);

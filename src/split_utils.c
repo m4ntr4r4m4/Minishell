@@ -38,12 +38,10 @@ int	word(char *str, char c)
 {
 	int	i;
 	int	wc;
-	int	quote;
 	int	size;
 
 	size = ft_strlen(str);
 	i = 0;
-	quote = 0;
 	wc = 0;
 	if (str[i] != c && str[i] != '\0')
 		wc++;
